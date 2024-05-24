@@ -1,5 +1,12 @@
 package gestorAplicacion.manejoReserva;
 
-public class Destino {
+import java.util.ArrayList;
+import gestorAplicacion.gestionHum.Guia;
 
+public class Destino {
+    ArrayList<Hotel> hoteles;
+    ArrayList<Actividad> actividades;
+    
+    ArrayList<Guia> guias;
+    int[] preciosRestaurantes;
 }
