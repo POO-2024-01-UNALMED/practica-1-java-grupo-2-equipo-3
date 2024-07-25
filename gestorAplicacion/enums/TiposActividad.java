@@ -1,4 +1,4 @@
-package Enum;
+package gestorAplicacion.enums;
 
 public enum TiposActividad {
 	CULTURALES("Cultural", "Baja",1),

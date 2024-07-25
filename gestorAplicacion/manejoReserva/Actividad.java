@@ -2,8 +2,6 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 
-import Enum.Idiomas;
-import Enum.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
 
 public class Actividad {

@@ -1,4 +1,4 @@
-package Enum;
+package gestorAplicacion.enums;
 
 public enum Idiomas {
 	INGLES("Inglés", 10000,1),
