@@ -36,7 +36,7 @@ public class Destino {
 		this.nombre = nombre;
 	}
 
-	static ArrayList<Destino> getDestinos() {
+	public static ArrayList<Destino> getDestinos() {
 		return destinos;
 	}
 

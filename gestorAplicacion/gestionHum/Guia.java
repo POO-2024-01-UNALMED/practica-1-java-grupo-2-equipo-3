@@ -82,7 +82,7 @@ public class Guia extends Persona {
 			this.diasOcupados=diasOcupados;
 		}
 
-		ArrayList<ArrayList<Integer>> getDiasNoDisponibles() {
+		public ArrayList<ArrayList<Integer>> getDiasNoDisponibles() {
 			return diasNoDisponibles;
 		}
 
