@@ -1,13 +1,13 @@
 package gestorAplicacion.gestionHum;
 import java.util.ArrayList;
 
-import Enum.Idiomas;
-import Enum.TiposActividad;
+import gestorAplicacion.enums.Idiomas;
+import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
-// No quiero tocar guia Lau
+
 public class Guia extends Persona {
 		private String nombre;
 		private ArrayList<Idiomas> idiomas;
