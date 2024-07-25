@@ -2,7 +2,9 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 
-import gestorAplicacion.manejoReserva.Destino;
+import Enum.Idiomas;
+import Enum.TiposActividad;
+import gestorAplicacion.gestionHum.Guia;
 
 public class Actividad {
 	private String nombre;
@@ -22,7 +24,7 @@ public class Actividad {
 	}
 
 	
-	String getNombre() {
+	public String getNombre() {
 		return nombre;
 	}
 
@@ -38,7 +40,7 @@ public class Actividad {
 	}
 
 
-	ArrayList<TiposActividad> getTipo() {
+	public ArrayList<TiposActividad> getTipo() {
 		return tipo;
 	}
 
@@ -48,12 +50,12 @@ public class Actividad {
 	}
 
 
-	ArrayList<Guia> getGuias() {
+	public ArrayList<Guia> getGuias() {
 		return guias;
 	}
 
 
-	void setGuias(Guia guia) {
+	public void setGuias(Guia guia) {
 		this.guias.add(guia);
 	}
 

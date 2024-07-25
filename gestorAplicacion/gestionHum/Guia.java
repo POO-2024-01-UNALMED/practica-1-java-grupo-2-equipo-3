@@ -1,5 +1,12 @@
 package gestorAplicacion.gestionHum;
 import java.util.ArrayList;
+
+import Enum.Idiomas;
+import Enum.TiposActividad;
+import gestorAplicacion.manejoReserva.Actividad;
+import gestorAplicacion.manejoReserva.Destino;
+import gestorAplicacion.manejoReserva.Grupo;
+import gestorAplicacion.manejoReserva.Reserva;
 // No quiero tocar guia Lau
 public class Guia extends Persona {
 		private String nombre;
@@ -21,7 +28,7 @@ public class Guia extends Persona {
 			guias.add(this);
 		}
 		
-		ArrayList<Idiomas> getIdiomas() {
+		public ArrayList<Idiomas> getIdiomas() {
 			return idiomas;
 		}
 
@@ -31,7 +38,7 @@ public class Guia extends Persona {
 		}
 
 
-		ArrayList<TiposActividad> getTipoActividades() {
+		public ArrayList<TiposActividad> getTipoActividades() {
 			return tipoActividades;
 		}
 
@@ -59,7 +66,7 @@ public class Guia extends Persona {
 		}
 
 
-		int getPrecio() {
+		public int getPrecio() {
 			return precio;
 		}
 
@@ -67,11 +74,11 @@ public class Guia extends Persona {
 			this.precio = precio;
 		}
 		
-		ArrayList<ArrayList<Integer>> getDiasOcupados() {
+		public ArrayList<ArrayList<Integer>> getDiasOcupados() {
 			return diasOcupados;
 		}
 
-		void setDiasOcupados(ArrayList<ArrayList<Integer>> diasOcupados) {
+		public void setDiasOcupados(ArrayList<ArrayList<Integer>> diasOcupados) {
 			this.diasOcupados=diasOcupados;
 		}
 
@@ -84,7 +91,7 @@ public class Guia extends Persona {
 		}
 
 			
-		static ArrayList<Guia> getGuias() {
+		public static ArrayList<Guia> getGuias() {
 			return guias;
 		}
 
@@ -437,4 +444,4 @@ public class Guia extends Persona {
 		
 			
 	}
-}
+

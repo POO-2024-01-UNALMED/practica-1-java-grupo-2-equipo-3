@@ -1,6 +1,9 @@
 package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
+
+import Enum.Idiomas;
+import Enum.TiposActividad;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
 
@@ -32,7 +35,7 @@ public class Grupo {
 			this.guia = guia;
 		}
 
-		Actividad getActividad() {
+		public Actividad getActividad() {
 			return actividad;
 		}
 
@@ -40,7 +43,7 @@ public class Grupo {
 			this.actividad = actividad;
 		}
 
-		Idiomas getIdioma() {
+		public Idiomas getIdioma() {
 			return idioma;
 		}
 
@@ -48,7 +51,7 @@ public class Grupo {
 			this.idioma = idioma;
 		}
 
-		ArrayList<ArrayList<Cliente>> getListaReservas() {
+		public ArrayList<ArrayList<Cliente>> getListaReservas() {
 			return listaReservas;
 		}
 
@@ -64,7 +67,7 @@ public class Grupo {
 			this.capacidad = capacidad;
 		}
 
-		int getClasificacion() {
+		public int getClasificacion() {
 			return clasificacion;
 		}
 
@@ -266,4 +269,4 @@ public class Grupo {
 
 	}
 
-}
+
