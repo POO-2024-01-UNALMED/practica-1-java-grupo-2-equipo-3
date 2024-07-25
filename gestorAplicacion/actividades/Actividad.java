@@ -2,6 +2,8 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 
+import gestorAplicacion.manejoReserva.Destino;
+
 public class Actividad {
 	private String nombre;
 	private Destino destino;
