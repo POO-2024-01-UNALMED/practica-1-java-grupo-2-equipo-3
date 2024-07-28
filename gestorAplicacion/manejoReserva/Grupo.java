@@ -320,12 +320,15 @@ public class Grupo {
      * Calcula la cantidad de clientes en grupos que reservaron actividades en un destino específico.
      *
      * @param destino El destino de las actividades de los grupos.
+     * @param fecha La fecha por la cual se quiere buscar(puede ser null)
      * @return La cantidad de clientes en los grupos que tienen actividades en el destino especificado.
      */
-    public static int cantidadClientesDestino(Destino destino) {
+    public static int cantidadClientesDestino(Destino destino, ArrayList<Integer> fecha) {
         int cantidadClientes = 0;
+        
         for (Grupo grupo : grupos) {
-            if (grupo.actividad.getDestino().equals(destino)) {
+        	boolean istFecha=fecha==null?true:grupo.fecha.get(1)==fecha.get(1);
+            if (grupo.actividad.getDestino().equals(destino)&&istFecha) {
                 for (ArrayList<Cliente> reserva : grupo.listaReservas) {
                     cantidadClientes += reserva.size();
                 }
