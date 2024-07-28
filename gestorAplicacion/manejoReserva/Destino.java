@@ -145,6 +145,57 @@ public class Destino {
 		
 		return listaDestino;
 	}
+	
+	public double precioExtraPorTemporada(ArrayList<Integer> fecha) {
+	    double porcentajePrecioExtra = 0.0;
+	    int mes = fecha.get(1); 
+
+	    switch (mes) {
+	        case 12: // Diciembre
+	        case 1:  // Enero
+	        case 6:  // Junio
+	        case 7:  // Julio
+	            porcentajePrecioExtra = 1.4;
+	            break;
+	        case 2:  // Febrero
+	        case 3:  // Marzo
+	        case 11: // Noviembre
+	            porcentajePrecioExtra = 0.8;
+	            break;
+	        default:
+	            porcentajePrecioExtra = 1.0; // Temporada normal
+	            break;
+	    }
+	    int cantidadClientes=Grupo.cantidadClientesDestino(this);
+		if(cantidadClientes>this.guias.size()*10) {porcentajePrecioExtra=+0.3;}
+		else if(cantidadClientes<this.guias.size()*4) {porcentajePrecioExtra=-0.3;}
+	    return porcentajePrecioExtra;
+	}
+	
+	public double precioExtraPorDestino() {
+		double porcentajeExtra=1;
+		
+		int destinosConMasActividades=0;
+		int destinosConMenosActividades=0;
+		int destinosConMasClientes=0;
+		int destinosConMenosClientes=0;
+		for(Destino destino:destinos) {
+			if(destino.actividades.size()>this.actividades.size()) {destinosConMasActividades++;}
+			else {destinosConMenosActividades++;}
+			
+			if(Grupo.cantidadClientesDestino(destino)>Grupo.cantidadClientesDestino(this)) {destinosConMasClientes++;}
+			else {destinosConMenosClientes++;}
+		}
+		if(((destinosConMasActividades+destinosConMenosActividades)/4)>destinosConMasActividades) {porcentajeExtra=+0.5;}//Tiene mas actividades que el 75% de destinos
+		else if(((destinosConMasActividades+destinosConMenosActividades)/2)>destinosConMasActividades) {porcentajeExtra=+0.3;}//Tiene mas actividades que el 50% de destinos
+		else if(((destinosConMasActividades+destinosConMenosActividades)/4)>destinosConMenosActividades) {porcentajeExtra=-0.3;}//Esta entre el 25% de destinos con menos actividades
+		
+		if(((destinosConMasClientes+destinosConMenosClientes)/4)>destinosConMasClientes) {porcentajeExtra=+0.5;}//Tiene mas popularidad que el 75% de destinos
+		else if(((destinosConMasClientes+destinosConMenosClientes)/4)>destinosConMenosClientes) {porcentajeExtra=-0.3;}//Esta entre el 25% de destinos con menos popularidad
+		
+		return porcentajeExtra;
+	}
 }
+
 
 

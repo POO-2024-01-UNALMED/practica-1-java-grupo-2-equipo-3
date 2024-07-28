@@ -45,7 +45,7 @@ public class Actividad {
 	}
 
 
-	void setTipo(ArrayList<TiposActividad> tipo) {
+	public void setTipo(ArrayList<TiposActividad> tipo) {
 		this.tipo = tipo;
 	}
 
@@ -60,21 +60,31 @@ public class Actividad {
 	}
 
 
-	int getCapacidad() {
+	public int getCapacidad() {
 		return capacidad;
 	}
 
-	void setCapacidad(int capacidad) {
+	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
 	}
 
-	int getClasificacion() {
+	public int getClasificacion() {
 		return clasificacion;
 	}
 
-	void setClasificacion(int clasificacion) {
+	public void setClasificacion(int clasificacion) {
 		this.clasificacion = clasificacion;
 	}
+	
+	public Destino getDestino() {
+		return destino;
+	}
+
+
+	void setDestino(Destino destino) {
+		this.destino = destino;
+	}
+
 
 	public void ingresarGuia() {
 		for(TiposActividad tipo: this.tipo) {
@@ -167,8 +177,8 @@ public class Actividad {
 			}
 		}
 		if(((n+m)/4)>n) {capacidad-=5;}
-		else if(((n+m)/4)<n) {capacidad-=3;}
-		else if(((n+m)/4)<m) {capacidad+=3;}
+		else if(((n+m)/2)>n) {capacidad-=3;}
+		else if(((n+m)/4)>m) {capacidad+=3;}
 		
 		this.capacidad=capacidad;
 		
