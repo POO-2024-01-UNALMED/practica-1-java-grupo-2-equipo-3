@@ -19,19 +19,19 @@ public class Grupo {
 		private int clasificacion;
 
 		
-		ArrayList<Integer> getFecha() {
+		public ArrayList<Integer> getFecha() {
 			return fecha;
 		}
 
-		void setFecha(ArrayList<Integer> fecha) {
+		public void setFecha(ArrayList<Integer> fecha) {
 			this.fecha = fecha;
 		}
 
-		Guia getGuia() {
+		public Guia getGuia() {
 			return guia;
 		}
 
-		void setGuia(Guia guia) {
+		public void setGuia(Guia guia) {
 			this.guia = guia;
 		}
 
