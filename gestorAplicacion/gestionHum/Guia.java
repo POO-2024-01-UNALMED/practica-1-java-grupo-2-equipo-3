@@ -374,4 +374,15 @@ public class Guia extends Persona {
         this.diasNoDisponibles.add(grupo.getFecha());
         grupo.setGuia(this);
     }
+    
+    /**
+     * Muestra el precio del guia segun la fecha de la reserva.
+     *
+     * @param fecha La fecha del grupo al cual el guia esta asignado.
+     */
+    public double mostrarPrecioGuia(ArrayList<Integer> fecha) {
+    	double porcentajeExtra=this.destino.precioExtraPorTemporada(fecha);
+    	return (this.precio*porcentajeExtra);
+    }
+    
 }
