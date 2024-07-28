@@ -165,13 +165,14 @@ public class Main {
 		while(true) {
 			opcionEscogida = entrada.nextLine();
 			
+			String[] numeros=opcionEscogida.split(" ");
 			boolean longitud=true;
 			if (opcionPregunta==2) {
-				String[] numeros=opcionEscogida.split(" ");
 				if(numeros.length>2) {longitud=false;}
 			}
 			
-			if(Reserva.verificarNumero(listaString.size(), opcionEscogida)&&longitud) break;
+			if(numeros.length==1&&Reserva.verificarNumero(listaString.size(), opcionEscogida)&&longitud) break;
+			else if(Reserva.verificarLista(listaString.size(), opcionEscogida)) break;
 			System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
 		}
 		entrada.close();
