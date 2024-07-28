@@ -38,8 +38,64 @@ public class Actividad {
     public void setGuias(Guia guia) {
         this.guias.add(guia);
     }
+    
+    public String getNombre() {
+		return nombre;
+	}
 
-    /**
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Destino getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Destino destino) {
+		this.destino = destino;
+	}
+
+	public ArrayList<TiposActividad> getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(ArrayList<TiposActividad> tipo) {
+		this.tipo = tipo;
+	}
+
+	public ArrayList<Guia> getGuias() {
+		return guias;
+	}
+
+	public void setGuias(ArrayList<Guia> guias) {
+		this.guias = guias;
+	}
+
+	public int getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+
+	public int getClasificacion() {
+		return clasificacion;
+	}
+
+	public void setClasificacion(int clasificacion) {
+		this.clasificacion = clasificacion;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	/**
      * Ingresa la lista de guías a la actividad basándose en los tipos de actividad para los cuales esta capacitado el guia y el destino.
      */
     public void ingresarGuia() {

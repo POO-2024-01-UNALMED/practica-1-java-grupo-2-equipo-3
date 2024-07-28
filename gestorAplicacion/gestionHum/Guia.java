@@ -8,8 +8,6 @@ import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
 
-import java.util.ArrayList;
-
 /**
  * La clase Guia representa a un guía turístico.
  * Extiende de la clase Persona y contiene información sobre el nombre,
