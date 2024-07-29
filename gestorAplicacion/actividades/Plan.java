@@ -1,4 +1,10 @@
-package gestorAplicacion.manejoReserva;
+package gestorAplicacion.actividades;
+
+import gestorAplicacion.manejoReserva.*;
+import gestorAplicacion.hospedaje.Hotel;
+
+
+
 
 import java.util.ArrayList;
 public class Plan {

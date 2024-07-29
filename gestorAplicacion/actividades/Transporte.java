@@ -1,4 +1,4 @@
-package gestorAplicacion.manejoReserva;
+package gestorAplicacion.actividades;
 
 public class Transporte {
 
