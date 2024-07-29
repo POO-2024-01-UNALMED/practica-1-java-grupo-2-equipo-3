@@ -235,22 +235,30 @@ public class Main {
     public static ArrayList<ArrayList<Integer>> ingresarPeriodoFechas() {
         Scanner entrada = new Scanner(System.in);
         ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
-        while (true) {
-            System.out.println("Ingrese cuantos dias durara la suspencion: (Solo ingrese numeros enteros)");
-            int cdias = entrada.nextInt();
-            entrada.nextLine();
-            
-            System.out.println("Ingrese la fecha de inicio: \nDigite el numero del dia,mes y año, sin ceros adelante y separando cada numero por '/' (dia/mes/año)");
-            String fechaInicio = entrada.nextLine();
-            
-            if (!Reserva.verificarFecha(fechaInicio)) {
-                ArrayList<Integer> fecha = Reserva.listaFecha(fechaInicio);
-                listaFechas = Reserva.mostrarDias(cdias, fecha);
 
-                break;
+        while (true) {
+            try {
+                System.out.println("Ingrese cuantos días durará la suspensión: (Solo ingrese números enteros)");
+                int cdias = entrada.nextInt();
+                entrada.nextLine(); // Limpiar el buffer del scanner
+
+                System.out.println("Ingrese la fecha de inicio: \nDigite el número del día, mes y año, sin ceros adelante y separando cada número por '/' (dia/mes/año)");
+                String fechaInicio = entrada.nextLine();
+
+                if (!Reserva.verificarFecha(fechaInicio)) {
+                    ArrayList<Integer> fecha = Reserva.listaFecha(fechaInicio);
+                    listaFechas = Reserva.mostrarDias(cdias, fecha);
+                    break;
+                }
+
+                System.out.println("Se ingresó incorrectamente un dato, por favor lea bien las instrucciones e inténtelo de nuevo.");
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Ingresó un número no válido. Por favor, intente nuevamente.");
+                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error: " + e.getMessage());
+                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
             }
-            
-            System.out.println("Se ingreso incorrectamente un dato, por favor lea bien las instrucciones e intentelo de nuevo");
         }
         entrada.close();
         return listaFechas;
