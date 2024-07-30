@@ -369,7 +369,7 @@ public class Guia extends Persona {
      * @param grupo El grupo al que se asignará el guía.
      */
     public void asignarGuia(Grupo grupo) {
-        this.diasNoDisponibles.add(grupo.getFecha());
+        this.diasOcupados.add(grupo.getFecha());
         grupo.setGuia(this);
     }
     

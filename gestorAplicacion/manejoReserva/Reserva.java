@@ -12,10 +12,10 @@ public class Reserva {
      * @param fecha La fecha de inicio en formato [día, mes, año].
      * @return Una lista de listas que representan las fechas en formato [día, mes, año].
      */
-    public static ArrayList<ArrayList<Integer>> mostrarDias(int cantidadDias, ArrayList<Integer> fecha) {
-        int dia = fecha.get(0);
-        int mes = fecha.get(1);
-        int año = fecha.get(2);
+    public static ArrayList<ArrayList<Integer>> mostrarDias(int cantidadDias, ArrayList<Integer> fechaInicio) {
+        int dia = fechaInicio.get(0);
+        int mes = fechaInicio.get(1);
+        int año = fechaInicio.get(2);
 
         ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
         int[] diasPorMes = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -51,8 +51,8 @@ public class Reserva {
         return listaFechas;
     }
 
-    /**
-     * Verifica si una lista de números en una cadena está dentro de un rango específico.
+    /**VARIAS OPCIONES DE ENTRADA
+     * Verifica si una lista de números en una cadena está dentro de un rango específico. 
      *
      * @param i El límite superior del rango.
      * @param entrada La cadena que contiene los números a verificar.
@@ -77,7 +77,7 @@ public class Reserva {
         }
     }
 
-    /**
+    /**UNICA OPCION
      * Verifica si un número está dentro de un rango específico.
      *
      * @param max El límite superior del rango.
@@ -134,7 +134,7 @@ public class Reserva {
         return true;
     }
 
-    /**
+    /**LISTA DE TODOS LOS DIAS DEL MES (1,MES/AÑO/)
      * Muestra una lista de fechas en función de la opción de fecha y una fecha dada.
      *
      * @param opcFecha La opción de fecha ("1" para mostrar todos los días del mes, de lo contrario solo un día específico).

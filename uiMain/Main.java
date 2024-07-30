@@ -238,7 +238,7 @@ public class Main {
 
         while (true) {
             try {
-                System.out.println("Ingrese cuantos días durará la suspensión: (Solo ingrese números enteros)");
+                System.out.println("Ingrese la cantidad de dias: (Solo ingrese números enteros)");
                 int cdias = entrada.nextInt();
                 entrada.nextLine(); // Limpiar el buffer del scanner
 
