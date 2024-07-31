@@ -15,10 +15,7 @@ import gestorAplicacion.manejoReserva.Reserva;
  * precio, y días ocupados y no disponibles.
  */
 public class Guia extends Persona {
-    private String nombre;
-    private ArrayList<Idiomas> idiomas;
     private ArrayList<TiposActividad> tipoActividades;
-    private Destino destino;
     private double precio;
     private ArrayList<ArrayList<Integer>> diasOcupados;
     private ArrayList<ArrayList<Integer>> diasNoDisponibles;
