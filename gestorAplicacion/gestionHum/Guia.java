@@ -26,8 +26,17 @@ public class Guia extends Persona {
      *
      * @param nombre El nombre del guía.
      */
-    public Guia(String nombre, int edad, Destino destino, String[] idioma, String[] seguro, Grupo grupo, ArrayList<TiposActividad> tipoActividades, double precio, ArrayList<ArrayList<Integer>> diasOcupados, ArrayList<ArrayList<Integer>> diasNoDisponibles) {
-        super(nombre, edad, destino, idioma, seguro, grupo);
+    public Guia(String nombre) {
+        super();
+        this.nombre = nombre;
+        this.idiomas = new ArrayList<>();
+        this.tipoActividades = new ArrayList<>();
+        this.diasOcupados = new ArrayList<>();
+        this.diasNoDisponibles = new ArrayList<>();
+    }
+    
+    public Guia(String nombre, int edad, Destino destino, ArrayList<Idiomas> idiomas, String[] seguro, Grupo grupo, ArrayList<TiposActividad> tipoActividades, double precio, ArrayList<ArrayList<Integer>> diasOcupados, ArrayList<ArrayList<Integer>> diasNoDisponibles) {
+        super(nombre, edad, destino, idiomas, seguro, grupo);
         this.tipoActividades = tipoActividades;
         this.precio = precio;
         this.diasOcupados = diasOcupados;
@@ -36,16 +45,6 @@ public class Guia extends Persona {
     }
 
 
-
-    public String[] getIdiomas() {
-        return idioma;
-    }
-
-    void setIdiomas(String[] idioma) {
-        this.idioma = idioma;
-    }
-
-    
 
     public ArrayList<TiposActividad> getTipoActividades() {
         return tipoActividades;

@@ -18,6 +18,9 @@ public class Reserva {
     private Plan plan;
 
 
+    public Reserva buscarReserva(long codigo){
+        
+    }
 
     /**
      * Muestra una lista de días consecutivos a partir de una fecha dada.

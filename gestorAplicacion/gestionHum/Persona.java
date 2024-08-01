@@ -2,6 +2,8 @@ package gestorAplicacion.gestionHum;
 
 //Luego importo bien lo que falta
 import java.util.ArrayList;
+
+import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 //Falta utilizar la accesibilidad
@@ -9,17 +11,17 @@ public class Persona {
     String nombre;
     int edad;
     Destino destino;
-    String[] idioma;
+    ArrayList<Idiomas> idiomas;
     String[] seguro;    //Array list de 4 puestos, debo leer como se escribía
     Grupo grupo;
 
 
 
-    public Persona(String nombre, int edad, Destino destino, String[] idioma, String[] seguro, Grupo grupo) {
+    public Persona(String nombre, int edad, Destino destino, ArrayList<Idiomas> idiomas, String[] seguro, Grupo grupo) {
         this.nombre = nombre;
         this.edad = edad;
         this.destino = destino;
-        this.idioma = idioma;
+        this.idiomas = idiomas;
         this.seguro = seguro;
         this.grupo = grupo;
     }
@@ -47,8 +49,8 @@ public class Persona {
         this.destino = destino;
     }
 
-    public void setIdioma(String[] idioma) {
-        this.idioma = idioma;
+    public void setIdioma(ArrayList<Idiomas> idiomas) {
+        this.idiomas = idiomas;
     }
 
     public void setSeguro(String[] seguro) {
@@ -71,8 +73,8 @@ public class Persona {
         return destino;
     }
 
-    public String[] getIdioma() {
-        return idioma;
+    public ArrayList<Idiomas> getIdiomas() {
+        return idiomas;
     }
 
     public String[] getSeguro() {
