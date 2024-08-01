@@ -18,8 +18,12 @@ public class Reserva {
     private Plan plan;
 
 
-    public Reserva buscarReserva(long codigo){
-        
+    public static Reserva buscarReserva(long codigo){
+        for (int i = 0; i < reservasExistentes.size(); i++){
+            if (codigo == reservasExistentes.get(i).codigo){
+                return reservasExistentes.get(i);
+            }
+        }
     }
 
     /**
