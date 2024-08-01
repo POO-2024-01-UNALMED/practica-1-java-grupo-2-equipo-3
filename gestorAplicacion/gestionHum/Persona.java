@@ -8,12 +8,12 @@ import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 //Falta utilizar la accesibilidad
 public class Persona {
-    String nombre;
-    int edad;
-    Destino destino;
-    ArrayList<Idiomas> idiomas;
-    String[] seguro;    //Array list de 4 puestos, debo leer como se escribía
-    Grupo grupo;
+    private String nombre;
+    private int edad;
+    private Destino destino;
+    private ArrayList<Idiomas> idiomas;
+    private String[] seguro;    //Array list de 4 puestos, debo leer como se escribía
+    private Grupo grupo;
 
 
 
