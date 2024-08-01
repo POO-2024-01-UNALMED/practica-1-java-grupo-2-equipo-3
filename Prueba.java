@@ -1,3 +1,6 @@
+// Esto es una solo para hacer purebas, ignorenlo, despues lo borramos
+
+
 import gestorAplicacion.*;
 import gestorAplicacion.manejoReserva.Reserva;
 import uiMain.*;
