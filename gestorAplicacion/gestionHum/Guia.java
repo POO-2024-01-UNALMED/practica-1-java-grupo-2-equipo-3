@@ -44,6 +44,10 @@ public class Guia extends Persona {
         guias.add(this);
     }
 
+    
+
+    
+
 
 
     public ArrayList<TiposActividad> getTipoActividades() {

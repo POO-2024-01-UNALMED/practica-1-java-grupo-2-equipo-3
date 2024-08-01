@@ -26,8 +26,23 @@ public class Persona {
         this.grupo = grupo;
     }
 
+    public Persona(String nombre, int edad, Destino destino){
+        this.nombre = nombre;
+        this.edad = edad;
+        this.destino = destino;
+    }
+    
+    public Persona (String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
 
 
+
+
+
+
+    
 
 
 
