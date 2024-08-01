@@ -3,7 +3,19 @@ package gestorAplicacion.manejoReserva;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import gestorAplicacion.enums.Idiomas;
+import gestorAplicacion.actividades.Plan;
+
 public class Reserva {
+    private long codigo;
+    private Destino destino;
+    private ArrayList<Idiomas> idiomas;
+    private ArrayList<ArrayList<Integer>>  fechas;
+    private int clasificacion;
+    private String tipoPlan;
+    private boolean existeSuscripcion;
+    private Plan plan;
+    private 
 
     /**
      * Muestra una lista de días consecutivos a partir de una fecha dada.

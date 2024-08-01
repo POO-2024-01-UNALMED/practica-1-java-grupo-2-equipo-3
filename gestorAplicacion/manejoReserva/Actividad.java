@@ -217,7 +217,7 @@ public class Actividad {
 
         this.capacidad = capacidad;
 
-        //Asigna una clasificacion segun la dificultad
+        //Asigna una clasificacion segun la dificultad      *Hablar con laura para poner 4 clasificaciones
         if (clasificacion <= 15) {
             this.clasificacion = 18;
         } else if (clasificacion < 30) {
