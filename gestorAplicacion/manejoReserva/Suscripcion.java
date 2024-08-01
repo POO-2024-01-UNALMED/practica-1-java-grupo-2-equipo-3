@@ -2,9 +2,10 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;  
 import gestorAplicacion.gestionHum.Cliente;
+
 public class Suscripcion {
     private static ArrayList<Cliente> listaClientes = new ArrayList<>();
-    private String tipo;
+    private String tipo|
     private ArrayList<Integer> vencimiento;       //Otra instancia de una fecha
     private int capacidad;
     private double precio;
@@ -33,8 +34,32 @@ public class Suscripcion {
 
 
 
-    
-    
+    public Cliente verificarSuscripcion(String nombre, int edad) {
+        for (int i = 0; i < listaClientes.size(); i++) {
+            if (listaClientes.get(i).getNombre().equals(nombre)) {
+                if (listaClientes.get(i).getSuscripcion.getVencimiento().|Revisar como vamos a trabajar las fechas| < fechaActual) //verifica el vencimiento de la suscripcion
+                {
+                    listaClientes.get(i).setEdad(edad);
+                    return listaClientes.get(i);
+                    
+                }
+                else{
+                    listaClientes.remove(i);
+                    return entradaUsuario(); //retornar el objeto cliente que ingreso el usuario
+                }
+
+            }
+            else{
+                return entradaUsuario(); //retornar el objeto cliente que ingreso el usuario
+            }
+            
+        }
+        
+        
+    }
+
+
+
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
