@@ -18,12 +18,18 @@ public class Reserva {
     private Plan plan;
 
 
-    public static Reserva buscarReserva(long codigo){
+    public static Reserva buscarReserva(long codigo){  // por qué no me reconoce que le estoy regresando una reserva
         for (int i = 0; i < reservasExistentes.size(); i++){
             if (codigo == reservasExistentes.get(i).codigo){
                 return reservasExistentes.get(i);
             }
         }
+        return null;
+    }
+
+    public void añadirCliente(String nombre, int edad){
+        
+
     }
 
     /**
@@ -82,7 +88,8 @@ public class Reserva {
     public static boolean verificarLista(int i, String entrada) {
         if (entrada == null || entrada.isEmpty()) {
             return false;
-        } else {
+        } 
+        else {
             String[] numeros = entrada.split(" ");
             for (String str : numeros) {
                 try {
