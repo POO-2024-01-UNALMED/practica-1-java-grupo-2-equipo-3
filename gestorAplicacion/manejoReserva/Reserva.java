@@ -17,71 +17,7 @@ public class Reserva {
     private boolean existeSuscripcion;
     private Plan plan;
 
-    //Code the get and set methods for the attributes
-    public long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(long codigo) {
-        this.codigo = codigo;
-    }
-
-    public Destino getDestino() {
-        return destino;
-    }
-
-    public void setDestino(Destino destino) {
-        this.destino = destino;
-    }
-
-    public ArrayList<Idiomas> getIdiomas() {
-        return idiomas;
-    }
-
-    public void setIdiomas(ArrayList<Idiomas> idiomas) {
-        this.idiomas = idiomas;
-    }
-
-    public ArrayList<ArrayList<Integer>> getFechas() {
-        return fechas;
-    }
-
-    public void setFechas(ArrayList<ArrayList<Integer>> fechas) {
-        this.fechas = fechas;
-    }
-
-    public int getClasificacion() {
-        return clasificacion;
-    }
-
-    public void setClasificacion(int clasificacion) {
-        this.clasificacion = clasificacion;
-    }
-
-    public String getTipoPlan() {
-        return tipoPlan;
-    }
-
-    public void setTipoPlan(String tipoPlan) {
-        this.tipoPlan = tipoPlan;
-    }
-
-    public boolean getExisteSuscripcion() {
-        return existeSuscripcion;
-    }
-
-    public void setExisteSuscripcion(boolean existeSuscripcion) {
-        this.existeSuscripcion = existeSuscripcion;
-    }
-
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
-
+  
     public Reserva(long codigo, Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
         this.codigo = codigo;
         this.destino = destino;
@@ -307,6 +243,75 @@ public class Reserva {
         };
         return meses[fecha - 1];
     }
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Métodos de acceso//////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(long codigo) {
+        this.codigo = codigo;
+    }
+
+    public Destino getDestino() {
+        return destino;
+    }
+
+    public void setDestino(Destino destino) {
+        this.destino = destino;
+    }
+
+    public ArrayList<Idiomas> getIdiomas() {
+        return idiomas;
+    }
+
+    public void setIdiomas(ArrayList<Idiomas> idiomas) {
+        this.idiomas = idiomas;
+    }
+
+    public ArrayList<ArrayList<Integer>> getFechas() {
+        return fechas;
+    }
+
+    public void setFechas(ArrayList<ArrayList<Integer>> fechas) {
+        this.fechas = fechas;
+    }
+
+    public int getClasificacion() {
+        return clasificacion;
+    }
+
+    public void setClasificacion(int clasificacion) {
+        this.clasificacion = clasificacion;
+    }
+
+    public String getTipoPlan() {
+        return tipoPlan;
+    }
+
+    public void setTipoPlan(String tipoPlan) {
+        this.tipoPlan = tipoPlan;
+    }
+
+    public boolean getExisteSuscripcion() {
+        return existeSuscripcion;
+    }
+
+    public void setExisteSuscripcion(boolean existeSuscripcion) {
+        this.existeSuscripcion = existeSuscripcion;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
 }
 
 

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.interfaces.Registrable;
 
-public class Actividad {
+public class Actividad implements Registrable{
     private String nombre;
     private Destino destino;
     private ArrayList<TiposActividad> tipo;
@@ -35,69 +36,10 @@ public class Actividad {
     }
 
     
-    public void setGuias(Guia guia) {
-        this.guias.add(guia);
-    }
-    
-    public String getNombre() {
-		return nombre;
-	}
-
-    public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Destino getDestino() {
-		return destino;
-	}
-
-	public void setDestino(Destino destino) {
-		this.destino = destino;
-	}
-
-	public ArrayList<TiposActividad> getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(ArrayList<TiposActividad> tipo) {
-		this.tipo = tipo;
-	}
-
-	public ArrayList<Guia> getGuias() {
-		return guias;
-	}
-
-	public void setGuias(ArrayList<Guia> guias) {
-		this.guias = guias;
-	}
-
-	public int getCapacidad() {
-		return capacidad;
-	}
-
-	public void setCapacidad(int capacidad) {
-		this.capacidad = capacidad;
-	}
-
-	public int getClasificacion() {
-		return clasificacion;
-	}
-
-	public void setClasificacion(int clasificacion) {
-		this.clasificacion = clasificacion;
-	}
-
-	public double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
-
 	/**
      * Ingresa la lista de guías a la actividad basándose en los tipos de actividad para los cuales esta capacitado el guia y el destino.
      */
+    @Override
     public void ingresarGuia() {
         for (TiposActividad tipo : this.tipo) {
             for (Guia guia : Guia.getGuias()) {
@@ -107,44 +49,12 @@ public class Actividad {
             }
         }
     }
-
-    /**
-     * Busca en los guias capacitados para la actividad los guías que hablen un idioma específico.
-     *
-     * @param idioma El idioma requerido.
-     * @return Una lista de guías que hablan el idioma especificado.
-     */
-    public ArrayList<Guia> buscarGuia(Idiomas idioma) {
-        ArrayList<Guia> guiasCapacitados = new ArrayList<>();
-        for (Guia guia : guias) {
-            ArrayList<Idiomas> idiomas = guia.getIdiomas();
-            if (idiomas.contains(idioma)) {
-                guiasCapacitados.add(guia);
-            }
-        }
-        return guiasCapacitados;
-    }
-
-    /**
-     * Retira un guía de todas las actividades en su destino.
-     *
-     * @param guia El guía a retirar.
-     */
-    public static void retirarGuia(Guia guia) {
-        Destino destino = guia.getDestino();
-        ArrayList<Actividad> listaActividades = destino.mostrarActividadesTipo(guia);
-        for (Actividad actividad : listaActividades) {
-            if (actividad.guias.contains(guia)) {
-                actividad.guias.remove(guia);
-            }
-        }
-    }
-
     /**
      * Ingresa tipos de actividades a la actividad basada en una cadena de posiciones.
      *
      * @param tipoActividades Una cadena que contiene las posiciones de los tipos de actividades.
      */
+    @Override
     public void ingresarTipoActividades(String tipoActividades) {
         String[] numeros = tipoActividades.split(" ");
 
@@ -164,6 +74,7 @@ public class Actividad {
     /**
      * Asigna parámetros como capacidad, clasificación y precio a la actividad en base a sus tipos de actividades.
      */
+    @Override
     public void asignarParametros() {
         int capacidad = 0;
         int clasificacion = 0;
@@ -241,6 +152,40 @@ public class Actividad {
         this.precio = Math.round(precio / 100) * 100;
     }
 
+
+    /**
+     * Busca en los guias capacitados para la actividad los guías que hablen un idioma específico.
+     *
+     * @param idioma El idioma requerido.
+     * @return Una lista de guías que hablan el idioma especificado.
+     */
+    public ArrayList<Guia> buscarGuia(Idiomas idioma) {
+        ArrayList<Guia> guiasCapacitados = new ArrayList<>();
+        for (Guia guia : guias) {
+            ArrayList<Idiomas> idiomas = guia.getIdiomas();
+            if (idiomas.contains(idioma)) {
+                guiasCapacitados.add(guia);
+            }
+        }
+        return guiasCapacitados;
+    }
+
+    /**
+     * Retira un guía de todas las actividades en su destino.
+     *
+     * @param guia El guía a retirar.
+     */
+    public static void retirarGuia(Guia guia) {
+        Destino destino = guia.getDestino();
+        ArrayList<Actividad> listaActividades = destino.mostrarActividadesTipo(guia);
+        for (Actividad actividad : listaActividades) {
+            if (actividad.guias.contains(guia)) {
+                actividad.guias.remove(guia);
+            }
+        }
+    }
+
+
     /**
      * Busca una actividad por su nombre y destino.
      *
@@ -275,4 +220,68 @@ public class Actividad {
         actividad = null;
         return true;
     }
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Métodos de acceso//////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setGuias(Guia guia) {
+        this.guias.add(guia);
+    }
+    
+    public String getNombre() {
+		return nombre;
+	}
+
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Destino getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Destino destino) {
+		this.destino = destino;
+	}
+
+	public ArrayList<TiposActividad> getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(ArrayList<TiposActividad> tipo) {
+		this.tipo = tipo;
+	}
+
+	public ArrayList<Guia> getGuias() {
+		return guias;
+	}
+
+	public void setGuias(ArrayList<Guia> guias) {
+		this.guias = guias;
+	}
+
+	public int getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+
+	public int getClasificacion() {
+		return clasificacion;
+	}
+
+	public void setClasificacion(int clasificacion) {
+		this.clasificacion = clasificacion;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
 }

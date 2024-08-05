@@ -12,7 +12,6 @@ import gestorAplicacion.manejoReserva.Destino;
 
 
 public class Cliente extends Persona {
-	private int edad;
 	private ArrayList<Grupo> grupos;
 	private Suscripcion suscripcion;
 	private Hotel hotel;
@@ -28,7 +27,7 @@ public class Cliente extends Persona {
 
     public Cliente(String nombre, Destino destino, int edad) {
 	super(nombre, destino);
-	this.edad = edad;
+	
 
 }
 
@@ -68,13 +67,6 @@ public class Cliente extends Persona {
         return habitacion;
     }
 
-	public int getEdad() {
-		return edad;
-	}
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
     
 }
 

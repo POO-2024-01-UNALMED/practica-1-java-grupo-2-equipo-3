@@ -19,38 +19,6 @@ public class Destino {
         destinos.add(this);
     }
 
-    public ArrayList<Actividad> getActividades() {
-        return actividades;
-    }
-
-    void setActividades(ArrayList<Actividad> actividades) {
-        this.actividades = actividades;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public static ArrayList<Destino> getDestinos() {
-        return destinos;
-    }
-
-    static void setDestinos(ArrayList<Destino> destinos) {
-        Destino.destinos = destinos;
-    }
-
-    public ArrayList<Guia> getGuias() {
-        return guias;
-    }
-
-    void setGuias(ArrayList<Guia> guias) {
-        this.guias = guias;
-    }
-
     /**
      * Elige los destinos para un guía basado en la cantidad de actividades que puede realizar. Verifica cuantas actividades puede realizar
      * si hay mas de un destino con la misma cantidad mayor, se elige el destino con menos guias.
@@ -254,4 +222,41 @@ public class Destino {
 
         return porcentajeExtra;
     }
+    
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Métodos de acceso//////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+    
+	public ArrayList<Actividad> getActividades() {
+		return actividades;
+	}
+	
+	void setActividades(ArrayList<Actividad> actividades) {
+		this.actividades = actividades;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public static ArrayList<Destino> getDestinos() {
+		return destinos;
+	}
+	
+	static void setDestinos(ArrayList<Destino> destinos) {
+		Destino.destinos = destinos;
+	}
+	
+	public ArrayList<Guia> getGuias() {
+		return guias;
+	}
+	
+	void setGuias(ArrayList<Guia> guias) {
+		this.guias = guias;
+	}
+
 }
