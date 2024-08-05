@@ -12,10 +12,13 @@ import gestorAplicacion.manejoReserva.Destino;
 
 
 public class Cliente extends Persona {
-  private Suscripcion suscripcion;
-  private Hotel hotel;
-  private Grupo habitacion;
+	private int edad;
+	private ArrayList<Grupo> grupos;
+	private Suscripcion suscripcion;
+	private Hotel hotel;
+	private Grupo habitacion;
 
+	  
 
     
   public void cancelarActividad(Actividad actividad, ArrayList<Integer> fecha) {
@@ -23,20 +26,21 @@ public class Cliente extends Persona {
 		
     }
 
+    public Cliente(String nombre, Destino destino, int edad) {
+	super(nombre, destino);
+	this.edad = edad;
 
-    public Cliente (String nombre, int edad, Destino destino, String[] idioma, String[] seguro, Grupo grupo, Suscripcion suscripcion, Hotel hotel, Grupo habitacion) {
-        super(nombre, edad, destino, idioma, seguro, grupo);
-        this.suscripcion = suscripcion;
-        this.hotel = hotel;
-        this.habitacion = habitacion;
-    }
+}
 
 
 
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,6 +67,15 @@ public class Cliente extends Persona {
     public Grupo getHabitacion() {
         return habitacion;
     }
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+    
 }
 
 
