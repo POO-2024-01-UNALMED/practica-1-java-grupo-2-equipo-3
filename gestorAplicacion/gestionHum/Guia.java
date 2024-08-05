@@ -27,28 +27,12 @@ public class Guia extends Persona {
      * @param nombre El nombre del guía.
      */
     public Guia(String nombre) {
-        super();
-        this.nombre = nombre;
-        this.idiomas = new ArrayList<>();
+        super(nombre,null);
         this.tipoActividades = new ArrayList<>();
         this.diasOcupados = new ArrayList<>();
         this.diasNoDisponibles = new ArrayList<>();
-    }
-    
-    public Guia(String nombre, int edad, Destino destino, ArrayList<Idiomas> idiomas, String[] seguro, Grupo grupo, ArrayList<TiposActividad> tipoActividades, double precio, ArrayList<ArrayList<Integer>> diasOcupados, ArrayList<ArrayList<Integer>> diasNoDisponibles) {
-        super(nombre, edad, destino, idiomas, seguro, grupo);
-        this.tipoActividades = tipoActividades;
-        this.precio = precio;
-        this.diasOcupados = diasOcupados;
-        this.diasNoDisponibles = diasNoDisponibles;
         guias.add(this);
     }
-
-    
-
-    
-
-
 
     public ArrayList<TiposActividad> getTipoActividades() {
         return tipoActividades;
@@ -58,21 +42,6 @@ public class Guia extends Persona {
         this.tipoActividades = tipoActividades;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Destino getDestino() {
-        return destino;
-    }
-
-    public void setDestino(Destino destino) {
-        this.destino = destino;
-    }
 
     public double getPrecio() {
         return precio;
@@ -114,8 +83,8 @@ public class Guia extends Persona {
      */
     @Override
     public String toString() {
-        return "Nombre del guia: " + nombre + ",\nIdiomas que domina: " + idiomas + ",\nTipo de actividades: " + tipoActividades + ",\nDestino asignado: "
-                + destino.getNombre();
+        return "Nombre del guia: " + getNombre() + ",\nIdiomas que domina: " + getIdiomas() + ",\nTipo de actividades: " + tipoActividades + ",\nDestino asignado: "
+                + getDestino().getNombre();
     }
 
     /**
@@ -128,7 +97,7 @@ public class Guia extends Persona {
             int numero = Integer.parseInt(posicion);
             for (Idiomas idioma : Idiomas.values()) {
                 if (numero == idioma.getPosicion()) {
-                    this.idiomas.add(idioma);
+                    this.getIdiomas().add(idioma);
                 }
             }
         }
@@ -156,8 +125,8 @@ public class Guia extends Persona {
     public void asignarPrecioBase() {
         int precioBase = 30000;
         int precioExtra = 0;
-        double porcentajeExtra=destino.precioExtraPorDestino();
-        for (Idiomas idioma : this.idiomas) {
+        double porcentajeExtra=getDestino().precioExtraPorDestino();
+        for (Idiomas idioma : this.getIdiomas()) {
             precioExtra += idioma.getPrecio();
         }
         
@@ -169,7 +138,7 @@ public class Guia extends Persona {
      * Ingresa el guía a las actividades que puede realizar en su destino.
      */
     public void ingresarGuia() {
-        ArrayList<Actividad> listaActividades = this.destino.mostrarActividadesTipo(this);
+        ArrayList<Actividad> listaActividades = this.getDestino().mostrarActividadesTipo(this);
         for (Actividad actividad : listaActividades) {
             if (!actividad.getGuias().contains(this)) {
                 actividad.setGuias(this);
@@ -185,7 +154,7 @@ public class Guia extends Persona {
      */
     public static Guia buscarGuia(String nombre) {
         for (Guia guia : guias) {
-            if (nombre.equals(guia.nombre)) {
+            if (nombre.equals(guia.getNombre())) {
                 return guia;
             }
         }
@@ -267,13 +236,13 @@ public class Guia extends Persona {
 
         for (Guia guia : guias) {
             Grupo grupoGuia = Grupo.buscarGrupo(fecha, guia);
-            boolean isDestinoMatch = (destino == null) || guia.destino.equals(destino);
+            boolean isDestinoMatch = (destino == null) || guia.getDestino().equals(destino);
             boolean isIdiomaMatch = (idioma == null) || grupoGuia.getIdioma().equals(idioma);
 
             if (isDestinoMatch && guia.diasOcupados.contains(fecha) && isIdiomaMatch) {
                 guiasOcupados++;
 
-                destinos.add(guia.destino);
+                destinos.add(guia.getDestino());
                 idiomas.add(grupoGuia.getIdioma());
                 for (ArrayList<Cliente> Reserva : grupoGuia.getListaReservas()) {
                     contadorClientes += Reserva.size();
@@ -287,7 +256,7 @@ public class Guia extends Persona {
                 guiasDisponibles++;
             }
 
-            if (idioma != null && guia.idiomas.contains(idioma)) {
+            if (idioma != null && guia.getIdiomas().contains(idioma)) {
                 contadorGuiasIdioma++;
             }
         }
@@ -354,8 +323,8 @@ public class Guia extends Persona {
         tabla.add(0, fecha.get(2)); // año
         tabla.add(1, Reserva.mostrarMes(fecha.get(1))); // mes
         tabla.add(2, fecha.get(0)); // día
-        tabla.add(3, this.nombre); // nombre
-        tabla.add(4, this.destino); // destino
+        tabla.add(3, this.getNombre()); // nombre
+        tabla.add(4, this.getDestino()); // destino
         tabla.add(5, estado); // estado
         tabla.add(6, grupo.getActividad().getNombre()); // actividad
         tabla.add(7, tipo); // tipo actividad
@@ -382,7 +351,7 @@ public class Guia extends Persona {
      * @param fecha La fecha del grupo al cual el guia esta asignado.
      */
     public double mostrarPrecioGuia(ArrayList<Integer> fecha) {
-    	double porcentajeExtra=this.destino.precioExtraPorTemporada(fecha);
+    	double porcentajeExtra=this.getDestino().precioExtraPorTemporada(fecha);
     	return (this.precio*porcentajeExtra);
     }
     

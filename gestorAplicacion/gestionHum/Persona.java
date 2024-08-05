@@ -9,45 +9,17 @@ import gestorAplicacion.manejoReserva.Grupo;
 //Falta utilizar la accesibilidad
 public class Persona {
     private String nombre;
-    private int edad;
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
     private String[] seguro;    //Array list de 4 puestos, debo leer como se escribía
-    private Grupo grupo;
 
-
-
-    public Persona(String nombre, int edad, Destino destino, ArrayList<Idiomas> idiomas, String[] seguro, Grupo grupo) {
+    public Persona(String nombre, Destino destino) {
+        this.idiomas = new ArrayList<>();
         this.nombre = nombre;
-        this.edad = edad;
         this.destino = destino;
-        this.idiomas = idiomas;
-        this.seguro = seguro;
-        this.grupo = grupo;
+    
     }
 
-    public Persona(String nombre, int edad, Destino destino){
-        this.nombre = nombre;
-        this.edad = edad;
-        this.destino = destino;
-    }
-    
-    public Persona (String nombre, int edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-    }
-
-
-
-
-
-
-    
-
-
-
-
-    
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
@@ -56,9 +28,6 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
-    } 
 
     public void setDestino(Destino destino) {
         this.destino = destino;
@@ -72,17 +41,11 @@ public class Persona {
         this.seguro = seguro;
     }
 
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
-    }
-
+  
     public String getNombre() {
         return nombre;
     }
 
-    public int getEdad() {
-        return edad;
-    }
 
     public Destino getDestino() {
         return destino;
@@ -94,10 +57,6 @@ public class Persona {
 
     public String[] getSeguro() {
         return seguro;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
     }
 
     
