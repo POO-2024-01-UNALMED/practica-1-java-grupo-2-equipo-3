@@ -93,7 +93,7 @@ public class Reserva {
         this.plan = plan;
     }
 
-    
+
 
 
     public static Reserva buscarReserva(long codigo){  // por qué no me reconoce que le estoy regresando una reserva
@@ -105,7 +105,10 @@ public class Reserva {
         return null;
     }
 
-    public void añadirCliente(String nombre, int edad){
+    public void añadirCliente(String nombre, int edad) {
+        Cliente cliente = new Cliente(nombre, edad);
+
+
         
 
     }
