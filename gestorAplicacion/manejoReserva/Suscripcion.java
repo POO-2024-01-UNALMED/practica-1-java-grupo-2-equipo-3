@@ -37,7 +37,7 @@ public class Suscripcion {
     public Cliente verificarSuscripcion(String nombre, int edad) {
         for (int i = 0; i < listaClientes.size(); i++) {
             if (listaClientes.get(i).getNombre().equals(nombre)) {
-                if (listaClientes.get(i).getSuscripcion.getVencimiento().|Revisar como vamos a trabajar las fechas| < fechaActual) { //verifica el vencimiento de la suscripcion
+                if (listaClientes.get(i).getSuscripcion.getVencimiento().verificarFechaSuscripcion) { //verifica el vencimiento de la suscripcion
                     listaClientes.get(i).setEdad(edad);
                     return listaClientes.get(i);
                     
@@ -57,6 +57,26 @@ public class Suscripcion {
        
     }
 
+
+
+
+
+
+    public boolean verificarFechaSuscripcion(ArrayList<Integer> fechaVencicmiento){
+
+        if (fechaVencicmiento.get(0) < fechaActual.get(0)) {
+            return false;
+        }
+        else if (fechaVencicmiento.get(1) < fechaActual.get(1)) {
+            return false;
+        }
+        else if (fechaVencicmiento.get(2) < fechaActual.get(2)) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 
 
 
