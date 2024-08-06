@@ -20,6 +20,12 @@ public class Persona {
         this.edad=edad;    
     }
 
+    public Persona(String nombre,int edad) {
+        this.idiomas = new ArrayList<>();
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
     
     /**
      * Ingresa los idiomas que domina la persona a partir de una cadena.

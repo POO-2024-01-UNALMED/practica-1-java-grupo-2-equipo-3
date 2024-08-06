@@ -15,7 +15,7 @@ public class Plan {
     private ArrayList<Grupo> grupos;
     private Reserva reserva;
 
-    // code all the get and set methods for the attributes
+    ////////////////////////////Métodos de acceso////////////////////////////
 
     public ArrayList<Plan> getPaquetes() {
         return paquetes;
@@ -72,7 +72,7 @@ public class Plan {
         this.reserva = reserva;
     }
 
-
+    public
 
 
 }

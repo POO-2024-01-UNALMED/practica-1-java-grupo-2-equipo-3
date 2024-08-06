@@ -6,18 +6,19 @@ import java.util.Arrays;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.actividades.Plan;
 
+
 public class Reserva {
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
     private long codigo;
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
-    private ArrayList<ArrayList<Integer>>  fechas;
+    private ArrayList<ArrayList<Integer>> fechas;
     private int clasificacion;
     private String tipoPlan;
     private boolean existeSuscripcion;
     private Plan plan;
 
-  
+
     public Reserva(long codigo, Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
         this.codigo = codigo;
         this.destino = destino;
@@ -30,11 +31,9 @@ public class Reserva {
     }
 
 
-
-
-    public static Reserva buscarReserva(long codigo){  // por qué no me reconoce que le estoy regresando una reserva
-        for (int i = 0; i < reservasExistentes.size(); i++){
-            if (codigo == reservasExistentes.get(i).codigo){
+    public static Reserva buscarReserva(long codigo) {  // por qué no me reconoce que le estoy regresando una reserva
+        for (int i = 0; i < reservasExistentes.size(); i++) {
+            if (codigo == reservasExistentes.get(i).codigo) {
                 return reservasExistentes.get(i);
             }
         }
@@ -45,15 +44,13 @@ public class Reserva {
         Cliente cliente = new Cliente(nombre, edad);
 
 
-        
-
     }
 
     /**
      * Muestra una lista de días consecutivos a partir de una fecha dada.
      *
      * @param cantidadDias La cantidad de días a mostrar.
-     * @param fecha La fecha de inicio en formato [día, mes, año].
+     * @param fecha        La fecha de inicio en formato [día, mes, año].
      * @return Una lista de listas que representan las fechas en formato [día, mes, año].
      */
     public static ArrayList<ArrayList<Integer>> mostrarDias(int cantidadDias, ArrayList<Integer> fechaInicio) {
@@ -95,18 +92,18 @@ public class Reserva {
         return listaFechas;
     }
 
-    /**VARIAS OPCIONES DE ENTRADA
-     * Verifica si una lista de números en una cadena está dentro de un rango específico. 
+    /**
+     * VARIAS OPCIONES DE ENTRADA
+     * Verifica si una lista de números en una cadena está dentro de un rango específico.
      *
-     * @param i El límite superior del rango.
+     * @param i       El límite superior del rango.
      * @param entrada La cadena que contiene los números a verificar.
      * @return true si todos los números están dentro del rango, false en caso contrario.
      */
     public static boolean verificarLista(int i, String entrada) {
         if (entrada == null || entrada.isEmpty()) {
             return false;
-        } 
-        else {
+        } else {
             String[] numeros = entrada.split(" ");
             for (String str : numeros) {
                 try {
@@ -122,7 +119,8 @@ public class Reserva {
         }
     }
 
-    /**UNICA OPCION
+    /**
+     * UNICA OPCION
      * Verifica si un número está dentro de un rango específico.
      *
      * @param max El límite superior del rango.
@@ -179,11 +177,12 @@ public class Reserva {
         return true;
     }
 
-    /**LISTA DE TODOS LOS DIAS DEL MES (1,MES/AÑO/)
+    /**
+     * LISTA DE TODOS LOS DIAS DEL MES (1,MES/AÑO/)
      * Muestra una lista de fechas en función de la opción de fecha y una fecha dada.
      *
      * @param opcFecha La opción de fecha ("1" para mostrar todos los días del mes, de lo contrario solo un día específico).
-     * @param fecha La cadena de fecha en formato "dd/mm/yyyy" o "mm/yyyy".
+     * @param fecha    La cadena de fecha en formato "dd/mm/yyyy" o "mm/yyyy".
      * @return Una lista de listas que representan las fechas en formato [día, mes, año].
      */
     public static ArrayList<ArrayList<Integer>> mostrarListaFechas(String opcFecha, String fecha) {
@@ -246,6 +245,7 @@ public class Reserva {
         };
         return meses[fecha - 1];
     }
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.manejoReserva.Suscripcion;
-import gestorAplicacion.gestionHum.Cliente;
+import gestorAplicacion.gestionHum.Persona;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Destino;
 
@@ -20,24 +20,21 @@ public class Cliente extends Persona {
 	  
 
     
-  public void cancelarActividad(Actividad actividad, ArrayList<Integer> fecha) {
-		//NO SE QUE HACEEEER
-		
-    }
+
 
     public Cliente(String nombre, Destino destino, int edad) {
-	super(nombre, destino);
-	
-
-}
-
-
-
+        super(nombre, destino, edad);
+    }
+    public Cliente(String nombre, int edad) {
+        super(nombre, edad);
+    }
 
 
 
+    public void cancelarActividad(Actividad actividad, ArrayList<Integer> fecha) {
+        //NO SE QUE HACEEEER
 
-
+    }
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
