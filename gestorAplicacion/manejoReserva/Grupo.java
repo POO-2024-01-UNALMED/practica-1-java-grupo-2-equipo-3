@@ -17,62 +17,6 @@ public class Grupo {
     private int capacidad;
     private int clasificacion;
 
-    public ArrayList<Integer> getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(ArrayList<Integer> fecha) {
-        this.fecha = fecha;
-    }
-
-    public Guia getGuia() {
-        return guia;
-    }
-
-    public void setGuia(Guia guia) {
-        this.guia = guia;
-    }
-
-    public Actividad getActividad() {
-        return actividad;
-    }
-
-    public void setActividad(Actividad actividad) {
-        this.actividad = actividad;
-    }
-
-    public Idiomas getIdioma() {
-        return idioma;
-    }
-
-    public void setIdioma(Idiomas idioma) {
-        this.idioma = idioma;
-    }
-
-    public ArrayList<ArrayList<Cliente>> getListaReservas() {
-        return listaReservas;
-    }
-
-    public void setListaReservas(ArrayList<ArrayList<Cliente>> listaReservas) {
-        this.listaReservas = listaReservas;
-    }
-
-    public int getCapacidad() {
-        return capacidad;
-    }
-
-    public void setCapacidad(int capacidad) {
-        this.capacidad = capacidad;
-    }
-
-    public int getClasificacion() {
-        return clasificacion;
-    }
-
-    public void setClasificacion(int clasificacion) {
-        this.clasificacion = clasificacion;
-    }
-
     public Grupo(ArrayList<Integer> fecha, Guia guia, Actividad actividad, Idiomas idioma,
                  ArrayList<ArrayList<Cliente>> listaReservas) {
         super();
@@ -336,4 +280,63 @@ public class Grupo {
         }
         return cantidadClientes;
     }
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Métodos de acceso//////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+	public ArrayList<Integer> getFecha() {
+		return fecha;
+	}
+	
+	public void setFecha(ArrayList<Integer> fecha) {
+		this.fecha = fecha;
+	}
+	
+	public Guia getGuia() {
+		return guia;
+	}
+	
+	public void setGuia(Guia guia) {
+	this.guia = guia;
+	}
+	
+	public Actividad getActividad() {
+		return actividad;
+	}
+	
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
+	}
+	
+	public Idiomas getIdioma() {
+		return idioma;
+	}
+	
+	public void setIdioma(Idiomas idioma) {
+		this.idioma = idioma;
+	}
+	
+	public ArrayList<ArrayList<Cliente>> getListaReservas() {
+		return listaReservas;
+	}
+	
+	public void setListaReservas(ArrayList<ArrayList<Cliente>> listaReservas) {
+		this.listaReservas = listaReservas;
+	}
+	
+	public int getCapacidad() {
+		return capacidad;
+	}
+	
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+	
+	public int getClasificacion() {
+		return clasificacion;
+	}
+	
+	public void setClasificacion(int clasificacion) {
+		this.clasificacion = clasificacion;
+	}
+
 }

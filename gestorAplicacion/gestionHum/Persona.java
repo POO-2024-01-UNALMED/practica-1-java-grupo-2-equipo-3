@@ -8,19 +8,34 @@ import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 //Falta utilizar la accesibilidad
 public class Persona {
+	private int edad;
     private String nombre;
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
-    private String[] seguro;    //Array list de 4 puestos, debo leer como se escribía
 
-    public Persona(String nombre, Destino destino) {
+    public Persona(String nombre, Destino destino,int edad) {
         this.idiomas = new ArrayList<>();
         this.nombre = nombre;
         this.destino = destino;
-    
+        this.edad=edad;    
     }
 
-
+    
+    /**
+     * Ingresa los idiomas que domina la persona a partir de una cadena.
+     *
+     * @param idiomas Una cadena que representa los idiomas.
+     */
+    public void ingresarIdiomas(String idiomas) {
+        for (String posicion : idiomas.split(" ")) {
+            int numero = Integer.parseInt(posicion);
+            for (Idiomas idioma : Idiomas.values()) {
+                if (numero == idioma.getPosicion()) {
+                    this.idiomas.add(idioma);
+                }
+            }
+        }
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,10 +52,6 @@ public class Persona {
         this.idiomas = idiomas;
     }
 
-    public void setSeguro(String[] seguro) {
-        this.seguro = seguro;
-    }
-
   
     public String getNombre() {
         return nombre;
@@ -55,10 +66,17 @@ public class Persona {
         return idiomas;
     }
 
-    public String[] getSeguro() {
-        return seguro;
-    }
 
+	public int getEdad() {
+		return edad;
+	}
+
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+  
     
 
 }

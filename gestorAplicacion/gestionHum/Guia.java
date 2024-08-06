@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
+import gestorAplicacion.interfaces.Registrable;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
@@ -14,7 +15,7 @@ import gestorAplicacion.manejoReserva.Reserva;
  * idiomas, tipos de actividades que puede realizar, destino asignado,
  * precio, y días ocupados y no disponibles.
  */
-public class Guia extends Persona {
+public class Guia extends Persona implements Registrable {
     private ArrayList<TiposActividad> tipoActividades;
     private double precio;
     private ArrayList<ArrayList<Integer>> diasOcupados;
@@ -27,53 +28,11 @@ public class Guia extends Persona {
      * @param nombre El nombre del guía.
      */
     public Guia(String nombre) {
-        super(nombre,null);
+        super(nombre,null,0);
         this.tipoActividades = new ArrayList<>();
         this.diasOcupados = new ArrayList<>();
         this.diasNoDisponibles = new ArrayList<>();
         guias.add(this);
-    }
-
-    public ArrayList<TiposActividad> getTipoActividades() {
-        return tipoActividades;
-    }
-
-    void setTipoActividades(ArrayList<TiposActividad> tipoActividades) {
-        this.tipoActividades = tipoActividades;
-    }
-
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    
-    public ArrayList<ArrayList<Integer>> getDiasOcupados() {
-        return diasOcupados;
-    }
-
-    public void setDiasOcupados(ArrayList<ArrayList<Integer>> diasOcupados) {
-        this.diasOcupados = diasOcupados;
-    }
-
-    public ArrayList<ArrayList<Integer>> getDiasNoDisponibles() {
-        return diasNoDisponibles;
-    }
-
-    void setDiasNoDisponibles(ArrayList<ArrayList<Integer>> diasNoDisponibles) {
-        this.diasNoDisponibles = diasNoDisponibles;
-    }
-
-    public static ArrayList<Guia> getGuias() {
-        return guias;
-    }
-
-    static void setGuias(ArrayList<Guia> guias) {
-        Guia.guias = guias;
     }
 
     /**
@@ -87,27 +46,14 @@ public class Guia extends Persona {
                 + getDestino().getNombre();
     }
 
-    /**
-     * Ingresa los idiomas que domina el guía a partir de una cadena.
-     *
-     * @param idiomas Una cadena que representa los idiomas.
-     */
-    public void ingresarIdiomas(String idiomas) {
-        for (String posicion : idiomas.split(" ")) {
-            int numero = Integer.parseInt(posicion);
-            for (Idiomas idioma : Idiomas.values()) {
-                if (numero == idioma.getPosicion()) {
-                    this.getIdiomas().add(idioma);
-                }
-            }
-        }
-    }
+   
 
     /**
      * Ingresa los tipos de actividades que puede realizar el guía a partir de una cadena.
      *
      * @param tipoActividades Una cadena que representa los tipos de actividades.
      */
+    @Override
     public void ingresarTipoActividades(String tipoActividades) {
         for (String posicion : tipoActividades.split(" ")) {
             int numero = Integer.parseInt(posicion);
@@ -122,7 +68,8 @@ public class Guia extends Persona {
     /**
      * Asigna un precio al guía basado en los idiomas que domina y el destino asignado.
      */
-    public void asignarPrecioBase() {
+    @Override
+    public void asignarParametros() {
         int precioBase = 30000;
         int precioExtra = 0;
         double porcentajeExtra=getDestino().precioExtraPorDestino();
@@ -137,6 +84,7 @@ public class Guia extends Persona {
     /**
      * Ingresa el guía a las actividades que puede realizar en su destino.
      */
+    @Override
     public void ingresarGuia() {
         ArrayList<Actividad> listaActividades = this.getDestino().mostrarActividadesTipo(this);
         for (Actividad actividad : listaActividades) {
@@ -355,4 +303,50 @@ public class Guia extends Persona {
     	return (this.precio*porcentajeExtra);
     }
     
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////Métodos de acceso//////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ArrayList<TiposActividad> getTipoActividades() {
+        return tipoActividades;
+    }
+
+    void setTipoActividades(ArrayList<TiposActividad> tipoActividades) {
+        this.tipoActividades = tipoActividades;
+    }
+
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
+    
+    public ArrayList<ArrayList<Integer>> getDiasOcupados() {
+        return diasOcupados;
+    }
+
+    public void setDiasOcupados(ArrayList<ArrayList<Integer>> diasOcupados) {
+        this.diasOcupados = diasOcupados;
+    }
+
+    public ArrayList<ArrayList<Integer>> getDiasNoDisponibles() {
+        return diasNoDisponibles;
+    }
+
+    void setDiasNoDisponibles(ArrayList<ArrayList<Integer>> diasNoDisponibles) {
+        this.diasNoDisponibles = diasNoDisponibles;
+    }
+
+    public static ArrayList<Guia> getGuias() {
+        return guias;
+    }
+
+    static void setGuias(ArrayList<Guia> guias) {
+        Guia.guias = guias;
+    }
+
 }
