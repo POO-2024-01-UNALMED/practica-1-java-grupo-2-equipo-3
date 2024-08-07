@@ -7,7 +7,40 @@ import java.util.ArrayList;
 public class Prueba {
 
     public static void main(String[] args) {
-        System.out.printf(("uno"),("1"));
+
+
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////// Menu De Inicio //////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+
+
+        System.out.printf("%s%n|%68s %n"," ___________________________________________________________________","|");
+        
+        System.out.printf("|  %s  | %20s%22s %n|%68s %n","Bienvenido","Seleccione la opcion que desea","|","|");
+
+        System.out.printf("|  %s %10s %49s %n", "1)", "Planear viaje", "|");
+        System.out.printf("|  %s %10s %42s %n", "2)", "Reservar actividades", "|");
+        System.out.printf("|  %s %10s %44s %n", "3)", "Reservar hospedaje", "|");
+        System.out.printf("|  %s %10s %45s %n", "4)", "Modificar reserva", "|");
+        System.out.printf("|  %s %10s %36s %n", "5)", "Funciones de administrador", "|");
+
+
+        System.out.printf("|%68s%n","|","|","|","|");
+        System.out.printf("|                                           /\\   | |    |  __ \\     |%n");
+        System.out.printf("|                                          /  \\  | |    | |__) |    |%n");
+        System.out.printf("|                                         / /\\ \\ | |    |  ___/     |%n");
+        System.out.printf("|                                        / ____ \\| |____| |         |%n");
+        System.out.printf("|                                       /_/    \\_\\______|_|         |%n");
+
+
+        
+
+        System.out.printf("%s","|___________________________________________________________________|");
+
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+
 
         
     }
@@ -16,42 +49,6 @@ public class Prueba {
 
 
     
-        int dia = fecha.get(0);
-        int mes = fecha.get(1);
-        int año = fecha.get(2);
-
-        ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
-        int[] diasPorMes = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-        while (cantidadDias > 0) {
-            int diasMes = diasPorMes[mes - 1];
-            int cantidadRestante = cantidadDias;
-            for (int i = 1; i < cantidadDias + 1; i++) {
-                if (dia > diasMes) {
-                    break;
-                }
-                ArrayList<Integer> fechas = new ArrayList<>();
-                fechas.add(dia);
-                fechas.add(mes);
-                fechas.add(año);
-                listaFechas.add(fechas);
-                dia++;
-                cantidadRestante--;
-            }
-
-            if (cantidadRestante == 0) {
-                break;
-            }
-
-            cantidadDias = cantidadRestante;
-            dia = 1;
-            mes++;
-            if (mes > 12) {
-                mes = 1;
-                año++;
-            }
-        }
-        return listaFechas;
     }
 
     
