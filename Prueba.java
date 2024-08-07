@@ -1,21 +1,13 @@
 // Esto es una solo para hacer purebas, ignorenlo, despues lo borramos
 
 
-import gestorAplicacion.*;
-import gestorAplicacion.manejoReserva.Reserva;
-import uiMain.*;
+
 import java.util.ArrayList;
 
 public class Prueba {
 
     public static void main(String[] args) {
-        ArrayList<Integer> fecha = new ArrayList<Integer>();
-
-        fecha.add(30);
-        fecha.add(12);
-        fecha.add(2020);
-
-        System.out.println(mostrarDias(5, fecha));
+        System.out.printf(("uno"),("1"));
 
         
     }
@@ -23,7 +15,7 @@ public class Prueba {
 
 
 
-    public static ArrayList<ArrayList<Integer>> mostrarDias(int cantidadDias, ArrayList<Integer> fecha) {
+    
         int dia = fecha.get(0);
         int mes = fecha.get(1);
         int año = fecha.get(2);
@@ -63,6 +55,4 @@ public class Prueba {
     }
 
     
-
-}
 

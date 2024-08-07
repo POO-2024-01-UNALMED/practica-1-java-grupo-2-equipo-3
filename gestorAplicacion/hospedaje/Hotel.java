@@ -1,4 +1,4 @@
-package gestorAplicacion.manejoReserva;
+package gestorAplicacion.hospedaje;
 
 public class Hotel {
 
