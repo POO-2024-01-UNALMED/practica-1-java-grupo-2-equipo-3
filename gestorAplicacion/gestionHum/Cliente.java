@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.hospedaje.Hotel;
+import gestorAplicacion.hospedaje.Restaurante;
 import gestorAplicacion.manejoReserva.Suscripcion;
 import gestorAplicacion.gestionHum.Persona;
 import gestorAplicacion.manejoReserva.Grupo;

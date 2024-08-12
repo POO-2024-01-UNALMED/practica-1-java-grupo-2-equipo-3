@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.actividades.Plan;
+import gestorAplicacion.gestionHum.Cliente;
+import gestorAplicacion.hospedaje.Hotel;
 
 
 public class Reserva {

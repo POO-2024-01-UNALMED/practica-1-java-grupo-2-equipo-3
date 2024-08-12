@@ -6,6 +6,8 @@ import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.hospedaje.Hotel;            //Grupo funciona como las habitaciones de un hotel
+import gestorAplicacion.hospedaje.Restaurante;      //Grupo funciona como las mesas existentes de un restaurante
 
 public class Grupo {
     private static ArrayList<Grupo> grupos = new ArrayList<>();
