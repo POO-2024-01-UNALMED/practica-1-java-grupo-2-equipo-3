@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
 
-public class Destino {
+import java.io.Serializable;
+
+public class Destino implements Serializable {
     private ArrayList<Guia> guias;
     private ArrayList<Actividad> actividades;
     private String nombre;
@@ -231,7 +233,7 @@ public class Destino {
 		return actividades;
 	}
 	
-	void setActividades(ArrayList<Actividad> actividades) {
+	public void setActividades(ArrayList<Actividad> actividades) {
 		this.actividades = actividades;
 	}
 	
@@ -239,7 +241,7 @@ public class Destino {
 		return nombre;
 	}
 	
-	void setNombre(String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 	
@@ -247,7 +249,7 @@ public class Destino {
 		return destinos;
 	}
 	
-	static void setDestinos(ArrayList<Destino> destinos) {
+	public static void setDestinos(ArrayList<Destino> destinos) {
 		Destino.destinos = destinos;
 	}
 	
@@ -255,7 +257,7 @@ public class Destino {
 		return guias;
 	}
 	
-	void setGuias(ArrayList<Guia> guias) {
+	public void setGuias(ArrayList<Guia> guias) {
 		this.guias = guias;
 	}
 
