@@ -17,16 +17,82 @@ public class Plan_prueba {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
+        FileInputStream fileInputStream = new FileInputStream("Cartagena.txt");
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        Destino destino = (Destino) objectInputStream.readObject();
+
+        Scanner entrada = new Scanner(System.in);
+
         ///////////////////////////////////////// Creacion de destinos /////////////////////////////////////////
 
         //destinos
-        FileInputStream fileInputStream = new FileInputStream("Cartagena.txt");
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        Destino cartagena1 = (Destino) objectInputStream.readObject();
-        objectInputStream.close();
-        System.out.println(cartagena1.getNombre());
         
+        
+        menuActividad();
 
+
+        //Switch para seleccionar el tipo de actividad y filtrar 
+        switch (entrada.nextInt()) {
+            case 1: //Cultural
+                destino.getActividades().forEach(actividad -> {
+                    if (actividad.getTipo().contains(TiposActividad.CULTURALES)) {
+                        System.out.println(destino.getNombre());
+                    }
+                });
+
+                break;
+
+            case 2: //Familiar
+                destino.getActividades().forEach(actividad -> {
+                    if (actividad.getTipo().contains(TiposActividad.FAMILIARES)) {
+                        System.out.println(destino.getNombre());
+                    }
+                });
+                
+                
+                    break;
+
+            case 3: //Ecologica
+                destino.getActividades().forEach(actividad -> {
+                    if (actividad.getTipo().contains(TiposActividad.ECOLOGICAS)) {
+                        System.out.println(destino.getNombre());
+                    }
+                });
+                    
+                    break;
+            
+            case 4: //Extrema
+                destino.getActividades().forEach(actividad -> {
+                    if (actividad.getTipo().contains(TiposActividad.EXTREMAS)) {
+                        System.out.println(destino.getNombre());
+                    }
+                });
+                    
+                        break;
+
+            case 5: //Acuatica
+                destino.getActividades().forEach(actividad -> {
+                    if (actividad.getTipo().contains(TiposActividad.ACUATICAS)) {
+                        System.out.println(destino.getNombre());
+                    }
+                });
+                        
+                            break;
+
+            case 6: //Deportiva
+                destino.getActividades().forEach(actividad -> {
+                    if (actividad.getTipo().contains(TiposActividad.DEPORTIVAS)) {
+                        System.out.println(actividad.getNombre());
+                    }
+                });
+                            
+                                break;
+
+            
+        
+            default:
+                break;
+        }
 
 
 
@@ -103,7 +169,7 @@ public class Plan_prueba {
 
     public static void mejoresOpcionesDestino() {
         System.out.printf("%s%n|%69s %n"," ____________________________________________________________________","|");
-        System.out.printf("| %-66s |%n", "Mejores Opciones de Destino");
+        System.out.printf("| %-66s |%n", "Filtar por:");
 
         System.out.printf("|%69s ","|"); // Salto de linea
              
@@ -111,10 +177,10 @@ public class Plan_prueba {
         String opcion1 = "1) según actividad";
         System.out.printf("%n| %-66s |%n", opcion1);
 
-        String opcion2 = "2) Destino según idioma";
+        String opcion2 = "2) según idioma";
         System.out.printf("| %-66s |%n", opcion2);
 
-        String opcion3 = "3) Destino según fecha";
+        String opcion3 = "3) según fecha";
         System.out.printf("| %-66s |%n", opcion3);
 
         System.out.printf("|%n|%69s %n","|");
@@ -128,23 +194,31 @@ public class Plan_prueba {
     public static void menuActividad() {
         System.out.printf("%s%n|%69s %n"," ____________________________________________________________________","|");
         System.out.printf("| %-66s |%n", "Actividades");
-
+    
         System.out.printf("|%69s ","|"); // Salto de linea
-             
-        
-        String opcion1 = "1) Playa";
+    
+        String opcion1 = "1) Cultural";
         System.out.printf("%n| %-66s |%n", opcion1);
-
-        String opcion2 = "2) Montaña";
+    
+        String opcion2 = "2) Familiar";
         System.out.printf("| %-66s |%n", opcion2);
-
-        String opcion3 = "3) Ciudad";
+    
+        String opcion3 = "3) Ecologica";
         System.out.printf("| %-66s |%n", opcion3);
-
+    
+        String opcion4 = "4) Extrema";
+        System.out.printf("| %-66s |%n", opcion4);
+    
+        String opcion5 = "5) Acuatica";
+        System.out.printf("| %-66s |%n", opcion5);
+    
+        String opcion6 = "6) Deportiva";
+        System.out.printf("| %-66s |%n", opcion6);
+    
         System.out.printf("|%n|%69s %n","|");
-
+    
         System.out.printf("%s%n","|____________________________________________________________________|");
-
+    
         System.out.println("");
     }
 

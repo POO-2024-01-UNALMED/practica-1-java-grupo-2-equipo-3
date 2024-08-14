@@ -1,5 +1,6 @@
 package gestorAplicacion.manejoReserva;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import gestorAplicacion.enums.Idiomas;
@@ -7,7 +8,7 @@ import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.interfaces.Registrable;
 
-public class Actividad implements Registrable{
+public class Actividad implements Registrable, Serializable {
     private String nombre;
     private Destino destino;
     private ArrayList<TiposActividad> tipo;

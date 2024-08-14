@@ -13,12 +13,13 @@ public class serializacion {
     public static void main(String[] args) throws IOException {
 
         Destino cartagena = new Destino("Cartagena");
-        ArrayList <Actividad> Actividades_cartagena = new ArrayList <Actividad>();
+        ArrayList <Actividad> ActividadesCartagena = new ArrayList <Actividad>();
         Actividad senderismo = new Actividad("Senderismo",cartagena);        
         ArrayList<TiposActividad> tipos = new ArrayList<>();
         tipos.add(TiposActividad.ACUATICAS);
         senderismo.setTipo(tipos);
-        cartagena.setActividades(Actividades_cartagena);
+        cartagena.setActividades(ActividadesCartagena);
+        ActividadesCartagena.add(senderismo);
         
 
 
