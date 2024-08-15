@@ -1,32 +1,38 @@
 package gestorAplicacion.gestionHum;
 
-//Luego importo bien lo que falta
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
-//Falta utilizar la accesibilidad
-public class Persona {
-	private int edad;
+
+public class Persona implements Serializable {
+    private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
+
+    private int edad;
     private String nombre;
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
 
-    public Persona(String nombre, Destino destino,int edad) {
+    public Persona(String nombre, Destino destino, int edad) {
         this.idiomas = new ArrayList<>();
         this.nombre = nombre;
         this.destino = destino;
-        this.edad=edad;    
+        this.edad = edad;    
     }
 
-    public Persona(String nombre,int edad) {
+    public Persona(String nombre, int edad) {
         this.idiomas = new ArrayList<>();
         this.nombre = nombre;
         this.edad = edad;
     }
 
-    
+    // Constructor por defecto
+    public Persona() {
+        this.idiomas = new ArrayList<>();
+    }
+
     /**
      * Ingresa los idiomas que domina la persona a partir de una cadena.
      *
@@ -42,13 +48,11 @@ public class Persona {
             }
         }
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Métodos de acceso
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
 
     public void setDestino(Destino destino) {
         this.destino = destino;
@@ -58,11 +62,9 @@ public class Persona {
         this.idiomas = idiomas;
     }
 
-  
     public String getNombre() {
         return nombre;
     }
-
 
     public Destino getDestino() {
         return destino;
@@ -72,17 +74,15 @@ public class Persona {
         return idiomas;
     }
 
+    public int getEdad() {
+        return edad;
+    }
 
-	public int getEdad() {
-		return edad;
-	}
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-
-  
-    
-
+    public void addIdioma(Idiomas idioma) {
+        this.idiomas.add(idioma);
+    }
 }

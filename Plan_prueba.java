@@ -1,3 +1,4 @@
+import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.manejoReserva.*;
 
@@ -17,82 +18,43 @@ public class Plan_prueba {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        FileInputStream fileInputStream = new FileInputStream("Cartagena.txt");
+        
+
+        FileInputStream fileInputStream = new FileInputStream("contenedorDestinos.txt");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        Destino destino = (Destino) objectInputStream.readObject();
+        ContenedorDestinos cotenedorDestinos = (ContenedorDestinos) objectInputStream.readObject();
 
         Scanner entrada = new Scanner(System.in);
 
+        ArrayList<Destino> destinos = new ArrayList<Destino>();
+
+        destinos = (ArrayList<Destino>) cotenedorDestinos.getDestinos();
+
         ///////////////////////////////////////// Creacion de destinos /////////////////////////////////////////
 
-        //destinos
-        
-        
-        menuActividad();
 
+        System.out.println(Destino.destinosPorIdioma());
 
-        //Switch para seleccionar el tipo de actividad y filtrar 
+        mejoresOpcionesDestino();
+        
         switch (entrada.nextInt()) {
-            case 1: //Cultural
-                destino.getActividades().forEach(actividad -> {
-                    if (actividad.getTipo().contains(TiposActividad.CULTURALES)) {
-                        System.out.println(destino.getNombre());
-                    }
-                });
-
+            case 1:
+                segunActividad();
+                filtroActividad(destinos, entrada);
                 break;
-
-            case 2: //Familiar
-                destino.getActividades().forEach(actividad -> {
-                    if (actividad.getTipo().contains(TiposActividad.FAMILIARES)) {
-                        System.out.println(destino.getNombre());
-                    }
-                });
+            case 2:
+                segunIdioma();
+                break;
+            case 3:
                 
-                
-                    break;
-
-            case 3: //Ecologica
-                destino.getActividades().forEach(actividad -> {
-                    if (actividad.getTipo().contains(TiposActividad.ECOLOGICAS)) {
-                        System.out.println(destino.getNombre());
-                    }
-                });
-                    
-                    break;
-            
-            case 4: //Extrema
-                destino.getActividades().forEach(actividad -> {
-                    if (actividad.getTipo().contains(TiposActividad.EXTREMAS)) {
-                        System.out.println(destino.getNombre());
-                    }
-                });
-                    
-                        break;
-
-            case 5: //Acuatica
-                destino.getActividades().forEach(actividad -> {
-                    if (actividad.getTipo().contains(TiposActividad.ACUATICAS)) {
-                        System.out.println(destino.getNombre());
-                    }
-                });
-                        
-                            break;
-
-            case 6: //Deportiva
-                destino.getActividades().forEach(actividad -> {
-                    if (actividad.getTipo().contains(TiposActividad.DEPORTIVAS)) {
-                        System.out.println(actividad.getNombre());
-                    }
-                });
-                            
-                                break;
-
-            
-        
+                break;
             default:
+                System.out.println("Opción no válida.");
                 break;
         }
+
+        
+        
 
 
 
@@ -191,7 +153,7 @@ public class Plan_prueba {
     }
 
 
-    public static void menuActividad() {
+    public static void segunActividad() {
         System.out.printf("%s%n|%69s %n"," ____________________________________________________________________","|");
         System.out.printf("| %-66s |%n", "Actividades");
     
@@ -220,6 +182,101 @@ public class Plan_prueba {
         System.out.printf("%s%n","|____________________________________________________________________|");
     
         System.out.println("");
+        
     }
 
-}
+    public static void filtroActividad(ArrayList<Destino> destinos, Scanner entrada) {
+        int opcion = entrada.nextInt();
+
+        for (Destino destino : destinos) {
+            switch (opcion) {
+                case 1: // Cultural
+                    destino.getActividades().forEach(actividad -> {
+                        if (actividad.getTipo().contains(TiposActividad.CULTURALES)) {
+                            System.out.println(destino.getNombre());
+                        }
+                    });
+                    break;
+
+                case 2: // Familiar
+                    destino.getActividades().forEach(actividad -> {
+                        if (actividad.getTipo().contains(TiposActividad.FAMILIARES)) {
+                            System.out.println(destino.getNombre());
+                        }
+                    });
+                    break;
+
+                case 3: // Ecologica
+                    destino.getActividades().forEach(actividad -> {
+                        if (actividad.getTipo().contains(TiposActividad.ECOLOGICAS)) {
+                            System.out.println(destino.getNombre());
+                        }
+                    });
+                    break;
+
+                case 4: // Extrema
+                    destino.getActividades().forEach(actividad -> {
+                        if (actividad.getTipo().contains(TiposActividad.EXTREMAS)) {
+                            System.out.println(destino.getNombre());
+                        }
+                    });
+                    break;
+
+                case 5: // Acuatica
+                    destino.getActividades().forEach(actividad -> {
+                        if (actividad.getTipo().contains(TiposActividad.ACUATICAS)) {
+                            System.out.println(destino.getNombre());
+                        }
+                    });
+                    break;
+
+                case 6: // Deportiva
+                    destino.getActividades().forEach(actividad -> {
+                        if (actividad.getTipo().contains(TiposActividad.DEPORTIVAS)) {
+                            System.out.println(destino.getNombre());
+                        }
+                    });
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
+            }
+        }
+    }
+
+    public static void segunIdioma() {
+        System.out.printf("%s%n|%69s %n"," ____________________________________________________________________","|");
+        System.out.printf("| %-66s |%n", "Idiomas Disponibles");
+    
+        System.out.printf("|%69s ","|"); // Salto de linea
+    
+        String opcion1 = "1) Inglés";
+        System.out.printf("%n| %-66s |%n", opcion1);
+    
+        String opcion2 = "2) Portugués";
+        System.out.printf("| %-66s |%n", opcion2);
+    
+        String opcion3 = "3) Español";
+        System.out.printf("| %-66s |%n", opcion3);
+    
+        String opcion4 = "4) Francés";
+        System.out.printf("| %-66s |%n", opcion4);
+    
+        String opcion5 = "5) Italiano";
+        System.out.printf("| %-66s |%n", opcion5);
+    
+        System.out.printf("|%n|%69s %n","|");
+    
+        System.out.printf("%s%n","|____________________________________________________________________|");
+    
+        System.out.println("");
+    }
+
+    }
+
+        
+
+
+
+

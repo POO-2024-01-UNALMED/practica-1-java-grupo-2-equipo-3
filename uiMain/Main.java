@@ -389,7 +389,7 @@ public class Main {
 						}
 						
 						I_guia.ingresarGuia();
-						I_guia.asignarPrecioBase();
+						//I_guia.asignarPrecioBase();
 						
 						System.out.println("El guia se ha ingresado correctamente\n_______________Resumen_______________\n"+I_guia);
 						terminarCicloAdmin=terminarCicloAdmin();

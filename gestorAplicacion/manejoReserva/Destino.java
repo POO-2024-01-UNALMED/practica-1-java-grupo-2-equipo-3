@@ -2,6 +2,7 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 
+import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
 
@@ -20,6 +21,8 @@ public class Destino implements Serializable {
         this.actividades = new ArrayList<>();
         destinos.add(this);
     }
+
+    
 
     /**
      * Elige los destinos para un guía basado en la cantidad de actividades que puede realizar. Verifica cuantas actividades puede realizar
@@ -224,6 +227,72 @@ public class Destino implements Serializable {
 
         return porcentajeExtra;
     }
+
+
+
+    /**
+     * Metodos para encontrar que detinos tiene cada idioma
+     *
+     * @param idioma El idioma para calcular el precio extra.
+     * @return El porcentaje de precio extra por idioma.
+     */
+
+     public static ArrayList<ArrayList<Destino>> destinosPorIdioma() {
+        // Crear una lista para cada idioma
+        ArrayList<Destino> destinosIngles = new ArrayList<>();
+        ArrayList<Destino> destinosPortugues = new ArrayList<>();
+        ArrayList<Destino> destinosEspanol = new ArrayList<>();
+        ArrayList<Destino> destinosFrances = new ArrayList<>();
+        ArrayList<Destino> destinosItaliano = new ArrayList<>();
+
+        // Recorrer todos los destinos y verificar los idiomas disponibles en cada uno
+        for (Destino destino : destinos) {
+            for (Guia guia : destino.getGuias()) {
+                for (Idiomas idioma : guia.getIdiomas()) {
+                    switch (idioma) {
+                        case INGLES:
+                            if (!destinosIngles.contains(destino)) {
+                                destinosIngles.add(destino);
+                            }
+                            break;
+                        case PORTUGUES:
+                            if (!destinosPortugues.contains(destino)) {
+                                destinosPortugues.add(destino);
+                            }
+                            break;
+                        case ESPANOL:
+                            if (!destinosEspanol.contains(destino)) {
+                                destinosEspanol.add(destino);
+                            }
+                            break;
+                        case FRANCES:
+                            if (!destinosFrances.contains(destino)) {
+                                destinosFrances.add(destino);
+                            }
+                            break;
+                        case ITALIANO:
+                            if (!destinosItaliano.contains(destino)) {
+                                destinosItaliano.add(destino);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        // Crear una lista de listas para almacenar todas las listas de destinos
+        ArrayList<ArrayList<Destino>> destinosIdiomas = new ArrayList<>();
+        destinosIdiomas.add(destinosIngles);
+        destinosIdiomas.add(destinosPortugues);
+        destinosIdiomas.add(destinosEspanol);
+        destinosIdiomas.add(destinosFrances);
+        destinosIdiomas.add(destinosItaliano);
+
+        return destinosIdiomas;
+    }
+
+     
+
     
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////

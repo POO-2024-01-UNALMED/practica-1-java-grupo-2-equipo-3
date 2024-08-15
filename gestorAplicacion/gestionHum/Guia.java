@@ -1,5 +1,6 @@
 package gestorAplicacion.gestionHum;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
@@ -15,7 +16,10 @@ import gestorAplicacion.manejoReserva.Reserva;
  * idiomas, tipos de actividades que puede realizar, destino asignado,
  * precio, y días ocupados y no disponibles.
  */
-public class Guia extends Persona implements Registrable {
+public class Guia extends Persona implements Registrable, Serializable {
+
+    private static final long serialVersionUID = 6523686910756331040L;
+    
     private ArrayList<TiposActividad> tipoActividades;
     private double precio;
     private ArrayList<ArrayList<Integer>> diasOcupados;
@@ -29,6 +33,14 @@ public class Guia extends Persona implements Registrable {
      */
     public Guia(String nombre) {
         super(nombre,null,0);
+        this.tipoActividades = new ArrayList<>();
+        this.diasOcupados = new ArrayList<>();
+        this.diasNoDisponibles = new ArrayList<>();
+        guias.add(this);
+    }
+
+    public Guia() {
+        super(null, null, 0);
         this.tipoActividades = new ArrayList<>();
         this.diasOcupados = new ArrayList<>();
         this.diasNoDisponibles = new ArrayList<>();
@@ -348,5 +360,7 @@ public class Guia extends Persona implements Registrable {
     static void setGuias(ArrayList<Guia> guias) {
         Guia.guias = guias;
     }
+
+    
 
 }
