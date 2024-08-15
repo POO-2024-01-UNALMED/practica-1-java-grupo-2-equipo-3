@@ -31,6 +31,19 @@ public class Actividad implements Registrable, Serializable {
         this.tipo = new ArrayList<>();
     }
 
+    /**
+     * Constructor para crear una actividad con un nombre y un tipo de actividad.
+     *
+     * @param nombre El nombre de la actividad.
+     * @param tipo El tipo de actividad.
+     */
+    public Actividad(String nombre, TiposActividad tipo) {
+        super();
+        this.nombre = nombre;
+        this.tipo = new ArrayList<>();
+        this.tipo.add(tipo);
+        this.guias = new ArrayList<>();
+    }
     @Override
     public String toString() {
         return "Nombre de la actividad: " + nombre + ",\nSe encuentra en: " + destino.getNombre() + ",\nTipo de actividad: " + tipo + ",\nCapacidad por grupo: " + capacidad + ",\nClasificacion por edad: +" + clasificacion + ",\nPrecio por persona: " + precio;

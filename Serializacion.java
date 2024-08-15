@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import gestorAplicacion.manejoReserva.ContenedorDestinos;
 import gestorAplicacion.manejoReserva.Destino;
+import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.enums.Idiomas;
+import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
 
 public class Serializacion {
@@ -19,6 +21,28 @@ public class Serializacion {
         Destino cartagena = new Destino("Cartagena");
         Destino bogota = new Destino("Bogotá");
         Destino medellin = new Destino("Medellín");
+
+        // Crear actividades
+        Actividad actividad1 = new Actividad("Tour por la ciudad", TiposActividad.CULTURALES);
+        Actividad actividad2 = new Actividad("Visita a museos", TiposActividad.CULTURALES);
+        Actividad actividad3 = new Actividad("Excursión a la playa", TiposActividad.ACUATICAS);
+        Actividad actividad4 = new Actividad("Gastronomía local", TiposActividad.FAMILIARES);
+        Actividad actividad5 = new Actividad("Senderismo", TiposActividad.ECOLOGICAS);
+        Actividad actividad6 = new Actividad("Parapente", TiposActividad.EXTREMAS);
+        Actividad actividad7 = new Actividad("Fútbol", TiposActividad.DEPORTIVAS);
+
+        // Asignar actividades a los destinos
+        cartagena.getActividades().add(actividad1);
+        cartagena.getActividades().add(actividad3);
+        cartagena.getActividades().add(actividad4);
+
+        bogota.getActividades().add(actividad2);
+        bogota.getActividades().add(actividad4);
+        bogota.getActividades().add(actividad5);
+
+        medellin.getActividades().add(actividad1);
+        medellin.getActividades().add(actividad6);
+        medellin.getActividades().add(actividad7);
 
         // Agregar destinos al contenedor
         contenedor.addDestino(cartagena);
