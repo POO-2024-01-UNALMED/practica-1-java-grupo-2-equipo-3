@@ -20,21 +20,29 @@ public class Plan_prueba {
 
         
 
+        
         FileInputStream fileInputStream = new FileInputStream("contenedorDestinos.txt");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        ContenedorDestinos cotenedorDestinos = (ContenedorDestinos) objectInputStream.readObject();
+        ContenedorDestinos contenedorDestinos = (ContenedorDestinos) objectInputStream.readObject(); // Corregir el nombre de la variable
+        objectInputStream.close();
+        fileInputStream.close();
 
         Scanner entrada = new Scanner(System.in);
 
-        ArrayList<Destino> destinos = new ArrayList<Destino>();
+        ArrayList<Destino> destinos = contenedorDestinos.getDestinos();
+        
 
-        destinos = (ArrayList<Destino>) cotenedorDestinos.getDestinos();
-
-        ///////////////////////////////////////// Creacion de destinos /////////////////////////////////////////
+        
 
 
-        System.out.println(Destino.destinosPorIdioma());
 
+        // Llamar al método destinosPorIdioma
+        ArrayList<ArrayList<Destino>> destinosPorIdioma = Destino.destinosPorIdioma(destinos);
+        System.out.println("Destinos con guías que hablan Inglés:");
+            for (Destino destino : destinosPorIdioma.get(0)) {
+                System.out.println(destino.getNombre());
+                 }
+ 
         mejoresOpcionesDestino();
         
         switch (entrada.nextInt()) {
@@ -91,6 +99,10 @@ public class Plan_prueba {
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////METODOS PARA MOSTRAR MENUS///////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public static void menuCantidadPersonas() {
         System.out.printf("%s%n|%69s %n"," ____________________________________________________________________","|");
         

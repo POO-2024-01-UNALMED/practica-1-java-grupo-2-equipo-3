@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ContenedorDestinos implements Serializable {
     private static final long serialVersionUID = 1L;
-    private List<Destino> destinos;
+    private ArrayList<Destino> destinos;
 
     public ContenedorDestinos() {
         this.destinos = new ArrayList<>();
@@ -16,7 +16,7 @@ public class ContenedorDestinos implements Serializable {
         this.destinos.add(destino);
     }
 
-    public List<Destino> getDestinos() {
+    public ArrayList<Destino> getDestinos() {
         return destinos;
     }
 }

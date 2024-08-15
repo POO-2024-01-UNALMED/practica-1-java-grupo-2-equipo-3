@@ -237,14 +237,14 @@ public class Destino implements Serializable {
      * @return El porcentaje de precio extra por idioma.
      */
 
-     public static ArrayList<ArrayList<Destino>> destinosPorIdioma() {
+     public static ArrayList<ArrayList<Destino>> destinosPorIdioma(ArrayList<Destino> destinos) {
         // Crear una lista para cada idioma
         ArrayList<Destino> destinosIngles = new ArrayList<>();
         ArrayList<Destino> destinosPortugues = new ArrayList<>();
         ArrayList<Destino> destinosEspanol = new ArrayList<>();
         ArrayList<Destino> destinosFrances = new ArrayList<>();
         ArrayList<Destino> destinosItaliano = new ArrayList<>();
-
+    
         // Recorrer todos los destinos y verificar los idiomas disponibles en cada uno
         for (Destino destino : destinos) {
             for (Guia guia : destino.getGuias()) {
@@ -279,7 +279,7 @@ public class Destino implements Serializable {
                 }
             }
         }
-
+    
         // Crear una lista de listas para almacenar todas las listas de destinos
         ArrayList<ArrayList<Destino>> destinosIdiomas = new ArrayList<>();
         destinosIdiomas.add(destinosIngles);
@@ -287,7 +287,7 @@ public class Destino implements Serializable {
         destinosIdiomas.add(destinosEspanol);
         destinosIdiomas.add(destinosFrances);
         destinosIdiomas.add(destinosItaliano);
-
+    
         return destinosIdiomas;
     }
 
