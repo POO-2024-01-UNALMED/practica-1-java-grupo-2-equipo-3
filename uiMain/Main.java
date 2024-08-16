@@ -347,8 +347,8 @@ public class Main {
 		ArrayList<String> ListaDestinos=new ArrayList<>();
 		
 		for(Idiomas idioma:Idiomas.values()) {ListaIdiomas.add(idioma.getNombre());}
-		for(TiposActividad tipos:TiposActividad.values()) {ListaIdiomas.add(tipos.getNombre());}
-		for(Destino destino:Destino.getDestinos()) {ListaIdiomas.add(destino.getNombre());}
+		for(TiposActividad tipos:TiposActividad.values()) {ListaTipos.add(tipos.getNombre());}
+		for(Destino destino:Destino.getDestinos()) {ListaDestinos.add(destino.getNombre());}
 		
 		//INICIO FUNCIONALIDADES
 		ArrayList<String> menuPrincipal=new ArrayList<>(Arrays.asList(
