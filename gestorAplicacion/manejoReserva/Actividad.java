@@ -70,16 +70,11 @@ public class Actividad implements Registrable, Serializable {
      */
     @Override
     public void ingresarTipoActividades(String tipoActividades) {
-        String[] numeros = tipoActividades.split(" ");
-
-        for (String posicion : numeros) {
-            int numero = Integer.parseInt(posicion);
-            for (TiposActividad tipoA : TiposActividad.values()) {
-                if (numero == tipoA.getPosicion()) {
-                    this.tipo.add(tipoA);
-                }
-            }
-        }
+    	String[] listaString = tipoActividades.split(" ");
+	    for (String numero : listaString) {
+	        int indice = Integer.parseInt(numero);
+	        this.tipo.add(TiposActividad.values()[indice - 1]);
+	    }
         if (this.tipo.size() == 1) {
             this.tipo.add(this.tipo.get(0));
         }
@@ -210,7 +205,7 @@ public class Actividad implements Registrable, Serializable {
      * @return La actividad encontrada, o null si no se encuentra.
      */
     public static Actividad buscarActividad(String nombre, String destino) {
-        Destino destinoActividad = Destino.buscarDestino(destino);
+        Destino destinoActividad = Destino.getDestinos().get(0).buscarNombre(destino);
         if (destinoActividad != null) {
             for (Actividad actividad : destinoActividad.getActividades()) {
                 if (nombre.equals(actividad.nombre)) {

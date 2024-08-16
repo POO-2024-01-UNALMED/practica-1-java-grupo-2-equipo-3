@@ -3,23 +3,22 @@ package gestorAplicacion.enums;
 import java.util.ArrayList;
 
 import clases.TiposActividad;
+import gestorAplicacion.interfaces.BusquedaNombres;
 
-public enum TiposActividad {
-	CULTURALES("Cultural", "Baja",1),
-    FAMILIARES("Familiar","Baja",2),
-    ECOLOGICAS("Ecológica", "Media",3),
-    EXTREMAS("Extrema", "Extrema",4),
-    ACUATICAS("Acuática", "Alta",5),
-    DEPORTIVAS("Deportiva", "Alta",6);
+public enum TiposActividad implements BusquedaNombres{
+	CULTURALES("Cultural", "Baja"),
+    FAMILIARES("Familiar","Baja"),
+    ECOLOGICAS("Ecológica", "Media"),
+    EXTREMAS("Extrema", "Extrema"),
+    ACUATICAS("Acuática", "Alta"),
+    DEPORTIVAS("Deportiva", "Alta");
 
     private final String nombre;
     private final String dificultad;
-    private final int posicion;
 
-    TiposActividad(String nombre, String dificultad, int posicion) {
+    TiposActividad(String nombre, String dificultad) {
         this.nombre = nombre;
         this.dificultad = dificultad;
-		this.posicion = posicion;
     }
     
     /**
@@ -27,20 +26,22 @@ public enum TiposActividad {
      * 
      * @return Un ArrayList<String> con los nombres 
      */
-    public static ArrayList<String> listaNombres(){
+    @Override
+    public ArrayList<String> listaNombres(){
 		 ArrayList<String> ListaTipos=new ArrayList<>();
 		 for(TiposActividad tipos:TiposActividad.values()) {ListaTipos.add(tipos.getNombre());}
 		 return ListaTipos;
 	 }
     /**
-     * Devuelve el tipo que esta en la posicion indicada
+     * Devuelve el objeto tipo con el nombre indicado
      * 
-     * @param posicion El numero de la posicion a buscar.
-     * @return el objeto TiposActividad.
+     * @param nombre, un string del nombre a buscar
+     * @return El objeto encontrado, o null si no se encuentra.
      */
-    public static TiposActividad buscarTipo(int posicion) {
+    @Override
+    public TiposActividad buscarNombre(String nombre) {
 		for(TiposActividad tipo:TiposActividad.values()) {
-			if(posicion==tipo.getPosicion()) {
+			if(nombre==tipo.getNombre()) {
 				return tipo;
 			}
 		}
@@ -54,8 +55,5 @@ public enum TiposActividad {
         return dificultad;
     }
 
-	public int getPosicion() {
-		return posicion;
-	}
 	
 }

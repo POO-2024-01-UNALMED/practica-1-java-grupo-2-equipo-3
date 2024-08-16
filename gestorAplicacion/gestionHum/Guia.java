@@ -67,14 +67,11 @@ public class Guia extends Persona implements Registrable, Serializable {
      */
     @Override
     public void ingresarTipoActividades(String tipoActividades) {
-        for (String posicion : tipoActividades.split(" ")) {
-            int numero = Integer.parseInt(posicion);
-            for (TiposActividad tipo : TiposActividad.values()) {
-                if (numero == tipo.getPosicion()) {
-                    this.tipoActividades.add(tipo);
-                }
-            }
-        }
+    	 String[] listaString = tipoActividades.split(" ");
+    	    for (String numero : listaString) {
+    	        int indice = Integer.parseInt(numero);
+    	        this.tipoActividades.add(TiposActividad.values()[indice - 1]);
+    	    }
     }
 
     /**

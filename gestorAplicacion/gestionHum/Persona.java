@@ -42,14 +42,11 @@ public abstract class Persona implements Serializable {
      * @param idiomas Una cadena que representa los idiomas.
      */
     public void ingresarIdiomas(String idiomas) {
-        for (String posicion : idiomas.split(" ")) {
-            int numero = Integer.parseInt(posicion);
-            for (Idiomas idioma : Idiomas.values()) {
-                if (numero == idioma.getPosicion()) {
-                    this.idiomas.add(idioma);
-                }
-            }
-        }
+    	 String[] listaString = idiomas.split(" ");
+    	    for (String numero : listaString) {
+    	        int indice = Integer.parseInt(numero);
+    	        this.idiomas.add(Idiomas.values()[indice - 1]);
+    	    }
     }
 
     // Métodos de acceso

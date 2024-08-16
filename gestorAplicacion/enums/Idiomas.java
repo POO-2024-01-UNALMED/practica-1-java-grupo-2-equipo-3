@@ -2,41 +2,43 @@ package gestorAplicacion.enums;
 
 import java.util.ArrayList;
 
-public enum Idiomas {
-	INGLES("Inglés", 10000,1),
-    PORTUGUES("Portugués", 10000,2),
-    ESPANOL("Español", 5000,3),
-    FRANCES("Francés", 15000,4),
-    ITALIANO("Italiano", 15000,5);
+import gestorAplicacion.interfaces.BusquedaNombres;
+
+public enum Idiomas implements BusquedaNombres {
+	INGLES("Inglés", 10000),
+    PORTUGUES("Portugués", 10000),
+    ESPANOL("Español", 5000),
+    FRANCES("Francés", 15000),
+    ITALIANO("Italiano", 15000);
 
     private final String nombre;
     private final double precio;
-    private final int posicion;
 
-    Idiomas(String nombre, double precio, int posicion) {
+    Idiomas(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
-		this.posicion = posicion;
     }
     /**
      * Devuelve la lista de los nombres de todos los idiomas existentes
      * 
      * @return Un ArrayList<String> con los nombres 
      */
-    public static ArrayList<String> listaNombres(){
+    @Override
+    public ArrayList<String> listaNombres(){
 		 ArrayList<String> ListaTipos=new ArrayList<>();
 		 for(Idiomas idioma:Idiomas.values()) {ListaTipos.add(idioma.getNombre());}
 		 return ListaTipos;
 	 }
     /**
-     * Devuelve el idioma que esta en la posicion indicada
+     * Devuelve el objeto idioma con el nombre indicado
      * 
-     * @param posicion El numero de la posicion a buscar.
-     * @return el objeto idioma.
+     * @param nombre, un string del nombre a buscar
+     * @return El objeto encontrado, o null si no se encuentra.
      */
-	public static Idiomas buscarIdioma(int posicion) {
+    @Override
+	public Idiomas buscarNombre(String nombre) {
 		for(Idiomas idioma:Idiomas.values()) {
-			if(posicion==idioma.getPosicion()) {
+			if(nombre==idioma.getNombre()) {
 				return idioma;
 			}
 		}
@@ -50,7 +52,4 @@ public enum Idiomas {
         return precio;
     }
 
-	public int getPosicion() {
-		return posicion;
-	}
 }

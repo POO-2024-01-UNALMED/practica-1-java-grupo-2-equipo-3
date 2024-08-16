@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.interfaces.BusquedaNombres;
 
 import java.io.Serializable;
 
-public class Destino implements Serializable {
+public class Destino implements Serializable,BusquedaNombres {
     private ArrayList<Guia> guias;
     private ArrayList<Actividad> actividades;
     private String nombre;
@@ -96,21 +97,6 @@ public class Destino implements Serializable {
         Destino destino = lista.get(n);
         destino.guias.add(guia);
         guia.setDestino(destino);
-    }
-
-    /**
-     * Busca un destino por su nombre.
-     *
-     * @param nombre El nombre del destino a buscar.
-     * @return El destino encontrado, o null si no se encuentra.
-     */
-    public static Destino buscarDestino(String nombre) {
-        for (Destino destino : destinos) {
-            if (nombre.equals(destino.nombre)) {
-                return destino;
-            }
-        }
-        return null;
     }
 
     /**
@@ -297,11 +283,27 @@ public class Destino implements Serializable {
       * 
       * @return Un ArrayList<String> con los nombres 
       */
-     public static ArrayList<String> listaNombres(){
+     @Override
+     public ArrayList<String> listaNombres(){
 		 ArrayList<String> ListaDestinos=new ArrayList<>();
 		 for(Destino destino:destinos) {ListaDestinos.add(destino.getNombre());}
 		 return ListaDestinos;
 	 }
+     /**
+      * Busca un destino por su nombre.
+      *
+      * @param nombre El nombre del destino a buscar.
+      * @return El destino encontrado, o null si no se encuentra.
+      */
+     @Override
+     public Destino buscarNombre(String nombre) {
+         for (Destino destino : destinos) {
+             if (nombre.equals(destino.nombre)) {
+                 return destino;
+             }
+         }
+         return null;
+     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////

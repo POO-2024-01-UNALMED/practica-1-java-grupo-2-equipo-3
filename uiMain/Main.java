@@ -334,6 +334,27 @@ public class Main {
 		entrada.close();
         return numero;
 	}
+    public static Idiomas ingresarIdioma() {
+    	ArrayList<String> ListaIdiomas=Idiomas.values()[0].listaNombres();
+	
+    	int opcIdiomas = Integer.parseInt(ingresarOpcion("Elija el idioma: ", 0, ListaIdiomas));
+        Idiomas idioma = Idiomas.values()[0].buscarNombre(ListaIdiomas.get(opcIdiomas-1));
+        return idioma;
+    }
+    public static TiposActividad ingresarTipoActividad() {
+    	ArrayList<String> ListaTipos=TiposActividad.values()[0].listaNombres();
+
+    	int opcTipo = Integer.parseInt(ingresarOpcion("Elija el tipo de actividad: ", 0, ListaTipos));
+    	TiposActividad tipo = TiposActividad.values()[0].buscarNombre(ListaTipos.get(opcTipo-1));
+    	return tipo;
+    }
+    public static Destino ingresarDestino() {
+    	ArrayList<String> ListaDestinos=Destino.getDestinos().get(0).listaNombres();
+
+    	int opcDestinos = Integer.parseInt(ingresarOpcion("Elija el destino: ", 0, ListaDestinos));
+    	Destino destino = Destino.getDestinos().get(0).buscarNombre(ListaDestinos.get(opcDestinos-1));
+    	return destino;
+    }
     /**
      * Pregunta al usuario si desea cerrar el ciclo administrativo.
      * 
@@ -348,9 +369,9 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
 		//LISTAS DE NOMBRES DE LAS CONSTANTES 
-		ArrayList<String> ListaIdiomas=Idiomas.listaNombres();
-		ArrayList<String> ListaTipos=TiposActividad.listaNombres();
-		ArrayList<String> ListaDestinos=Destino.listaNombres();
+		ArrayList<String> ListaIdiomas=Idiomas.values()[0].listaNombres();
+		ArrayList<String> ListaTipos=TiposActividad.values()[0].listaNombres();
+		ArrayList<String> ListaDestinos=Destino.getDestinos().get(0).listaNombres();
 		
 		//INICIO FUNCIONALIDADES
 		ArrayList<String> menuPrincipal=new ArrayList<>(Arrays.asList(
@@ -476,14 +497,12 @@ public class Main {
 							            D_disponibilidadOpciones.remove("Buscar la información de una fecha en específico");
 							            break;
 							        case "2":
-							            String D_opcDestino = ingresarOpcion("Elija el destino", 0, ListaDestinos);
-							            D_destino = Destino.getDestinos().get(Integer.parseInt(D_opcDestino));
+							            D_destino = ingresarDestino();
 							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
 							            D_disponibilidadOpciones.remove("Buscar la información de un destino en específico");
 							            break;
 							        case "3":
-							            String D_indiceIdiomas = ingresarOpcion("Elija el idioma", 0, ListaIdiomas);
-							            D_idioma = Idiomas.buscarIdioma(Integer.parseInt(D_indiceIdiomas));
+							            D_idioma = ingresarIdioma();
 							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
 							            D_disponibilidadOpciones.remove("Buscar la información de un idioma en específico");
 							            break;
