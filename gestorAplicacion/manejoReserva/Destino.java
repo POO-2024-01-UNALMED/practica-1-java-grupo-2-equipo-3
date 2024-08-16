@@ -291,7 +291,21 @@ public class Destino implements Serializable {
         return destinosIdiomas;
     }
 
-     
+     /**
+      * Busca un destino por su nombre en la lista de destinos.
+      * 
+      * @param nombreDestino El nombre del destino a buscar.
+      * @return El objeto `Destino` que coincide con el nombre, o `null` si no se encuentra.
+      */
+     public static Destino buscarNombre(String nombreDestino) {
+         Destino destinoFinal = null;
+         for (Destino destino : destinos) {
+             if (destino.nombre.equals(nombreDestino)) {
+                 destinoFinal = destino;
+             }
+         }
+         return destinoFinal;
+     } 
 
     
 //////////////////////////////////////////////////////////////////////////////////////////////

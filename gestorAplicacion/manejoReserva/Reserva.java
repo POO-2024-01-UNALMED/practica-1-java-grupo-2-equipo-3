@@ -12,7 +12,8 @@ import gestorAplicacion.hospedaje.Hotel;
 public class Reserva {
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
     private ArrayList<Cliente> clientes;
-    private long codigo;
+    private int codigo;
+    private static int ultimoCodigo=0;
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
     private ArrayList<ArrayList<Integer>> fechas;
@@ -20,10 +21,18 @@ public class Reserva {
     private String tipoPlan;
     private boolean existeSuscripcion;
     private Plan plan;
+    
+    /**
+     * Constructor sin parametros de la clase Reserva.
+     * 
+     * Asigna un código único a la reserva actual incrementando la variable estática `ultimoCodigo`.
+     */
+    public Reserva() {
+		this.codigo = ++ultimoCodigo;
+	}
 
-
-    public Reserva(long codigo, Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
-        this.codigo = codigo;
+    public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
+    	this.codigo = ++ultimoCodigo;
         this.destino = destino;
         this.idiomas = idiomas;
         this.fechas = fechas;
@@ -36,7 +45,7 @@ public class Reserva {
     }
 
 
-    public static Reserva buscarReserva(long codigo) {  // por qué no me reconoce que le estoy regresando una reserva
+    public static Reserva buscarReserva(int codigo) {  // por qué no me reconoce que le estoy regresando una reserva
         for (int i = 0; i < reservasExistentes.size(); i++) {
             if (codigo == reservasExistentes.get(i).codigo) {
                 return reservasExistentes.get(i);
@@ -125,19 +134,23 @@ public class Reserva {
 
     /**
      * UNICA OPCION
-     * Verifica si un número está dentro de un rango específico.
+     * Verifica si un número es un entero y si está dentro de un rango específico
      *
-     * @param max El límite superior del rango.
+     * @param max El límite superior del rango.(si se ingresa 0 solo verifica si es positivo)
      * @param str La cadena que contiene el número a verificar.
      * @return true si el número está dentro del rango, false en caso contrario.
      */
     public static boolean verificarNumero(int max, String str) {
-        try {
-            int num = Integer.parseInt(str);
-            return num >= 1 && num <= max;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    	try {
+	        int num = Integer.parseInt(str);
+	        if (max == 0) {
+	        	if(num<0) {return false;}
+	            return true;
+	        }
+	        return num >= 1 && num <= max;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
     }
 
     /**

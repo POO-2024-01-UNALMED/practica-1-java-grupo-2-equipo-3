@@ -306,7 +306,28 @@ public class Main {
         entrada.close();
         return actividad;
     }
-
+    /**
+     *  Permite al usuario ingresar un número entero desde la consola.
+     * 
+     * @param pregunta Un mensaje que se mostrará al usuario para solicitar el número entero.
+     * @return El número entero ingresado por el usuario.
+     */
+    public static int ingresarEntero(String pregunta) {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println(pregunta);
+		int numero=0;
+		while(true) {
+			String numeroString=entrada.nextLine();
+			boolean vrfNumero=Reserva.verificarNumero(0,numeroString );
+			if(vrfNumero) {
+				numero=Integer.parseInt(numeroString);
+				break;
+			}
+			System.out.println("Se ingreso incorrectamente el dato, intentelo de nuevo y asegurese de ingresar un número entero");
+		}
+		entrada.close();
+        return numero;
+	}
     /**
      * Pregunta al usuario si desea cerrar el ciclo administrativo.
      * 
