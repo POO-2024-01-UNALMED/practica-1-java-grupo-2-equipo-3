@@ -418,7 +418,7 @@ public class Main {
 						ArrayList<String> D_menu = new ArrayList<>(Arrays.asList(
 							    "Ver la disponibilidad de todos los guías según la fecha",
 							    "Ver la disponibilidad de todos los guías según el destino",
-							    "Ver la disponibilidad de todos los guías según el destino",
+							    "Ver la disponibilidad de todos los guías según el idioma",
 							    "Ver el itinerario de un guía en específico"));
 
 							String D_opcBusqueda = ingresarOpcion("¿Qué desea buscar?", 0, D_menu);
