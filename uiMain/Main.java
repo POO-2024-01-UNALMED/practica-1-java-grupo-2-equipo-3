@@ -205,11 +205,13 @@ public class Main {
 
     /**
      * Permite al usuario ingresar una fecha.
+     * -Si se escogio la opcion de mes devuelve una lista de todos los dias del mes
+     * -Si se escogio la opcion de dia devulve una lista con un solo elemnto que es la fecha ingresada
      * 
      * @param opcionFecha   Tipo de fecha a ingresar (mes/año o día/mes/año).
-     * @return              La fecha ingresada por el usuario.
+     * @return              Una lista de fechas
      */
-    public static String ingresarFecha(String opcionFecha) {
+    public static ArrayList<ArrayList<Integer>> ingresarFecha(String opcionFecha) {
         Scanner entrada = new Scanner(System.in);
         if (opcionFecha.equals("1")) {
             System.out.println("Ingrese el mes: \nDigite el numero del mes y año, sin ceros adelante y separando cada numero por '/' (mes/año)");    
@@ -217,14 +219,18 @@ public class Main {
             System.out.println("Ingrese la fecha: \nDigite el numero del dia,mes y año, sin ceros adelante y separando cada numero por '/' (dia/mes/año)");
         }
         
-        String fecha = null;
+        ArrayList<ArrayList<Integer>> listaFechas=new ArrayList<>();
         while (true) {
-            fecha = entrada.nextLine();
-            if (!Reserva.verificarFecha(fecha)) break;
+        	String fecha = entrada.nextLine();
+            if (!Reserva.verificarFecha(fecha)) {
+            	listaFechas=Reserva.mostrarListaFechas(opcionFecha, fecha);
+            	break;
+            }
             System.out.println("Se ingreso incorrectamente la fecha, por favor lea bien las instrucciones e intentelo de nuevo");
         }
+        
         entrada.close();
-        return fecha;
+        return listaFechas;
     }
 
     /**
@@ -443,8 +449,7 @@ public class Main {
 							ArrayList<String> D_MesDia = new ArrayList<>(Arrays.asList("Mes", "Día"));
 							String D_opcFecha = ingresarOpcion("Desea buscar según:", 0, D_MesDia);
 
-							String D_fecha = ingresarFecha(D_opcFecha);
-							ArrayList<ArrayList<Integer>> D_listaFechas = Reserva.mostrarListaFechas(D_opcFecha, D_fecha);
+							ArrayList<ArrayList<Integer>> D_listaFechas =ingresarFecha(D_opcFecha);
 
 							ArrayList<String> D_filtro = new ArrayList<>(Arrays.asList(
 							    "Disponibilidad de todos los guías", "Solo los guías disponibles", "Solo los guías ocupados"));
@@ -502,14 +507,12 @@ public class Main {
 							        case "Buscar la información por día":
 							            D_disponibilidadOpciones.add("Buscar la información por mes");
 							            D_opcFecha = "2";
-							            D_fecha = ingresarFecha(D_opcFecha);
-							            D_listaFechas = Reserva.mostrarListaFechas(D_opcFecha, D_fecha);
+							            D_listaFechas =ingresarFecha(D_opcFecha);
 							            break;
 							        case "Buscar la información por mes":
 							            D_disponibilidadOpciones.add("Buscar la información por día");
 							            D_opcFecha = "1";
-							            D_fecha = ingresarFecha(D_opcFecha);
-							            D_listaFechas = Reserva.mostrarListaFechas(D_opcFecha, D_fecha);
+							            D_listaFechas =ingresarFecha(D_opcFecha);
 							            break;
 							        case "Buscar la información de un destino en específico":
 							            D_opcBusqueda = "2";

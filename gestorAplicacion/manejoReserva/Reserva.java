@@ -31,7 +31,7 @@ public class Reserva {
 		this.codigo = ++ultimoCodigo;
 	}
 
-    public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, String clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
+    public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
     	this.codigo = ++ultimoCodigo;
         this.destino = destino;
         this.idiomas = idiomas;
@@ -272,7 +272,7 @@ public class Reserva {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
