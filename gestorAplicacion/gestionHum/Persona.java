@@ -7,7 +7,7 @@ import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 
-public class Persona implements Serializable {
+public abstract class Persona implements Serializable {
     private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
 
     private int edad;
@@ -28,10 +28,13 @@ public class Persona implements Serializable {
         this.edad = edad;
     }
 
-    // Constructor por defecto
+    // Constructor sin parámetros
     public Persona() {
         this.idiomas = new ArrayList<>();
     }
+
+    @Override
+    abstract public String toString();
 
     /**
      * Ingresa los idiomas que domina la persona a partir de una cadena.
