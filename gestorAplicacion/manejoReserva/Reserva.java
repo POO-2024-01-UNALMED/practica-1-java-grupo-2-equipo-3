@@ -11,6 +11,7 @@ import gestorAplicacion.hospedaje.Hotel;
 
 public class Reserva {
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
+    private ArrayList<Cliente> clientes;
     private long codigo;
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
@@ -30,6 +31,8 @@ public class Reserva {
         this.tipoPlan = tipoPlan;
         this.existeSuscripcion = existeSuscripcion;
         this.plan = plan;
+        this.clientes = new ArrayList<Cliente>();
+        reservasExistentes.add(this);
     }
 
 
@@ -44,8 +47,7 @@ public class Reserva {
 
     public void añadirCliente(String nombre, int edad) {
         Cliente cliente = new Cliente(nombre, edad);
-
-
+        clientes.add(cliente);
     }
 
     /**
@@ -315,6 +317,14 @@ public class Reserva {
 
     public void setPlan(Plan plan) {
         this.plan = plan;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
     }
 
 }
