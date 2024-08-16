@@ -32,6 +32,20 @@ public enum TiposActividad {
 		 for(TiposActividad tipos:TiposActividad.values()) {ListaTipos.add(tipos.getNombre());}
 		 return ListaTipos;
 	 }
+    /**
+     * Devuelve el tipo que esta en la posicion indicada
+     * 
+     * @param posicion El numero de la posicion a buscar.
+     * @return el objeto TiposActividad.
+     */
+    public static TiposActividad buscarTipo(int posicion) {
+		for(TiposActividad tipo:TiposActividad.values()) {
+			if(posicion==tipo.getPosicion()) {
+				return tipo;
+			}
+		}
+		return null;
+	}
     public String getNombre() {
         return nombre;
     }
