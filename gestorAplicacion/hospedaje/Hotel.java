@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.io.*;
 
+import gestorAplicacion.actividades.Plan;
+import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.manejoReserva.Destino;
@@ -15,11 +17,13 @@ import gestorAplicacion.gestionHum.Cliente;
 import uiMain.Main;
 
 public class Hotel implements  Serializable{
+    private static final long serialVersionUID = 1L;
+    private boolean permiteSuscripcion;
     private String nombre;
     private Destino destino;
     private int numeroHabitaciones;
     private double precio;                              //[tipo,disponibles,capacidad]    
-    private ArrayList<ArrayList<Object>> diponibilidadHabitaciones; //[[doble,10,4],[sencilla,20,2],[Suite,30,8]]
+    private ArrayList<ArrayList<Object>> diponibilidadHabitaciones; //[[20,8,2024] = [doble,10,4],[sencilla,20,2],[Suite,30,8]]
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
     private ArrayList<ArrayList<Grupo>> grupos;
@@ -51,7 +55,7 @@ public class Hotel implements  Serializable{
         ArrayList<Hotel> hotelesEnDestino = new ArrayList<Hotel>();
 
         for (Hotel hotel : hoteles) {
-            if (hotel.getDestino().equals(reserva.getDestino())) {
+            if (hotel.getDestino().getNombre().toUpperCase().equals(reserva.getDestino().getNombre().toUpperCase())) {
                 hotelesEnDestino.add(hotel);
             }
         }
@@ -115,29 +119,102 @@ public class Hotel implements  Serializable{
 
 
 
+    
+    public static boolean hoteleConSuscripcion(Hotel hotel, Reserva reserva){
+        ArrayList<Hotel> hotelesConSuscripcion = new ArrayList<Hotel>();
+
+        
+        if (reserva.getExisteSuscripcion()) {
+            if (hotel.permiteSuscripcion) {
+                hotelesConSuscripcion.add(hotel);
+                return true;
+                }            
+            }
+        
+        
+        return false;
+
+    }
+
     public static void asignarHabitacion(Reserva reserva, ArrayList<Hotel> listaHoteles){
 
         ArrayList<Hotel> hotelesEnDestino =  hotelesEnDestino(reserva, listaHoteles);
         ArrayList<Hotel> hotelesDisponibles = verificarDisponibilidadHotel(reserva, hotelesEnDestino);
 
-        ArrayList<>
+        if (hotelesDisponibles.size() == 0) {
+            System.out.println("No hay hoteles disponibles para la reserva seleccionada.");
+            return;
+        }
 
-        Main.ingresarOpcion("Seleccion el hotel en el que se desea alojar ", 1, null);
+        ArrayList<String> hotelesADesplegar = new ArrayList<>();
+
         
         
-            
+
+        
+
+        for (Hotel hotel : hotelesDisponibles) {
+    hotelesADesplegar.add(
+        hotel.getNombre() + 
+        "\nHabitaciones para fechas: " + hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0)) + 
+        "\nCuenta con suscripción: " + (Hotel.hoteleConSuscripcion(hotel,reserva) ? "Sí" : "No")
+    );
+}
+
+
+
+        Main.ingresarOpcion("Seleccione el hotel en el cual se desea hospedar", 0, hotelesADesplegar);
+        
 
 
 
 
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////// main ////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
 
     public static void main(String[] args) {
 
 
-   
-        asignarHabitacion(null, null);
+        // ejemplos de Destinos
+        Destino destino1 = new Destino("Medellin");
+        Destino destino2 = new Destino("Cartagena");
+
+        // fechas de ejemplo
+        ArrayList<ArrayList<Integer>> fechas1 = new ArrayList<>(Arrays.asList(
+            new ArrayList<>(Arrays.asList(18, 8, 2024)),
+            new ArrayList<>(Arrays.asList(19, 8, 2024))
+        ));
+        
+
+        //reservas
+        Reserva reserva1 = new Reserva(
+            1001, // código
+            destino1, // destino
+            new ArrayList<>(Arrays.asList(Idiomas.ESPANOL, Idiomas.INGLES)), // idiomas
+            fechas1, // fechas
+            5, // clasificación
+            "Todo Incluido", // tipoPlan
+            true,null // existeSuscripcion
+             // plan
+        );
+
+        // Añadir clientes a la reserva
+        reserva1.añadirCliente("Juan Pérez", 30);
+        reserva1.añadirCliente("Ana Gómez", 25);
+
+        ArrayList<Hotel> listaHoteles = cargarHoteles();
+
+        ArrayList<Hotel> hotelesEnDestino = hotelesEnDestino(reserva1, listaHoteles);
+        
+        
+
+        asignarHabitacion(reserva1, listaHoteles);
+
+        
+
 
     }
 
@@ -197,6 +274,14 @@ public class Hotel implements  Serializable{
 
     public void setGrupos(ArrayList<ArrayList<Grupo>> grupos) {
         this.grupos = grupos;
+    }
+
+    public void getPermiteSuscripcion(boolean permiteSuscripcion) {
+        this.permiteSuscripcion = permiteSuscripcion;
+    }
+
+    public void setPermiteSuscripcion(boolean permiteSuscripcion) {
+        this.permiteSuscripcion = permiteSuscripcion;
     }
 
     
