@@ -1,5 +1,9 @@
 package gestorAplicacion.enums;
 
+import java.util.ArrayList;
+
+import clases.TiposActividad;
+
 public enum TiposActividad {
 	CULTURALES("Cultural", "Baja",1),
     FAMILIARES("Familiar","Baja",2),
@@ -17,7 +21,17 @@ public enum TiposActividad {
         this.dificultad = dificultad;
 		this.posicion = posicion;
     }
-
+    
+    /**
+     * Devuelve la lista de los nombres de todos los tipos existentes
+     * 
+     * @return Un ArrayList<String> con los nombres 
+     */
+    public static ArrayList<String> listaNombres(){
+		 ArrayList<String> ListaTipos=new ArrayList<>();
+		 for(TiposActividad tipos:TiposActividad.values()) {ListaTipos.add(tipos.getNombre());}
+		 return ListaTipos;
+	 }
     public String getNombre() {
         return nombre;
     }

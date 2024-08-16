@@ -1,5 +1,7 @@
 package gestorAplicacion.enums;
 
+import java.util.ArrayList;
+
 public enum Idiomas {
 	INGLES("Inglés", 10000,1),
     PORTUGUES("Portugués", 10000,2),
@@ -16,8 +18,31 @@ public enum Idiomas {
         this.precio = precio;
 		this.posicion = posicion;
     }
-    
-    public String getNombre() {
+    /**
+     * Devuelve la lista de los nombres de todos los idiomas existentes
+     * 
+     * @return Un ArrayList<String> con los nombres 
+     */
+    public static ArrayList<String> listaNombres(){
+		 ArrayList<String> ListaTipos=new ArrayList<>();
+		 for(Idiomas idioma:Idiomas.values()) {ListaTipos.add(idioma.getNombre());}
+		 return ListaTipos;
+	 }
+    /**
+     * Devuelve el idioma que esta en la posicion indicada
+     * 
+     * @param posicion El numero de la posicion a buscar.
+     * @return el objeto idioma.
+     */
+	public static Idiomas buscarIdioma(int posicion) {
+		for(Idiomas idioma:Idiomas.values()) {
+			if(posicion==idioma.getPosicion()) {
+				return idioma;
+			}
+		}
+		return null;
+	}
+	public String getNombre() {
         return nombre;
     }
 
@@ -27,13 +52,5 @@ public enum Idiomas {
 
 	public int getPosicion() {
 		return posicion;
-	}
-	public static Idiomas buscarIdioma(int posicion) {
-		for(Idiomas idioma:Idiomas.values()) {
-			if(posicion==idioma.getPosicion()) {
-				return idioma;
-			}
-		}
-		return null;
 	}
 }

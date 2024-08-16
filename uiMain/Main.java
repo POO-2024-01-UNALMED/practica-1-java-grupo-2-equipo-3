@@ -342,13 +342,9 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
 		//LISTAS DE NOMBRES DE LAS CONSTANTES 
-		ArrayList<String> ListaIdiomas=new ArrayList<>();
-		ArrayList<String> ListaTipos=new ArrayList<>();
-		ArrayList<String> ListaDestinos=new ArrayList<>();
-		
-		for(Idiomas idioma:Idiomas.values()) {ListaIdiomas.add(idioma.getNombre());}
-		for(TiposActividad tipos:TiposActividad.values()) {ListaTipos.add(tipos.getNombre());}
-		for(Destino destino:Destino.getDestinos()) {ListaDestinos.add(destino.getNombre());}
+		ArrayList<String> ListaIdiomas=Idiomas.listaNombres();
+		ArrayList<String> ListaTipos=TiposActividad.listaNombres();
+		ArrayList<String> ListaDestinos=Destino.listaNombres();
 		
 		//INICIO FUNCIONALIDADES
 		ArrayList<String> menuPrincipal=new ArrayList<>(Arrays.asList(

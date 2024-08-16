@@ -306,7 +306,16 @@ public class Destino implements Serializable {
          }
          return destinoFinal;
      } 
-
+     /**
+      * Devuelve la lista de los nombres de todos los destinos existentes
+      * 
+      * @return Un ArrayList<String> con los nombres 
+      */
+     public static ArrayList<String> listaNombres(){
+		 ArrayList<String> ListaDestinos=new ArrayList<>();
+		 for(Destino destino:destinos) {ListaDestinos.add(destino.getNombre());}
+		 return ListaDestinos;
+	 }
     
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
