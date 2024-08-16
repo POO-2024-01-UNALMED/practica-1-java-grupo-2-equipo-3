@@ -6,3 +6,6 @@ build/
 .settings
 .idea/
 *__pycache__*
+/Plan_prueba.class
+/Prueba.class
+/serializacion.class

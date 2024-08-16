@@ -26,7 +26,7 @@ public class Main {
      * @param destino       El destino para buscar guías.
      * @param idioma        El idioma para buscar guías.
      */
-    public static void imprimirTabla(ArrayList<ArrayList<Integer>> listaFechas, String opcFiltro, String opcBusqueda, String opcFecha, Guia guia, Destino destino, Idiomas idioma) {
+    public static void imprimirTablaDisponibilidadGuias(ArrayList<ArrayList<Integer>> listaFechas, String opcFiltro, String opcBusqueda, String opcFecha, Guia guia, Destino destino, Idiomas idioma) {
 		String D_lineaTabla="|---------------------------------------------------------------------------------------------------------|";
 		String D_lineaTablaI=" --------------------------------------------------------------------------------------------------------- ";
 		ArrayList<Object> primerTabla = Guia.mostrarDisponibilidadGuias(listaFechas.get(0),destino,idioma);
@@ -450,24 +450,24 @@ public class Main {
 							while (D_romperCiclo) {
 							    switch (D_opcBusqueda) {
 							        case "1":
-							            imprimirTabla(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
 							            D_disponibilidadOpciones.remove("Buscar la información de una fecha en específico");
 							            break;
 							        case "2":
 							            String D_opcDestino = ingresarOpcion("Elija el destino", 0, ListaDestinos);
 							            D_destino = Destino.getDestinos().get(Integer.parseInt(D_opcDestino));
-							            imprimirTabla(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
 							            D_disponibilidadOpciones.remove("Buscar la información de un destino en específico");
 							            break;
 							        case "3":
 							            String D_indiceIdiomas = ingresarOpcion("Elija el idioma", 0, ListaIdiomas);
 							            D_idioma = Idiomas.buscarIdioma(Integer.parseInt(D_indiceIdiomas));
-							            imprimirTabla(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
 							            D_disponibilidadOpciones.remove("Buscar la información de un idioma en específico");
 							            break;
 							        case "4":
 							            D_guia = ingresarGuia();
-							            imprimirTabla(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
 							            D_disponibilidadOpciones.remove("Ver el itinerario de un guía en específico");
 							            break;
 							    }
