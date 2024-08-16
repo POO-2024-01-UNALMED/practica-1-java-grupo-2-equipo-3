@@ -62,20 +62,29 @@ public class Suscripcion {
 
 
 
+
+
+
     public boolean verificarFechaSuscripcion(ArrayList<Integer> fechaVencicmiento){
 
-        if (fechaVencicmiento.get(0) < fechaActual.get(0)) {
+        //Metodo que toma una fecha de vencimiento y verifica si esta fecha es valida y vigente
+        
+
+        //Formato Fecha [dia, mes, año]
+
+        if (fechaVencicmiento.get(2) < fechaActual.get(2)) {
             return false;
         }
         else if (fechaVencicmiento.get(1) < fechaActual.get(1)) {
             return false;
         }
-        else if (fechaVencicmiento.get(2) < fechaActual.get(2)) {
+        else if (fechaVencicmiento.get(0) < fechaActual.get(0)) {
             return false;
         }
         else{
             return true;
         }
+
     }
 
 

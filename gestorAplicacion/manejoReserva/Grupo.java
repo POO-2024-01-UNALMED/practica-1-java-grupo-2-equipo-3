@@ -19,6 +19,9 @@ public class Grupo {
     private int capacidad;
     private int clasificacion;
 
+    private String tipoHabitacion;
+    private ArrayList<ArrayList<Integer>> fechaOcupadas;
+
     public Grupo(ArrayList<Integer> fecha, Guia guia, Actividad actividad, Idiomas idioma,
                  ArrayList<ArrayList<Cliente>> listaReservas) {
         super();
