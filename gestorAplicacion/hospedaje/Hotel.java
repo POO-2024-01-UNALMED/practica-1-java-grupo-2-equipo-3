@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.io.*;
+import java.util.NoSuchElementException;
 
 import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
@@ -136,40 +137,78 @@ public class Hotel implements  Serializable{
 
     }
 
-    public static void asignarHabitacion(Reserva reserva, ArrayList<Hotel> listaHoteles){
+    public static Hotel asignarHotel(Reserva reserva, ArrayList<Hotel> listaHoteles){
 
         ArrayList<Hotel> hotelesEnDestino =  hotelesEnDestino(reserva, listaHoteles);
         ArrayList<Hotel> hotelesDisponibles = verificarDisponibilidadHotel(reserva, hotelesEnDestino);
 
         if (hotelesDisponibles.size() == 0) {
             System.out.println("No hay hoteles disponibles para la reserva seleccionada.");
-            return;
+            return null;
         }
 
         ArrayList<String> hotelesADesplegar = new ArrayList<>();
 
         
-        
 
-        
-
+        // Agrega los hoteles disponibles y su informacion para que el Cliente Decida
         for (Hotel hotel : hotelesDisponibles) {
     hotelesADesplegar.add(
         hotel.getNombre() + 
-        "\nHabitaciones para fechas: " + hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0)) + 
-        "\nCuenta con suscripción: " + (Hotel.hoteleConSuscripcion(hotel,reserva) ? "Sí" : "No")
-    );
-}
+        "\n Habitaciones para fechas: " + hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0)) + 
+        "\n Precio Base: " + hotel.getPrecio() +
+        "\n Cuenta con posibilidad de descuento: " + (Hotel.hoteleConSuscripcion(hotel,reserva) ? "Sí" : "No")
+        );
 
+        }
 
-
-        Main.ingresarOpcion("Seleccione el hotel en el cual se desea hospedar", 0, hotelesADesplegar);
-        
+        String indiceHotelEscogido = Main.ingresarOpcion("Seleccione el hotel en el cual se desea hospedar", 0, hotelesADesplegar);
+        int indiceHotelEscogidoInt = Integer.parseInt(indiceHotelEscogido) - 1;
+        System.out.println("Hotel escogido: " + hotelesDisponibles.get(indiceHotelEscogidoInt).getNombre());
+        return hotelesDisponibles.get(indiceHotelEscogidoInt);
 
 
 
 
     }
+
+    public static Integer numeroDeAdultosReserva(Reserva reserva) {
+        int adultos = 0;
+        for (Cliente cliente : reserva.getClientes()) {
+            if (cliente.getEdad() >= 18) {
+                adultos++;
+            }
+        }
+        return adultos;
+    }
+
+    public static void asignarHabitacion(Reserva reserva, Hotel hotel) {
+        ArrayList<String> listaString = new ArrayList<String>();
+        // lista de habitaciones disponibles
+        for (ArrayList<Object> habitacion : hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0))) {
+            listaString.add(habitacion.get(0) + " - Disponibles: " + habitacion.get(1) + " - Capacidad: " + habitacion.get(2));
+        }
+
+        Integer totalHabitaciones = 0;
+
+        while (totalHabitaciones < numeroDeAdultosReserva(reserva)) {
+            String habitacionesEscogidas = Main.ingresarOpcion("Porfavor seleccione las habitaciones que desea de cada tipo, de la siguiente forma [Num sencilla, Num Doble, Num suites] \nTenga presente que no pude asiganr un numero Total de habitaciones mayor al numero de adultos en su reserva, " + "numero de adultos: " + 
+            numeroDeAdultosReserva(reserva), 1, listaString);
+        
+            String[] habitacionesEscogidasArray = habitacionesEscogidas.split(" ");
+            //[Numero de sencillas, Numero de dobles, Numero de suites]
+            totalHabitaciones = Integer.parseInt(habitacionesEscogidasArray[0]) + Integer.parseInt(habitacionesEscogidasArray[1]) + Integer.parseInt(habitacionesEscogidasArray[2]);
+            if(totalHabitaciones > numeroDeAdultosReserva(reserva)){
+                System.out.println("El numero total de habitaciones no puede ser mayor al numero de adultos en la reserva");
+            }
+            
+        }
+
+
+    
+    }
+    
+        
 
     //////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////// main ////////////////////////////////////////
@@ -191,27 +230,29 @@ public class Hotel implements  Serializable{
 
         //reservas
         Reserva reserva1 = new Reserva(
-            1001, // código
             destino1, // destino
             new ArrayList<>(Arrays.asList(Idiomas.ESPANOL, Idiomas.INGLES)), // idiomas
             fechas1, // fechas
-            5, // clasificación
+            "5", // clasificación (ahora int)
             "Todo Incluido", // tipoPlan
-            true,null // existeSuscripcion
-             // plan
+            true, // existeSuscripcion
+            null // plan
         );
+
 
         // Añadir clientes a la reserva
         reserva1.añadirCliente("Juan Pérez", 30);
         reserva1.añadirCliente("Ana Gómez", 25);
 
         ArrayList<Hotel> listaHoteles = cargarHoteles();
-
-        ArrayList<Hotel> hotelesEnDestino = hotelesEnDestino(reserva1, listaHoteles);
-        
         
 
-        asignarHabitacion(reserva1, listaHoteles);
+        Hotel hotelSeleccionado = asignarHotel(reserva1, listaHoteles);
+
+        asignarHabitacion(reserva1, hotelSeleccionado);
+
+
+        
 
         
 
