@@ -20,7 +20,7 @@ public class Serializacion {
         // Crear destinos
         Destino cartagena = new Destino("Cartagena");
         Destino bogota = new Destino("Bogotá");
-        Destino medellin = new Destino("Medellín");
+        Destino medellin = new Destino("Medellin");
 
         // Crear actividades
         Actividad actividad1 = new Actividad("Tour por la ciudad", TiposActividad.CULTURALES);
