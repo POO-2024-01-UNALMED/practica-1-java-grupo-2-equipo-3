@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 
 import gestorAplicacion.actividades.Plan;
@@ -172,9 +173,9 @@ public class Hotel implements  Serializable{
 
     }
 
-    public static Integer numeroDeAdultosReserva(Reserva reserva) {
+    public static Integer numeroDeAdultos(ArrayList<Cliente> clientes) {
         int adultos = 0;
-        for (Cliente cliente : reserva.getClientes()) {
+        for (Cliente cliente : clientes) {
             if (cliente.getEdad() >= 18) {
                 adultos++;
             }
@@ -190,17 +191,43 @@ public class Hotel implements  Serializable{
         }
 
         Integer totalHabitaciones = 0;
+        String[] habitacionesEscogidasArray = new String[3];
 
-        while (totalHabitaciones < numeroDeAdultosReserva(reserva)) {
+        while (totalHabitaciones < numeroDeAdultos(reserva.getClientes()) && totalHabitaciones != 0) {
             String habitacionesEscogidas = Main.ingresarOpcion("Porfavor seleccione las habitaciones que desea de cada tipo, de la siguiente forma [Num sencilla, Num Doble, Num suites] \nTenga presente que no pude asiganr un numero Total de habitaciones mayor al numero de adultos en su reserva, " + "numero de adultos: " + 
-            numeroDeAdultosReserva(reserva), 1, listaString);
+            numeroDeAdultos(reserva.getClientes()), 1, listaString);
         
-            String[] habitacionesEscogidasArray = habitacionesEscogidas.split(" ");
-            //[Numero de sencillas, Numero de dobles, Numero de suites]
-            totalHabitaciones = Integer.parseInt(habitacionesEscogidasArray[0]) + Integer.parseInt(habitacionesEscogidasArray[1]) + Integer.parseInt(habitacionesEscogidasArray[2]);
-            if(totalHabitaciones > numeroDeAdultosReserva(reserva)){
-                System.out.println("El numero total de habitaciones no puede ser mayor al numero de adultos en la reserva");
+            habitacionesEscogidasArray = habitacionesEscogidas.split(" ");
+        //[Número de sencillas, Número de dobles, Número de suites]
+        totalHabitaciones = Integer.parseInt(habitacionesEscogidasArray[0]) + Integer.parseInt(habitacionesEscogidasArray[1]) + Integer.parseInt(habitacionesEscogidasArray[2]);
+        if(totalHabitaciones > numeroDeAdultos(reserva.getClientes())){
+            System.out.println("El número total de habitaciones no puede ser mayor al número de adultos en la reserva");
+        }
+    }
+
+        ArrayList<Integer> capacidadHabitaciones = new ArrayList<>();
+
+        capacidadHabitaciones.add(Integer.parseInt(habitacionesEscogidasArray[0])*2);
+        capacidadHabitaciones.add(Integer.parseInt(habitacionesEscogidasArray[1])*4);
+        capacidadHabitaciones.add(Integer.parseInt(habitacionesEscogidasArray[2])*8);
+
+        
+        for (Cliente cliente: reserva.getClientes()) {
+            ArrayList<Cliente> clientesRestantes = reserva.getClientes();
+
+
+            while (numeroDeAdultos(clientesRestantes) > 0 && clientesRestantes.size() > 0) {
+                String entrada = Main.ingresarOpcion("Seleccione en que habitacion desea alojar a " + cliente.getNombre(), 0, listaString);
+                int indiceHabitacion = Integer.parseInt(entrada);
+                if (capacidadHabitaciones.get(indiceHabitacion) > 0) {
+                    capacidadHabitaciones.set(indiceHabitacion, capacidadHabitaciones.get(indiceHabitacion) - 1);
+                    clientesRestantes.remove(cliente);
+                } else {
+                    System.out.println("No hay capacidad en la habitación seleccionada.");
+                }
+                
             }
+            Main.ingresarOpcion("Seleccione en que habitaicion desea alojar ", 0, listaString);
             
         }
 
@@ -233,7 +260,7 @@ public class Hotel implements  Serializable{
             destino1, // destino
             new ArrayList<>(Arrays.asList(Idiomas.ESPANOL, Idiomas.INGLES)), // idiomas
             fechas1, // fechas
-            "5", // clasificación (ahora int)
+            5, // clasificación (ahora int)
             "Todo Incluido", // tipoPlan
             true, // existeSuscripcion
             null // plan
