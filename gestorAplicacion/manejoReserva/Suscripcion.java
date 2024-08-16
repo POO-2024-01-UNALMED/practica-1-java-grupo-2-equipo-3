@@ -37,7 +37,7 @@ public class Suscripcion {
     public Cliente verificarSuscripcion(String nombre, int edad) {
         for (int i = 0; i < listaClientes.size(); i++) {
             if (listaClientes.get(i).getNombre().equals(nombre)) {
-                if (listaClientes.get(i).getSuscripcion.getVencimiento().verificarFechaSuscripcion) { //verifica el vencimiento de la suscripcion
+                if (listaClientes.get(i).getSuscripcion().getVencimiento().verificarFechaSuscripcion()) { //verifica el vencimiento de la suscripcion
                     listaClientes.get(i).setEdad(edad);
                     return listaClientes.get(i);
                     

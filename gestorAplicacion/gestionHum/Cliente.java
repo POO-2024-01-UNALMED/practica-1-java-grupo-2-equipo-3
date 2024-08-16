@@ -13,6 +13,9 @@ import gestorAplicacion.manejoReserva.Destino;
 
 
 public class Cliente extends Persona {
+    private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
+
+    private ArrayList<Restaurante> restaurantes;
 	private ArrayList<Grupo> grupos;
 	private Suscripcion suscripcion;
 	private Hotel hotel;
