@@ -17,7 +17,7 @@ public class Reserva {
     private Destino destino;
     private ArrayList<Idiomas> idiomas;
     private ArrayList<ArrayList<Integer>> fechas;
-    private int clasificacion;
+    private String clasificacion;
     private String tipoPlan;
     private boolean existeSuscripcion;
     private Plan plan;
@@ -31,7 +31,7 @@ public class Reserva {
 		this.codigo = ++ultimoCodigo;
 	}
 
-    public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
+    public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, String clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
     	this.codigo = ++ultimoCodigo;
         this.destino = destino;
         this.idiomas = idiomas;
@@ -300,11 +300,11 @@ public class Reserva {
         this.fechas = fechas;
     }
 
-    public int getClasificacion() {
+    public String getClasificacion() {
         return clasificacion;
     }
 
-    public void setClasificacion(int clasificacion) {
+    public void setClasificacion(String clasificacion) {
         this.clasificacion = clasificacion;
     }
 

@@ -14,7 +14,7 @@ public class Actividad implements Registrable, Serializable {
     private ArrayList<TiposActividad> tipo;
     private ArrayList<Guia> guias;
     private int capacidad;
-    private int clasificacion;
+    private String clasificacion;
     private double precio;
 
     /**
@@ -144,11 +144,11 @@ public class Actividad implements Registrable, Serializable {
 
         //Asigna una clasificacion segun la dificultad      *Hablar con laura para poner 4 clasificaciones
         if (clasificacion <= 15) {
-            this.clasificacion = 18;
+            this.clasificacion = "Mayores de 18";
         } else if (clasificacion < 30) {
-            this.clasificacion = 15;
+            this.clasificacion = "Entre 7 y 15";
         } else {
-            this.clasificacion = 7;
+            this.clasificacion = "Menores de 7";
         }
         
         //Asigna un precio segun la dificultad y la capacidad
@@ -282,11 +282,11 @@ public class Actividad implements Registrable, Serializable {
 		this.capacidad = capacidad;
 	}
 
-	public int getClasificacion() {
+	public String getClasificacion() {
 		return clasificacion;
 	}
 
-	public void setClasificacion(int clasificacion) {
+	public void setClasificacion(String clasificacion) {
 		this.clasificacion = clasificacion;
 	}
 

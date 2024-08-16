@@ -18,7 +18,7 @@ public class Grupo implements Serializable {
     private Idiomas idioma;
     private ArrayList<ArrayList<Cliente>> listaReservas;
     private int capacidad;
-    private int clasificacion;
+    private String clasificacion;
 
     private String tipoHabitacion;
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
@@ -337,11 +337,11 @@ public class Grupo implements Serializable {
 		this.capacidad = capacidad;
 	}
 	
-	public int getClasificacion() {
+	public String getClasificacion() {
 		return clasificacion;
 	}
 	
-	public void setClasificacion(int clasificacion) {
+	public void setClasificacion(String clasificacion) {
 		this.clasificacion = clasificacion;
 	}
 
