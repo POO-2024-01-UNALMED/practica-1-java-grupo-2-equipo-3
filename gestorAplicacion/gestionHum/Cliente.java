@@ -37,7 +37,10 @@ public class Cliente extends Persona {
         super(nombre, edad);
     }
 
-
+    //porfis dejenlo asi lo necesito para mi funcionalidad:(
+    public Cliente() {
+    	
+    }
 
     public void cancelarActividad(Actividad actividad, ArrayList<Integer> fecha) {
         //NO SE QUE HACEEEER

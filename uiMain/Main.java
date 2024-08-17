@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
+import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
@@ -413,8 +414,15 @@ public class Main {
 						}
 					break;
 					}
+					
+					int cantidadPersonas=ingresarEntero("Ingrese la cantidad de personas: ");
+					Cliente clienteFicticio=new Cliente();
+					//PLANEAR PLAN TURISTICO
+					
+					//PLANEAR HOTEL
+					
+					
 				}//Fin ciclo plan
-				
 			break;
 			
 			case"4"://FUNCIONALIDAD: Modificar reserva

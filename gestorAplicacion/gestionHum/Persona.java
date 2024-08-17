@@ -29,8 +29,8 @@ public abstract class Persona implements Serializable {
     }
 
     // Constructor sin parámetros
+    ////porfis dejenlo asi lo necesito para mi funcionalidad:(
     public Persona() {
-        this.idiomas = new ArrayList<>();
     }
 
     @Override
