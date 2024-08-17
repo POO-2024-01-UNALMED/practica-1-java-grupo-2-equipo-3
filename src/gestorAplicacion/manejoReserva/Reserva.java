@@ -2,6 +2,7 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.Serializable;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.actividades.Plan;
@@ -9,7 +10,7 @@ import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.hospedaje.Hotel;
 
 
-public class Reserva {
+public class Reserva implements Serializable {
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
     private ArrayList<Cliente> clientes;
     private int codigo;
@@ -25,11 +26,20 @@ public class Reserva {
     /**
      * Constructor sin parametros de la clase Reserva.
      * 
-     * Asigna un código único a la reserva actual incrementando la variable estática `ultimoCodigo`.
+     * Asigna un código único a la reserva actual incrementando la variable estática `ultimoCodigo`, y añade la reserva a la lista de reservas existentes.
      */
     public Reserva() {
 		this.codigo = ++ultimoCodigo;
+        this.clientes = new ArrayList<Cliente>();
+        reservasExistentes.add(this);
 	}
+
+    public Reserva(Cliente titular) {
+        this.codigo = ++ultimoCodigo;
+        this.clientes = new ArrayList<Cliente>();
+        this.clientes.add(titular);
+        reservasExistentes.add(this);
+    }
 
     public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
     	this.codigo = ++ultimoCodigo;
@@ -44,8 +54,13 @@ public class Reserva {
         reservasExistentes.add(this);
     }
 
-
-    public static Reserva buscarReserva(int codigo) {  // por qué no me reconoce que le estoy regresando una reserva
+    /**
+     * Busca una reserva en la lista de reservas existentes a partir de su código.
+     *
+     * @param codigo El código de la reserva a buscar.
+     * @return La reserva con el código especificado, o null si no se encuentra.
+     */
+    public static Reserva buscarReserva(int codigo) { 
         for (int i = 0; i < reservasExistentes.size(); i++) {
             if (codigo == reservasExistentes.get(i).codigo) {
                 return reservasExistentes.get(i);
@@ -54,16 +69,12 @@ public class Reserva {
         return null;
     }
 
-    public void añadirCliente(String nombre, int edad) {
-        Cliente cliente = new Cliente(nombre, edad);
-        clientes.add(cliente);
-    }
 
     /**
      * Muestra una lista de días consecutivos a partir de una fecha dada.
      *
      * @param cantidadDias La cantidad de días a mostrar.
-     * @param fecha        La fecha de inicio en formato [día, mes, año].
+     * @param fechaInicio        La fecha de inicio en formato [día, mes, año].
      * @return Una lista de listas que representan las fechas en formato [día, mes, año].
      */
     public static ArrayList<ArrayList<Integer>> mostrarDias(int cantidadDias, ArrayList<Integer> fechaInicio) {
@@ -298,6 +309,20 @@ public class Reserva {
     	}
     	return false;
     }
+
+    /////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
+
+    /**
+     * Añade un cliente a la lista de clientes de la reserva.
+     *
+     * @param nombre El nombre del cliente.
+     * @param edad   La edad del cliente.
+     */
+    public void añadirCliente(String nombre, int edad) {
+        Cliente cliente = new Cliente(nombre, edad);
+        clientes.add(cliente);
+    }
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

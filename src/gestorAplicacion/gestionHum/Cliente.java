@@ -6,7 +6,6 @@ import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.hospedaje.Restaurante;
 import gestorAplicacion.manejoReserva.Suscripcion;
-import gestorAplicacion.gestionHum.Persona;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Destino;
 
@@ -27,8 +26,6 @@ public class Cliente extends Persona {
 		// TODO Auto-generated method stub
 		return null;
 	}
-    
-
 
     public Cliente(String nombre, Destino destino, int edad) {
         super(nombre, destino, edad);

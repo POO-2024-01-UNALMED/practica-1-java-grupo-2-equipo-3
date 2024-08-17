@@ -1,12 +1,14 @@
 package gestorAplicacion.manejoReserva;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;
+import java.io.Serializable;
 import gestorAplicacion.gestionHum.Cliente;
 
-public class Suscripcion {
+public class Suscripcion implements Serializable {
+    private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
     private static ArrayList<Cliente> listaClientes = new ArrayList<>();
     private String tipo;
-    private ArrayList<Integer> vencimiento;       //Otra instancia de una fecha
+    private ArrayList<Integer> fechaVencimiento;       //Otra instancia de una fecha
     private int capacidad;
     private double precio;
     private float descTransporte;
@@ -14,10 +16,10 @@ public class Suscripcion {
     private float descHotel;
 
 
-    // Analisar el temas de listaClientes
+    // Analizar el temas de listaClientes
     public Suscripcion(String tipo, ArrayList<Integer> vencimiento, int capacidad, double precio, float descTransporte, float descTour, float descHotel) {
         this.tipo = tipo;
-        this.vencimiento = vencimiento;
+        this.fechaVencimiento = vencimiento;
         this.capacidad = capacidad;
         this.precio = precio;
         this.descTransporte = descTransporte;
@@ -27,67 +29,47 @@ public class Suscripcion {
 
     public Suscripcion(String tipo, ArrayList<Integer> vencimiento, int capacidad, double precio) {
         this.tipo = tipo;
-        this.vencimiento = vencimiento;
+        this.fechaVencimiento = vencimiento;
         this.capacidad = capacidad;
         this.precio = precio;
     }
 
+    public static ArrayList<Integer> ultimaFechaReserva(ArrayList<ArrayList<Integer>> fechas) {
+        return fechas.get(fechas.size() - 1);
+    }
 
-
-    public Cliente verificarSuscripcion(String nombre, int edad) {
+    public static Cliente verificarSuscripcion(String nombre, int edad, ArrayList<ArrayList<Integer>> listaFechas) {
         for (int i = 0; i < listaClientes.size(); i++) {
             if (listaClientes.get(i).getNombre().equals(nombre)) {
-                if (listaClientes.get(i).getSuscripcion().getVencimiento().verificarFechaSuscripcion()) { //verifica el vencimiento de la suscripcion
+                if (listaClientes.get(i).getSuscripcion().verificarFechaVencimiento(Suscripcion.ultimaFechaReserva(listaFechas))) { //verifica el vencimiento de la suscripcion
                     listaClientes.get(i).setEdad(edad);
-                    return listaClientes.get(i);
-                    
-                }
-                else{
-                    listaClientes.remove(i);
-                    return entradaUsuario(); //retornar el objeto cliente que ingreso el usuario
-                }
+                    return listaClientes.get(i);        //retornar el objeto cliente existente en el array que tiene la suscripcion
 
+                }
+                else {
+                    listaClientes.remove(i);
+                    return null; //retornar el objeto cliente que ingreso el usuario
+                }
             }
-            else{
-                return entradaUsuario(); //retornar el objeto cliente que ingreso el usuario
-            }
-            
         }
-        
-       
+        return null;
     }
 
 
-
-
-
-
-
-
-
-    public boolean verificarFechaSuscripcion(ArrayList<Integer> fechaVencicmiento){
-
-        //Metodo que toma una fecha de vencimiento y verifica si esta fecha es valida y vigente
-        
-
-        //Formato Fecha [dia, mes, año]
-
-        if (fechaVencicmiento.get(2) < fechaActual.get(2)) {
+    public boolean verificarFechaVencimiento(ArrayList<Integer> ultimaFecha) {
+        if (fechaVencimiento.get(2) < ultimaFecha.get(2)) {
             return false;
         }
-        else if (fechaVencicmiento.get(1) < fechaActual.get(1)) {
+        else if (fechaVencimiento.get(1) < ultimaFecha.get(1)) {
             return false;
         }
-        else if (fechaVencicmiento.get(0) < fechaActual.get(0)) {
+        else if (fechaVencimiento.get(0) < ultimaFecha.get(0)) {
             return false;
         }
-        else{
+        else {
             return true;
         }
-
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +81,7 @@ public class Suscripcion {
     }
 
     public void setVencimiento(ArrayList<Integer> vencimiento) {
-        this.vencimiento = vencimiento;
+        this.fechaVencimiento = vencimiento;
     }
 
     public void setCapacidad(int capacidad) {
@@ -122,12 +104,16 @@ public class Suscripcion {
         this.descHotel = descHotel;
     }
 
+    public static void setListaClientes(ArrayList<Cliente> listaClientes) {
+        Suscripcion.listaClientes = listaClientes;
+    }
+
     public String getTipo() {
         return tipo;
     }
 
     public ArrayList<Integer> getVencimiento() {
-        return vencimiento;
+        return fechaVencimiento;
     }
 
     public int getCapacidad() {
@@ -150,7 +136,9 @@ public class Suscripcion {
         return descHotel;
     }
 
-
+    public static ArrayList<Cliente> getListaClientes() {
+        return listaClientes;
+    }
 
 
 
