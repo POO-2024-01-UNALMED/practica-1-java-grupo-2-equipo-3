@@ -24,13 +24,19 @@ public class Reserva {
     
     /**
      * Constructor sin parametros de la clase Reserva.
+     * Lo necesito asi para mi funcionalidad porfis no lo cambien :(
      * 
      * Asigna un código único a la reserva actual incrementando la variable estática `ultimoCodigo`.
      */
     public Reserva() {
 		this.codigo = ++ultimoCodigo;
 	}
-
+    public Reserva(Cliente titular) {
+        this.codigo = ++ultimoCodigo;
+        this.clientes = new ArrayList<Cliente>();
+        this.clientes.add(titular);
+        reservasExistentes.add(this);
+    }
     public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
     	this.codigo = ++ultimoCodigo;
         this.destino = destino;
@@ -45,7 +51,13 @@ public class Reserva {
     }
 
 
-    public static Reserva buscarReserva(int codigo) {  // por qué no me reconoce que le estoy regresando una reserva
+    /**
+     * Busca una reserva en la lista de reservas existentes a partir de su código.
+     *
+     * @param codigo El código de la reserva a buscar.
+     * @return La reserva con el código especificado, o null si no se encuentra.
+     */
+    public static Reserva buscarReserva(int codigo) { 
         for (int i = 0; i < reservasExistentes.size(); i++) {
             if (codigo == reservasExistentes.get(i).codigo) {
                 return reservasExistentes.get(i);
@@ -54,10 +66,6 @@ public class Reserva {
         return null;
     }
 
-    public void añadirCliente(String nombre, int edad) {
-        Cliente cliente = new Cliente(nombre, edad);
-        clientes.add(cliente);
-    }
 
     /**
      * Muestra una lista de días consecutivos a partir de una fecha dada.
@@ -298,6 +306,18 @@ public class Reserva {
     	}
     	return false;
     }
+/////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
+
+/**
+* Añade un cliente a la lista de clientes de la reserva.
+*
+* @param nombre El nombre del cliente.
+* @param edad   La edad del cliente.
+*/
+    public void añadirCliente(String nombre, int edad) {
+    	Cliente cliente = new Cliente(nombre, edad);
+    	clientes.add(cliente);
+}
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
