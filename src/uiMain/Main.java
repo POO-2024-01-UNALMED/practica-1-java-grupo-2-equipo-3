@@ -61,7 +61,7 @@ public class Main {
     /**
      * Permite al usuario ingresar una fecha.
      * -Si se escogio la opcion de mes devuelve una lista de todos los dias del mes
-     * -Si se escogio la opcion de dia devulve una lista con un solo elemnto que es la fecha ingresada
+     * -Si se escogio la opcion de dia devuelve una lista con un solo elemento que es la fecha ingresada
      * 
      * @param opcionFecha   Tipo de fecha a ingresar (mes/año o día/mes/año).
      * @return              Una lista de fechas

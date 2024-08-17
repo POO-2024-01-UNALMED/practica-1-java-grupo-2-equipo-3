@@ -2,6 +2,7 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.Serializable;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.actividades.Plan;
@@ -9,7 +10,7 @@ import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.hospedaje.Hotel;
 
 
-public class Reserva {
+public class Reserva implements Serializable {
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
     private ArrayList<Cliente> clientes;
     private int codigo;
@@ -53,6 +54,7 @@ public class Reserva {
         }
         return null;
     }
+
 
     public void añadirCliente(String nombre, int edad) {
         Cliente cliente = new Cliente(nombre, edad);
