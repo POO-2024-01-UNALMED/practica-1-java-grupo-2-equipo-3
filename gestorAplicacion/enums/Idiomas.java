@@ -2,9 +2,8 @@ package gestorAplicacion.enums;
 
 import java.util.ArrayList;
 
-import gestorAplicacion.interfaces.BusquedaNombres;
 
-public enum Idiomas implements BusquedaNombres {
+public enum Idiomas {
 	INGLES("Inglés", 10000),
     PORTUGUES("Portugués", 10000),
     ESPANOL("Español", 5000),
@@ -23,8 +22,7 @@ public enum Idiomas implements BusquedaNombres {
      * 
      * @return Un ArrayList<String> con los nombres 
      */
-    @Override
-    public ArrayList<String> listaNombres(){
+    public static ArrayList<String> listaNombres(){
 		 ArrayList<String> ListaTipos=new ArrayList<>();
 		 for(Idiomas idioma:Idiomas.values()) {ListaTipos.add(idioma.getNombre());}
 		 return ListaTipos;
@@ -35,8 +33,7 @@ public enum Idiomas implements BusquedaNombres {
      * @param nombre, un string del nombre a buscar
      * @return El objeto encontrado, o null si no se encuentra.
      */
-    @Override
-	public Idiomas buscarNombre(String nombre) {
+    public static Idiomas buscarNombre(String nombre) {
 		for(Idiomas idioma:Idiomas.values()) {
 			if(nombre==idioma.getNombre()) {
 				return idioma;

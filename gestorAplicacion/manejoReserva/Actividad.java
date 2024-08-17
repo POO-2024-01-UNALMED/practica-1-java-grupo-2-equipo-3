@@ -205,7 +205,7 @@ public class Actividad implements Registrable, Serializable {
      * @return La actividad encontrada, o null si no se encuentra.
      */
     public static Actividad buscarActividad(String nombre, String destino) {
-        Destino destinoActividad = Destino.getDestinos().get(0).buscarNombre(destino);
+        Destino destinoActividad = Destino.buscarNombre(destino);
         if (destinoActividad != null) {
             for (Actividad actividad : destinoActividad.getActividades()) {
                 if (nombre.equals(actividad.nombre)) {
