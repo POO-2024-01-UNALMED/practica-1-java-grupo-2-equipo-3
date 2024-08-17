@@ -116,7 +116,6 @@ public class Plan_prueba {
         System.out.printf("%s%n","|____________________________________________________________________|");
 
     }
-
     public static void menuDestino() {
         System.out.printf("%s%n|%69s %n"," ____________________________________________________________________","|");
         System.out.printf("| %-66s |%n", "Ingresar Destino");
