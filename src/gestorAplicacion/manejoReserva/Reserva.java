@@ -233,7 +233,6 @@ public class Reserva {
      * @param lista La lista genérica a convertir.
      * @return La lista convertida de cadenas, o null si no se puede convertir.
      */
-    @SuppressWarnings("unchecked")
     public static ArrayList<String> convertirTipo(Object lista) {
         if (lista instanceof ArrayList<?>) {
             ArrayList<?> listaGenerica = (ArrayList<?>) lista;
@@ -243,12 +242,35 @@ public class Reserva {
                     return null;
                 }
             }
+            @SuppressWarnings("unchecked")
             ArrayList<String> listaString = (ArrayList<String>) lista;
             return listaString;
         }
         return null;
     }
-
+    
+    /**
+     * Convierte un objeto de tipo Object a una lista de fechas si es posible.
+     * Verifica que el objeto sea de tipo ArrayList y que cada sublista contenga elementos de tipo Integer.
+     * 
+     * @param obj El objeto que se desea convertir.
+     * @return Un ArrayList<ArrayList<Integer>> si la conversión es posible, o null si no es posible.
+     */
+    public static ArrayList<ArrayList<Integer>> convertirListaFechas(Object obj) {
+        if (obj instanceof ArrayList<?>) {
+            for (Object subList : (ArrayList<?>) obj) {
+                if (!(subList instanceof ArrayList<?> && 
+                      ((ArrayList<?>) subList).stream().allMatch(item -> item instanceof Integer))) {
+                    return null; // Devuelve null si la estructura no es válida
+                }
+            }
+            @SuppressWarnings("unchecked")
+            ArrayList<ArrayList<Integer>> listaConvertida = (ArrayList<ArrayList<Integer>>) obj;
+            return listaConvertida;
+        }
+        return null; // Devuelve null si el objeto no es una lista
+    }
+   
     /**
      * Muestra el nombre del mes correspondiente a un número de mes.
      *

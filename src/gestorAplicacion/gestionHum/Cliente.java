@@ -22,7 +22,11 @@ public class Cliente extends Persona {
 	private Grupo habitacion;
 
 	  
-
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 
 

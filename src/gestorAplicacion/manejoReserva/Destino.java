@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
-import gestorAplicacion.interfaces.BusquedaNombres;
 
 import java.io.Serializable;
 
-public class Destino implements Serializable,BusquedaNombres {
+public class Destino implements Serializable{
+	private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
     private ArrayList<Guia> guias;
     private ArrayList<Actividad> actividades;
     private String nombre;
@@ -277,14 +277,12 @@ public class Destino implements Serializable,BusquedaNombres {
         return destinosIdiomas;
     }
 
-
      /**
       * Devuelve la lista de los nombres de todos los destinos existentes
       * 
       * @return Un ArrayList<String> con los nombres 
       */
-     @Override
-     public ArrayList<String> listaNombres(){
+     public static ArrayList<String> listaNombres(){
 		 ArrayList<String> ListaDestinos=new ArrayList<>();
 		 for(Destino destino:destinos) {ListaDestinos.add(destino.getNombre());}
 		 return ListaDestinos;
@@ -295,8 +293,7 @@ public class Destino implements Serializable,BusquedaNombres {
       * @param nombre El nombre del destino a buscar.
       * @return El destino encontrado, o null si no se encuentra.
       */
-     @Override
-     public Destino buscarNombre(String nombre) {
+     public static Destino buscarNombre(String nombre) {
          for (Destino destino : destinos) {
              if (nombre.equals(destino.nombre)) {
                  return destino;

@@ -14,8 +14,497 @@ import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
 
 public class Main {
+//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////METODOS IMPORTANTES DE LA CLASE MAIN/////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////  
+    /**
+     * Permite al usuario ingresar una opción basada en una pregunta dada y una lista de opciones.
+     * 
+     * @param pregunta          La pregunta a mostrar al usuario.
+     * @param opcionPregunta    El tipo de opción de pregunta (única, múltiple, doble).
+     * @param listaString       Lista de opciones disponibles.
+     * @return                  La opción seleccionada por el usuario.
+     */
+    public static String ingresarOpcion(String pregunta, int opcionPregunta, ArrayList<String> listaString) {
+        Scanner entrada = new Scanner(System.in);
+        
+        List<String> opcionesPregunta = new ArrayList<>(Arrays.asList(
+                "(Digite el numero de una unica opcion)",
+                "(Si es mas de uno digite los numeros separados por espacio)",
+                "(Elija maximo 2 opciones,Si es mas de una digite los numeros separados por espacio)"));
+        
+        System.out.println(pregunta + " " + opcionesPregunta.get(opcionPregunta));
+        for (int i = 0; i < listaString.size(); i++) {
+            System.out.println(i + 1 + ". " + listaString.get(i));
+        }
+        String opcionEscogida = null;
+        while (true) {
+            opcionEscogida = entrada.nextLine();
+            
+            String[] numeros = opcionEscogida.split(" ");
+            boolean longitud = true;
+            if (opcionPregunta == 2) {
+                if (numeros.length > 2) { longitud = false;}
+            }
+            if(opcionPregunta==0) {
+            	if(numeros.length != 1) {longitud=false;}
+            }
+            
+            if (numeros.length == 1 && Reserva.verificarNumero(listaString.size(), opcionEscogida) && longitud) break;
+            else if (Reserva.verificarLista(listaString.size(), opcionEscogida) && longitud) break;
+            System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
+        }
+        entrada.close();
+        return opcionEscogida;
+    }
 
     /**
+     * Permite al usuario ingresar una fecha.
+     * -Si se escogio la opcion de mes devuelve una lista de todos los dias del mes
+     * -Si se escogio la opcion de dia devulve una lista con un solo elemnto que es la fecha ingresada
+     * 
+     * @param opcionFecha   Tipo de fecha a ingresar (mes/año o día/mes/año).
+     * @return              Una lista de fechas
+     */
+    public static ArrayList<ArrayList<Integer>> ingresarFecha(String opcionFecha) {
+        Scanner entrada = new Scanner(System.in);
+        if (opcionFecha.equals("1")) {
+            System.out.println("Ingrese el mes: \nDigite el numero del mes y año, sin ceros adelante y separando cada numero por '/' (mes/año)");    
+        } else {
+            System.out.println("Ingrese la fecha: \nDigite el numero del dia,mes y año, sin ceros adelante y separando cada numero por '/' (dia/mes/año)");
+        }
+        
+        ArrayList<ArrayList<Integer>> listaFechas=new ArrayList<>();
+        while (true) {
+        	String fecha = entrada.nextLine();
+            if (!Reserva.verificarFecha(fecha)) {
+            	listaFechas=Reserva.mostrarListaFechas(opcionFecha, fecha);
+            	break;
+            }
+            System.out.println("Se ingreso incorrectamente la fecha, por favor lea bien las instrucciones e intentelo de nuevo");
+        }
+        
+        entrada.close();
+        return listaFechas;
+    }
+
+    /**
+     * Permite al usuario ingresar un periodo de fechas.
+     * 
+     * @return  Lista de fechas representando el periodo ingresado.
+     */
+    public static ArrayList<ArrayList<Integer>> ingresarPeriodoFechas() {
+        Scanner entrada = new Scanner(System.in);
+        ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
+
+        while (true) {
+            try {
+                System.out.println("Ingrese la cantidad de dias: (Solo ingrese números enteros)");
+                int cdias = entrada.nextInt();
+                entrada.nextLine(); // Limpiar el buffer del scanner
+
+                System.out.println("Ingrese la fecha de inicio: \nDigite el número del día, mes y año, sin ceros adelante y separando cada número por '/' (dia/mes/año)");
+                String fechaInicio = entrada.nextLine();
+
+                if (!Reserva.verificarFecha(fechaInicio)) {
+                    ArrayList<Integer> fecha = Reserva.listaFecha(fechaInicio);
+                    listaFechas = Reserva.mostrarDias(cdias, fecha);
+                    break;
+                }
+
+                System.out.println("Se ingresó incorrectamente un dato, por favor lea bien las instrucciones e inténtelo de nuevo.");
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Ingresó un número no válido. Por favor, intente nuevamente.");
+                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error: " + e.getMessage());
+                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
+            }
+        }
+        entrada.close();
+        return listaFechas;
+    }
+
+    /**
+     *  Permite al usuario ingresar un número entero desde la consola.
+     * 
+     * @param pregunta Un mensaje que se mostrará al usuario para solicitar el número entero.
+     * @return El número entero ingresado por el usuario.
+     */
+    public static int ingresarEntero(String pregunta) {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println(pregunta);
+		int numero=0;
+		while(true) {
+			String numeroString=entrada.nextLine();
+			boolean vrfNumero=Reserva.verificarNumero(0,numeroString );
+			if(vrfNumero) {
+				numero=Integer.parseInt(numeroString);
+				break;
+			}
+			System.out.println("Se ingreso incorrectamente el dato, intentelo de nuevo y asegurese de ingresar un número entero");
+		}
+		entrada.close();
+        return numero;
+	}
+    /**
+     * Muestra la lista de idiomas y devuelve el objeto seleccionado.
+     *
+     * @return Idioma seleccionado.
+     */
+    public static Idiomas ingresarIdioma() {
+        ArrayList<String> ListaIdiomas = Idiomas.listaNombres();
+        int opcIdiomas = Integer.parseInt(ingresarOpcion("Elija el idioma: ", 0, ListaIdiomas));
+        Idiomas idioma = Idiomas.buscarNombre(ListaIdiomas.get(opcIdiomas - 1));
+        return idioma;
+    }
+
+    /**
+     * Muestra la lista de tipos de actividad y devuelve el objeto seleccionado.
+     *
+     * @return Tipo de actividad seleccionado.
+     */
+    public static TiposActividad ingresarTipoActividad() {
+        ArrayList<String> ListaTipos = TiposActividad.listaNombres();
+        int opcTipo = Integer.parseInt(ingresarOpcion("Elija el tipo de actividad: ", 0, ListaTipos));
+        TiposActividad tipo = TiposActividad.buscarNombre(ListaTipos.get(opcTipo - 1));
+        return tipo;
+    }
+
+    /**
+     * Muestra la lista de destinos y devuelve el objeto seleccionado.
+     *
+     * @return Destino seleccionado.
+     */
+    public static Destino ingresarDestino() {
+        ArrayList<String> ListaDestinos = Destino.listaNombres();
+        int opcDestinos = Integer.parseInt(ingresarOpcion("Elija el destino: ", 0, ListaDestinos));
+        Destino destino = Destino.buscarNombre(ListaDestinos.get(opcDestinos - 1));
+        return destino;
+    }
+    /**
+     * Muestra los tipos de clasificaciones segun la edad y devuelve la opcion escogida
+     *
+     * @return Un int con el numero de la opcion escogida .
+     */
+    public static int ingresarClasificacion() {
+    	ArrayList<String> opcionesClasificacion=new ArrayList<>(Arrays.asList(
+				"Menores de 7 años","Entre 7 y 15 años","Entre 15 y 18","Mayores de 18 años"));
+		String clasificacion=ingresarOpcion("Elija una clasificación(tenga en cuenta la edad de la menor persona del grupo)",0,opcionesClasificacion);
+		return Integer.parseInt(clasificacion);
+    }
+    
+    /**
+     * Pregunta al usuario si desea cerrar el ciclo de la funcionalidad.
+     * 
+     * @return  {@code true} si desea ir al menú, {@code false} si desea volver al inicio.
+     */
+    public static boolean terminarCicloFuncionalidad() {
+        ArrayList<String> cerrarCiclo = new ArrayList<>(Arrays.asList("Ir al menu", "Volver al inicio"));
+        String opcionCerrarCiclo = ingresarOpcion("¿Que desea hacer?", 0, cerrarCiclo);
+        return !opcionCerrarCiclo.equals("2");
+    }
+ 
+//////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////METODO MAIN////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////    
+	
+	public static void main(String[] args) {
+		Scanner entrada = new Scanner(System.in);
+		//LISTAS DE NOMBRES DE LAS CONSTANTES 
+		ArrayList<String> ListaIdiomas=Idiomas.listaNombres();
+		ArrayList<String> ListaTipos=TiposActividad.listaNombres();
+		ArrayList<String> ListaDestinos=Destino.listaNombres();
+		
+		//INICIO FUNCIONALIDADES
+		ArrayList<String> menuPrincipal=new ArrayList<>(Arrays.asList(
+				"Reservar un plan de actividades turisticas",
+				"Reservar un hospedaje",
+				"Planear tu viaje",
+				"Modificar reserva",
+				"Ver opciones de administrador","Salir"));
+		
+		boolean terminarCicloPrincipal=true;
+		while(terminarCicloPrincipal) {
+			
+			String opcionMenuPrincipal=ingresarOpcion("¿Que desea hacer?",0,menuPrincipal);
+			
+			switch(opcionMenuPrincipal) {
+			case "1"://FUNCIONALIDAD: Reservar un plan de actividades turisticas
+			break;
+			
+			case"2"://FUNCIONALIDAD: Reservar un hospedaje
+			break;
+			
+			case"3"://FUNCIONALIDAD: Planear tu viaje
+				boolean terminarCicloPlan=true;
+				while(terminarCicloPlan) {
+					Reserva reservaFicticia=new Reserva();
+					//ESCOGER DESTINO=D
+					ArrayList<String> D_menuOpcionDestino=new ArrayList<>(Arrays.asList(
+							"Ingresar destino","Buscar las mejores opciones de destinos"));
+					String D_opcionMenuDestino=ingresarOpcion("¿Que desea hacer?",0,D_menuOpcionDestino);
+					
+					Destino D_destino=null;
+					switch(D_opcionMenuDestino) {
+					case "1"://Ingresar destino
+						String opcDestino=ingresarOpcion("Elija el destino",0,ListaDestinos);
+						D_destino=Destino.buscarNombre(ListaDestinos.get(Integer.parseInt(opcDestino)));
+						reservaFicticia.setDestino(D_destino);
+					break;
+					
+					case "2"://Escoger destino
+						ArrayList<String> D_menuPlanearDestino=new ArrayList<>(Arrays.asList(
+								"Segun un tipo de actividad","Segun un idioma especifico","Segun disponibilidad en una fecha"));
+						String D_opcBusqueda=ingresarOpcion("¿Como desea buscar?",0,D_menuPlanearDestino);
+						
+						ArrayList<Object> D_filtroInicial=new ArrayList<>(Arrays.asList(false,0,null,null,null,null,false));
+						boolean terminarCicloEscogerDestino=true;
+						while(terminarCicloEscogerDestino) {
+							imprimirTablaPlanearDestino(D_opcBusqueda,(int)D_filtroInicial.get(1),(TiposActividad)D_filtroInicial.get(2),Reserva.convertirListaFechas(D_filtroInicial.get(3)),(Idiomas)D_filtroInicial.get(4));
+							ArrayList<Object> D_filtros=elegirFiltros(D_opcBusqueda,(int)D_filtroInicial.get(1),(TiposActividad)D_filtroInicial.get(2),Reserva.convertirListaFechas(D_filtroInicial.get(3)),(Idiomas)D_filtroInicial.get(4),(Destino)D_filtroInicial.get(5));
+							
+							//Verificar si se termina el ciclo
+							if((Boolean)D_filtros.get(6)==true) {
+								reservaFicticia.setDestino((Destino)D_filtros.get(5));//Escoger destino final
+								terminarCicloEscogerDestino=false;
+							}
+							
+							if((Boolean)D_filtros.get(0)==true) {
+								D_opcBusqueda=ingresarOpcion("¿Como desea buscar?",0,D_menuPlanearDestino);
+							}
+						}
+					break;
+					}	
+				}		
+			break;
+			
+			case"4"://FUNCIONALIDAD: Modificar reserva
+			break;
+			
+			case"5"://FUNCIONALIDAD: Ver opciones de administrador
+				boolean terminarCicloAdmin=true;
+				while(terminarCicloAdmin) {
+					ArrayList<String> opcionesCiclo = new ArrayList<>(Arrays.asList(
+				            "Ingresar guia","Retirar guia","Ver disponibilidad guias",
+				            "Ingresar actividad","Retirar actividad","Volver al inicio"));
+					String opcionCicloEscogida=ingresarOpcion("¿Que desea hacer?",0,opcionesCiclo);
+					
+					switch(opcionCicloEscogida) {
+					case "1":
+						// 1.OPCION INGRESAR GUIA=I
+						System.out.println("Ingrese el nombre del guia: ");
+						String I_nombre = entrada.nextLine();
+
+						Guia I_guia = new Guia(I_nombre);
+						
+						String I_idiomas=ingresarOpcion("¿Que idiomas habla?",1,ListaIdiomas);
+						I_guia.ingresarIdiomas(I_idiomas);
+						
+						String I_tipoActividades =ingresarOpcion("¿Para cuales actividades esta capacitado?",1,ListaTipos);
+						I_guia.ingresarTipoActividades(I_tipoActividades);
+						
+
+						ArrayList<Destino> I_lista = Destino.elegirDestinoGuia(I_guia);
+						
+						if (I_lista.size() != 1) {
+							ArrayList<String> I_ListaDestinos=new ArrayList<>();
+							for(Destino destino:I_lista) {I_ListaDestinos.add(destino.getNombre());}
+							
+							String I_destinoFinal=ingresarOpcion("¿Cual destino prefiere?",0,I_ListaDestinos);
+							Destino.ingresarGuia(I_guia,I_lista,Integer.parseInt(I_destinoFinal));	
+						}
+						
+						I_guia.ingresarGuia();
+						I_guia.asignarParametros();
+						
+						System.out.println("El guia se ha ingresado correctamente\n_______________Resumen_______________\n"+I_guia);
+						terminarCicloAdmin=terminarCicloFuncionalidad();
+					break;
+					
+					case"2":
+						// 2.OPCION RETIRAR GUIA=R
+						ArrayList<String> R_menu = new ArrayList<>(Arrays.asList(
+					            "Despedir guia","Dar de baja a un guia por un tiempo"));
+						String R_opc1 =ingresarOpcion("¿Que desea hacer?",0,R_menu);
+						
+						Guia R_guia=ingresarGuia();
+						if(R_opc1.equals("1")) {
+							Guia.retirarGuia(R_guia);
+						}
+						else {
+							ArrayList<ArrayList<Integer>> R_listaFechas=ingresarPeriodoFechas();
+							
+							Guia.retirarGuia(R_guia,R_listaFechas);
+							System.out.println("Se ha retirado correctamente a "+R_guia.getNombre()+" en los siguientes dias: "+ R_listaFechas);
+						}	
+						terminarCicloAdmin=terminarCicloFuncionalidad();
+					break;
+					case"3":
+						//3.OPCION VER DISPONIBILIDAD GUIAS=D
+						ArrayList<String> D_menu = new ArrayList<>(Arrays.asList(
+							    "Ver la disponibilidad de todos los guías según la fecha",
+							    "Ver la disponibilidad de todos los guías según el destino",
+							    "Ver la disponibilidad de todos los guías según el idioma",
+							    "Ver el itinerario de un guía en específico"));
+
+							String D_opcBusqueda = ingresarOpcion("¿Qué desea buscar?", 0, D_menu);
+
+							ArrayList<String> D_MesDia = new ArrayList<>(Arrays.asList("Mes", "Día"));
+							String D_opcFecha = ingresarOpcion("Desea buscar según:", 0, D_MesDia);
+
+							ArrayList<ArrayList<Integer>> D_listaFechas =ingresarFecha(D_opcFecha);
+
+							ArrayList<String> D_filtro = new ArrayList<>(Arrays.asList(
+							    "Disponibilidad de todos los guías", "Solo los guías disponibles", "Solo los guías ocupados"));
+
+							String D_opcFiltro = null;
+							if (!D_opcBusqueda.equals("4") && !D_opcFecha.equals("1")) {
+							    D_opcFiltro = ingresarOpcion("¿Qué desea buscar?", 0, D_filtro);
+							}
+
+							ArrayList<String> D_disponibilidadOpciones = new ArrayList<>(Arrays.asList(
+							    "Buscar la información por día", "Buscar la información por mes", "Buscar la información de un destino en específico",
+							    "Buscar la información de un idioma en específico", "Ver el itinerario de un guía en específico",
+							    "Buscar la información de una fecha en específico", "Volver al inicio"));
+
+							boolean D_romperCiclo = true;
+							Destino D_destino = null;
+							Idiomas D_idioma = null;
+							Guia D_guia = null;
+
+							while (D_romperCiclo) {
+							    switch (D_opcBusqueda) {
+							        case "1":
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            D_disponibilidadOpciones.remove("Buscar la información de una fecha en específico");
+							            break;
+							        case "2":
+							            D_destino = ingresarDestino();
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            D_disponibilidadOpciones.remove("Buscar la información de un destino en específico");
+							            break;
+							        case "3":
+							            D_idioma = ingresarIdioma();
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            D_disponibilidadOpciones.remove("Buscar la información de un idioma en específico");
+							            break;
+							        case "4":
+							            D_guia = ingresarGuia();
+							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
+							            D_disponibilidadOpciones.remove("Ver el itinerario de un guía en específico");
+							            break;
+							    }
+
+							    if (D_opcFecha.equals("1")) {
+							        D_disponibilidadOpciones.remove("Buscar la información por mes");
+							    } else {
+							        D_disponibilidadOpciones.remove("Buscar la información por día");
+							    }
+
+							    String D_vrfCiclo = ingresarOpcion("¿Qué desea buscar?", 0, D_disponibilidadOpciones);
+							    String D_opcionCiclo = D_disponibilidadOpciones.get(Integer.parseInt(D_vrfCiclo) - 1);
+
+							    switch (D_opcionCiclo) {
+							        case "Buscar la información por día":
+							            D_disponibilidadOpciones.add("Buscar la información por mes");
+							            D_opcFecha = "2";
+							            D_listaFechas =ingresarFecha(D_opcFecha);
+							            break;
+							        case "Buscar la información por mes":
+							            D_disponibilidadOpciones.add("Buscar la información por día");
+							            D_opcFecha = "1";
+							            D_listaFechas =ingresarFecha(D_opcFecha);
+							            break;
+							        case "Buscar la información de un destino en específico":
+							            D_opcBusqueda = "2";
+							            D_destino = null;
+							            break;
+							        case "Buscar la información de un idioma en específico":
+							            D_opcBusqueda = "3";
+							            D_idioma = null;
+							            break;
+							        case "Ver el itinerario de un guía en específico":
+							            D_opcBusqueda = "4";
+							            break;
+							        case "Buscar la información de una fecha en específico":
+							            D_opcBusqueda = "1";
+							            break;
+							        case "Volver al inicio":
+							            D_romperCiclo = false;
+							            break;
+							    }
+
+							    String D_filtroLinea = D_opcBusqueda.equals("4") ? "" : (D_opcFiltro.equals("1") ? "de todos los guías," : "de " + D_filtro.get(Integer.parseInt(D_opcFiltro) - 1).toLowerCase() + ",");
+							    String D_destinoLinea = D_opcBusqueda.equals("4") ? "" : (D_destino == null ? "" : "del destino: " + D_destino + ",");
+							    String D_idiomaLinea = D_opcBusqueda.equals("4") ? "" : (D_idioma == null ? "" : "con el idioma: " + D_idioma + ",");
+							    String D_fechaLinea = D_listaFechas.size() > 1 ? "en el mes: " + Reserva.mostrarMes(D_listaFechas.get(0).get(1)) : "en el día: " + D_listaFechas.get(0).get(1);
+							    String D_texto = (D_filtroLinea + D_destinoLinea + D_idiomaLinea + D_fechaLinea);
+
+							    System.out.println("Actualmente va a " + D_opcionCiclo + " " + D_texto);
+							    ArrayList<String> D_cerrarCiclo = new ArrayList<>(Arrays.asList("Continuar", "Volver al inicio"));
+							    String D_cierre = ingresarOpcion("¿Desea continuar o restaurar los filtros?", 0, D_cerrarCiclo);
+
+							    if (D_cierre.equals("2")) { D_romperCiclo = false; }
+							}
+					break;
+					case"4":
+						//4.OPCION INGRESAR ACTIVIDAD=A
+						System.out.println("Ingrese el nombre de la actividad: ");
+						String A_nombre = entrada.nextLine();
+						
+						String A_opcDestino=ingresarOpcion("¿Donde esta ubicada?",0,ListaDestinos);
+						Destino A_destino=Destino.getDestinos().get(Integer.parseInt(A_opcDestino)-1);
+						
+						Actividad A_actividad = new Actividad(A_nombre,A_destino);
+						
+						String A_tipoActividades=ingresarOpcion("¿De que tipo es la actividad?",2,ListaTipos);
+						A_actividad.ingresarTipoActividades(A_tipoActividades);
+						A_actividad.ingresarGuia();
+						A_actividad.asignarParametros();
+						
+						System.out.println("La actividad se ha ingresado correctamente\n_______________Resumen_______________\n"+A_actividad);	
+						terminarCicloAdmin=terminarCicloFuncionalidad();
+					break;
+					case"5":
+						//5.OPCION CANCELAR ACTIVIDAD=C
+						ArrayList<String> C_menu = new ArrayList<>(Arrays.asList(
+					            "Eliminar actividad","Suspender actividad por un tiempo"));
+						String C_opcMenu =ingresarOpcion("¿Que desea hacer?",0,C_menu);
+						
+						Actividad C_actividad=ingresarActividad();
+						
+						if(C_opcMenu.equals("1")) {
+							Actividad.retirarActividad(C_actividad);
+							System.out.println("Se ha cancelado la actividad: "+C_actividad.getNombre()+", correctamente");
+						}else {
+							ArrayList<ArrayList<Integer>> C_listaFechas=ingresarPeriodoFechas();
+							Grupo.retirarActividad(C_actividad, C_listaFechas);
+							System.out.println("Se ha suspendido correctamente la actividad: "+C_actividad.getNombre()+", en los siguientes dias: "+C_listaFechas);
+						}
+						terminarCicloAdmin=terminarCicloFuncionalidad();
+					break;
+					case"6":
+						terminarCicloAdmin=false;
+					break;
+					
+					}
+				}
+			break;
+			case "6"://Salir
+				System.out.println("Vuelva pronto :)");
+				terminarCicloPrincipal=false;
+			break;
+			}
+			
+		}
+		entrada.close();
+	}//Cierre del main
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////METODOS FUNCIONALIDAD OPCIONES DE ADMINISTRADOR///////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+	 /**
      * Imprime una tabla con la disponibilidad de guías según los criterios especificados.
      * 
      * @param listaFechas   Lista de fechas para verificar la disponibilidad.
@@ -163,114 +652,6 @@ public class Main {
 	}
 
     /**
-     * Permite al usuario ingresar una opción basada en una pregunta dada y una lista de opciones.
-     * 
-     * @param pregunta          La pregunta a mostrar al usuario.
-     * @param opcionPregunta    El tipo de opción de pregunta (única, múltiple, doble).
-     * @param listaString       Lista de opciones disponibles.
-     * @return                  La opción seleccionada por el usuario.
-     */
-    public static String ingresarOpcion(String pregunta, int opcionPregunta, ArrayList<String> listaString) {
-        Scanner entrada = new Scanner(System.in);
-        
-        List<String> opcionesPregunta = new ArrayList<>(Arrays.asList(
-                "(Digite el numero de una unica opcion)",
-                "(Si es mas de uno digite los numeros separados por espacio)",
-                "(Elija maximo 2 opciones,Si es mas de una digite los numeros separados por espacio)"));
-        
-        System.out.println(pregunta + " " + opcionesPregunta.get(opcionPregunta));
-        for (int i = 0; i < listaString.size(); i++) {
-            System.out.println(i + 1 + ". " + listaString.get(i));
-        }
-        String opcionEscogida = null;
-        while (true) {
-            opcionEscogida = entrada.nextLine();
-            
-            String[] numeros = opcionEscogida.split(" ");
-            boolean longitud = true;
-            if (opcionPregunta == 2) {
-                if (numeros.length > 2) { longitud = false;}
-            }
-            if(opcionPregunta==0) {
-            	if(numeros.length != 1) {longitud=false;}
-            }
-            
-            if (numeros.length == 1 && Reserva.verificarNumero(listaString.size(), opcionEscogida) && longitud) break;
-            else if (Reserva.verificarLista(listaString.size(), opcionEscogida) && longitud) break;
-            System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
-        }
-        entrada.close();
-        return opcionEscogida;
-    }
-
-    /**
-     * Permite al usuario ingresar una fecha.
-     * -Si se escogio la opcion de mes devuelve una lista de todos los dias del mes
-     * -Si se escogio la opcion de dia devulve una lista con un solo elemnto que es la fecha ingresada
-     * 
-     * @param opcionFecha   Tipo de fecha a ingresar (mes/año o día/mes/año).
-     * @return              Una lista de fechas
-     */
-    public static ArrayList<ArrayList<Integer>> ingresarFecha(String opcionFecha) {
-        Scanner entrada = new Scanner(System.in);
-        if (opcionFecha.equals("1")) {
-            System.out.println("Ingrese el mes: \nDigite el numero del mes y año, sin ceros adelante y separando cada numero por '/' (mes/año)");    
-        } else {
-            System.out.println("Ingrese la fecha: \nDigite el numero del dia,mes y año, sin ceros adelante y separando cada numero por '/' (dia/mes/año)");
-        }
-        
-        ArrayList<ArrayList<Integer>> listaFechas=new ArrayList<>();
-        while (true) {
-        	String fecha = entrada.nextLine();
-            if (!Reserva.verificarFecha(fecha)) {
-            	listaFechas=Reserva.mostrarListaFechas(opcionFecha, fecha);
-            	break;
-            }
-            System.out.println("Se ingreso incorrectamente la fecha, por favor lea bien las instrucciones e intentelo de nuevo");
-        }
-        
-        entrada.close();
-        return listaFechas;
-    }
-
-    /**
-     * Permite al usuario ingresar un periodo de fechas.
-     * 
-     * @return  Lista de fechas representando el periodo ingresado.
-     */
-    public static ArrayList<ArrayList<Integer>> ingresarPeriodoFechas() {
-        Scanner entrada = new Scanner(System.in);
-        ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
-
-        while (true) {
-            try {
-                System.out.println("Ingrese la cantidad de dias: (Solo ingrese números enteros)");
-                int cdias = entrada.nextInt();
-                entrada.nextLine(); // Limpiar el buffer del scanner
-
-                System.out.println("Ingrese la fecha de inicio: \nDigite el número del día, mes y año, sin ceros adelante y separando cada número por '/' (dia/mes/año)");
-                String fechaInicio = entrada.nextLine();
-
-                if (!Reserva.verificarFecha(fechaInicio)) {
-                    ArrayList<Integer> fecha = Reserva.listaFecha(fechaInicio);
-                    listaFechas = Reserva.mostrarDias(cdias, fecha);
-                    break;
-                }
-
-                System.out.println("Se ingresó incorrectamente un dato, por favor lea bien las instrucciones e inténtelo de nuevo.");
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Ingresó un número no válido. Por favor, intente nuevamente.");
-                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
-            } catch (Exception e) {
-                System.out.println("Ocurrió un error: " + e.getMessage());
-                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
-            }
-        }
-        entrada.close();
-        return listaFechas;
-    }
-
-    /**
      * Permite al usuario ingresar el nombre de un guía y busca el guía en la lista de guías activas.
      * 
      * @return  El guía ingresado por el usuario.
@@ -312,316 +693,81 @@ public class Main {
         entrada.close();
         return actividad;
     }
-    /**
-     *  Permite al usuario ingresar un número entero desde la consola.
-     * 
-     * @param pregunta Un mensaje que se mostrará al usuario para solicitar el número entero.
-     * @return El número entero ingresado por el usuario.
-     */
-    public static int ingresarEntero(String pregunta) {
-		Scanner entrada = new Scanner(System.in);
-		System.out.println(pregunta);
-		int numero=0;
-		while(true) {
-			String numeroString=entrada.nextLine();
-			boolean vrfNumero=Reserva.verificarNumero(0,numeroString );
-			if(vrfNumero) {
-				numero=Integer.parseInt(numeroString);
-				break;
-			}
-			System.out.println("Se ingreso incorrectamente el dato, intentelo de nuevo y asegurese de ingresar un número entero");
-		}
-		entrada.close();
-        return numero;
+    
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////METODOS FUNCIONALIDAD PLANEAR VIAJE///////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+    
+    public static void imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+		
 	}
-    public static Idiomas ingresarIdioma() {
-    	ArrayList<String> ListaIdiomas=Idiomas.values()[0].listaNombres();
 	
-    	int opcIdiomas = Integer.parseInt(ingresarOpcion("Elija el idioma: ", 0, ListaIdiomas));
-        Idiomas idioma = Idiomas.values()[0].buscarNombre(ListaIdiomas.get(opcIdiomas-1));
-        return idioma;
-    }
-    public static TiposActividad ingresarTipoActividad() {
-    	ArrayList<String> ListaTipos=TiposActividad.values()[0].listaNombres();
-
-    	int opcTipo = Integer.parseInt(ingresarOpcion("Elija el tipo de actividad: ", 0, ListaTipos));
-    	TiposActividad tipo = TiposActividad.values()[0].buscarNombre(ListaTipos.get(opcTipo-1));
-    	return tipo;
-    }
-    public static Destino ingresarDestino() {
-    	ArrayList<String> ListaDestinos=Destino.getDestinos().get(0).listaNombres();
-
-    	int opcDestinos = Integer.parseInt(ingresarOpcion("Elija el destino: ", 0, ListaDestinos));
-    	Destino destino = Destino.getDestinos().get(0).buscarNombre(ListaDestinos.get(opcDestinos-1));
-    	return destino;
-    }
-    /**
-     * Pregunta al usuario si desea cerrar el ciclo administrativo.
-     * 
-     * @return  {@code true} si desea ir al menú, {@code false} si desea volver al inicio.
-     */
-    public static boolean terminarCicloAdmin() {
-        ArrayList<String> cerrarCiclo = new ArrayList<>(Arrays.asList("Ir al menu", "Volver al inicio"));
-        String opcionCerrarCiclo = ingresarOpcion("¿Que desea hacer?", 0, cerrarCiclo);
-        return !opcionCerrarCiclo.equals("2");
-    }
-
-	public static void main(String[] args) {
+	public static ArrayList<Object> elegirFiltros(String opcionFiltro,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
 		Scanner entrada = new Scanner(System.in);
-		//LISTAS DE NOMBRES DE LAS CONSTANTES 
-		ArrayList<String> ListaIdiomas=Idiomas.values()[0].listaNombres();
-		ArrayList<String> ListaTipos=TiposActividad.values()[0].listaNombres();
-		ArrayList<String> ListaDestinos=Destino.getDestinos().get(0).listaNombres();
 		
-		//INICIO FUNCIONALIDADES
-		ArrayList<String> menuPrincipal=new ArrayList<>(Arrays.asList(
-				"Reservar un plan de actividades turisticas",
-				"Reservar un hospedaje",
-				"Planear tu viaje",
-				"Modificar reserva",
-				"Ver opciones de administrador","Salir"));
+		ArrayList<String> opcionesFiltro = new ArrayList<>(7);
+
+		//CREAR MENU DE OPCIONES DE FILTRO SEGUN LOS PARAMETROS INGRESADOS
+		opcionesFiltro.add(0,"Borrar Filtros");//1.borrar filtros
+		opcionesFiltro.add(1,clasificacion == 0 ? "Filtrar según una clasificación de edad" : "Cambiar la clasificación de edad");//2.Filtrar por clasificacion
+		opcionesFiltro.add(2,tipo == null ? "Filtrar según un tipo de actividad" : "Cambiar el tipo de actividad");//3.Filtrar por tipo de actividad
+		opcionesFiltro.add(3,fecha==null ? "Filtrar por fecha" : "Cambiar fecha");//4.Filtrar por fecha
+		opcionesFiltro.add(4,!opcionFiltro.equals("3")?"Filtrar por un idioma en específico":"Escoger idioma");//5.Filtrar por idioma
+		opcionesFiltro.add(5,!opcionFiltro.equals("1")?"Cambiar destino":"Escoger Destino");//6.Filtrar por destino
+		if(opcionFiltro.equals("2")) {opcionesFiltro.add(6,"Escoger fechas");};//7.Elegir opcion Fechas
 		
-		boolean terminarCicloPrincipal=true;
-		while(terminarCicloPrincipal) {
-			
-			String opcionMenuPrincipal=ingresarOpcion("¿Que desea hacer?",0,menuPrincipal);
-			
-			switch(opcionMenuPrincipal) {
-			case "1"://FUNCIONALIDAD: Reservar un plan de actividades turisticas
-			break;
-			
-			case"2"://FUNCIONALIDAD: Reservar un hospedaje
-			break;
-			
-			case"3"://FUNCIONALIDAD: Planear tu viaje
-			break;
-			
-			case"4"://FUNCIONALIDAD: Modificar reserva
-			break;
-			
-			case"5"://FUNCIONALIDAD: Ver opciones de administrador
-				boolean terminarCicloAdmin=true;
-				while(terminarCicloAdmin) {
-					ArrayList<String> opcionesCiclo = new ArrayList<>(Arrays.asList(
-				            "Ingresar guia","Retirar guia","Ver disponibilidad guias",
-				            "Ingresar actividad","Retirar actividad","Volver al inicio"));
-					String opcionCicloEscogida=ingresarOpcion("¿Que desea hacer?",0,opcionesCiclo);
-					
-					switch(opcionCicloEscogida) {
-					case "1":
-						// 1.OPCION INGRESAR GUIA=I
-						System.out.println("Ingrese el nombre del guia: ");
-						String I_nombre = entrada.nextLine();
-
-						Guia I_guia = new Guia(I_nombre);
-						
-						String I_idiomas=ingresarOpcion("¿Que idiomas habla?",1,ListaIdiomas);
-						I_guia.ingresarIdiomas(I_idiomas);
-						
-						String I_tipoActividades =ingresarOpcion("¿Para cuales actividades esta capacitado?",1,ListaTipos);
-						I_guia.ingresarTipoActividades(I_tipoActividades);
-						
-
-						ArrayList<Destino> I_lista = Destino.elegirDestinoGuia(I_guia);
-						
-						if (I_lista.size() != 1) {
-							ArrayList<String> I_ListaDestinos=new ArrayList<>();
-							for(Destino destino:I_lista) {I_ListaDestinos.add(destino.getNombre());}
-							
-							String I_destinoFinal=ingresarOpcion("¿Cual destino prefiere?",0,I_ListaDestinos);
-							Destino.ingresarGuia(I_guia,I_lista,Integer.parseInt(I_destinoFinal));	
-						}
-						
-						I_guia.ingresarGuia();
-						I_guia.asignarParametros();
-						
-						System.out.println("El guia se ha ingresado correctamente\n_______________Resumen_______________\n"+I_guia);
-						terminarCicloAdmin=terminarCicloAdmin();
-					break;
-					
-					case"2":
-						// 2.OPCION RETIRAR GUIA=R
-						ArrayList<String> R_menu = new ArrayList<>(Arrays.asList(
-					            "Despedir guia","Dar de baja a un guia por un tiempo"));
-						String R_opc1 =ingresarOpcion("¿Que desea hacer?",0,R_menu);
-						
-						Guia R_guia=ingresarGuia();
-						if(R_opc1.equals("1")) {
-							Guia.retirarGuia(R_guia);
-						}
-						else {
-							ArrayList<ArrayList<Integer>> R_listaFechas=ingresarPeriodoFechas();
-							
-							Guia.retirarGuia(R_guia,R_listaFechas);
-							System.out.println("Se ha retirado correctamente a "+R_guia.getNombre()+" en los siguientes dias: "+ R_listaFechas);
-						}	
-						terminarCicloAdmin=terminarCicloAdmin();
-					break;
-					case"3":
-						//3.OPCION VER DISPONIBILIDAD GUIAS=D
-						ArrayList<String> D_menu = new ArrayList<>(Arrays.asList(
-							    "Ver la disponibilidad de todos los guías según la fecha",
-							    "Ver la disponibilidad de todos los guías según el destino",
-							    "Ver la disponibilidad de todos los guías según el idioma",
-							    "Ver el itinerario de un guía en específico"));
-
-							String D_opcBusqueda = ingresarOpcion("¿Qué desea buscar?", 0, D_menu);
-
-							ArrayList<String> D_MesDia = new ArrayList<>(Arrays.asList("Mes", "Día"));
-							String D_opcFecha = ingresarOpcion("Desea buscar según:", 0, D_MesDia);
-
-							ArrayList<ArrayList<Integer>> D_listaFechas =ingresarFecha(D_opcFecha);
-
-							ArrayList<String> D_filtro = new ArrayList<>(Arrays.asList(
-							    "Disponibilidad de todos los guías", "Solo los guías disponibles", "Solo los guías ocupados"));
-
-							String D_opcFiltro = null;
-							if (!D_opcBusqueda.equals("4") && !D_opcFecha.equals("1")) {
-							    D_opcFiltro = ingresarOpcion("¿Qué desea buscar?", 0, D_filtro);
-							}
-
-							ArrayList<String> D_disponibilidadOpciones = new ArrayList<>(Arrays.asList(
-							    "Buscar la información por día", "Buscar la información por mes", "Buscar la información de un destino en específico",
-							    "Buscar la información de un idioma en específico", "Ver el itinerario de un guía en específico",
-							    "Buscar la información de una fecha en específico", "Volver al inicio"));
-
-							boolean D_romperCiclo = true;
-							Destino D_destino = null;
-							Idiomas D_idioma = null;
-							Guia D_guia = null;
-
-							while (D_romperCiclo) {
-							    switch (D_opcBusqueda) {
-							        case "1":
-							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
-							            D_disponibilidadOpciones.remove("Buscar la información de una fecha en específico");
-							            break;
-							        case "2":
-							            D_destino = ingresarDestino();
-							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
-							            D_disponibilidadOpciones.remove("Buscar la información de un destino en específico");
-							            break;
-							        case "3":
-							            D_idioma = ingresarIdioma();
-							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
-							            D_disponibilidadOpciones.remove("Buscar la información de un idioma en específico");
-							            break;
-							        case "4":
-							            D_guia = ingresarGuia();
-							            imprimirTablaDisponibilidadGuias(D_listaFechas, D_opcFiltro, D_opcBusqueda, D_opcFecha, D_guia, D_destino, D_idioma);
-							            D_disponibilidadOpciones.remove("Ver el itinerario de un guía en específico");
-							            break;
-							    }
-
-							    if (D_opcFecha.equals("1")) {
-							        D_disponibilidadOpciones.remove("Buscar la información por mes");
-							    } else {
-							        D_disponibilidadOpciones.remove("Buscar la información por día");
-							    }
-
-							    String D_vrfCiclo = ingresarOpcion("¿Qué desea buscar?", 0, D_disponibilidadOpciones);
-							    String D_opcionCiclo = D_disponibilidadOpciones.get(Integer.parseInt(D_vrfCiclo) - 1);
-
-							    switch (D_opcionCiclo) {
-							        case "Buscar la información por día":
-							            D_disponibilidadOpciones.add("Buscar la información por mes");
-							            D_opcFecha = "2";
-							            D_listaFechas =ingresarFecha(D_opcFecha);
-							            break;
-							        case "Buscar la información por mes":
-							            D_disponibilidadOpciones.add("Buscar la información por día");
-							            D_opcFecha = "1";
-							            D_listaFechas =ingresarFecha(D_opcFecha);
-							            break;
-							        case "Buscar la información de un destino en específico":
-							            D_opcBusqueda = "2";
-							            D_destino = null;
-							            break;
-							        case "Buscar la información de un idioma en específico":
-							            D_opcBusqueda = "3";
-							            D_idioma = null;
-							            break;
-							        case "Ver el itinerario de un guía en específico":
-							            D_opcBusqueda = "4";
-							            break;
-							        case "Buscar la información de una fecha en específico":
-							            D_opcBusqueda = "1";
-							            break;
-							        case "Volver al inicio":
-							            D_romperCiclo = false;
-							            break;
-							    }
-
-							    String D_filtroLinea = D_opcBusqueda.equals("4") ? "" : (D_opcFiltro.equals("1") ? "de todos los guías," : "de " + D_filtro.get(Integer.parseInt(D_opcFiltro) - 1).toLowerCase() + ",");
-							    String D_destinoLinea = D_opcBusqueda.equals("4") ? "" : (D_destino == null ? "" : "del destino: " + D_destino + ",");
-							    String D_idiomaLinea = D_opcBusqueda.equals("4") ? "" : (D_idioma == null ? "" : "con el idioma: " + D_idioma + ",");
-							    String D_fechaLinea = D_listaFechas.size() > 1 ? "en el mes: " + Reserva.mostrarMes(D_listaFechas.get(0).get(1)) : "en el día: " + D_listaFechas.get(0).get(1);
-							    String D_texto = (D_filtroLinea + D_destinoLinea + D_idiomaLinea + D_fechaLinea);
-
-							    System.out.println("Actualmente va a " + D_opcionCiclo + " " + D_texto);
-							    ArrayList<String> D_cerrarCiclo = new ArrayList<>(Arrays.asList("Continuar", "Volver al inicio"));
-							    String D_cierre = ingresarOpcion("¿Desea continuar o restaurar los filtros?", 0, D_cerrarCiclo);
-
-							    if (D_cierre.equals("2")) { D_romperCiclo = false; }
-							}
-					break;
-					case"4":
-						//4.OPCION INGRESAR ACTIVIDAD=A
-						System.out.println("Ingrese el nombre de la actividad: ");
-						String A_nombre = entrada.nextLine();
-						
-						String A_opcDestino=ingresarOpcion("¿Donde esta ubicada?",0,ListaDestinos);
-						Destino A_destino=Destino.getDestinos().get(Integer.parseInt(A_opcDestino)-1);
-						
-						Actividad A_actividad = new Actividad(A_nombre,A_destino);
-						
-						String A_tipoActividades=ingresarOpcion("¿De que tipo es la actividad?",2,ListaTipos);
-						A_actividad.ingresarTipoActividades(A_tipoActividades);
-						A_actividad.ingresarGuia();
-						A_actividad.asignarParametros();
-						
-						System.out.println("La actividad se ha ingresado correctamente\n_______________Resumen_______________\n"+A_actividad);	
-						terminarCicloAdmin=terminarCicloAdmin();
-					break;
-					case"5":
-						//5.OPCION CANCELAR ACTIVIDAD=C
-						ArrayList<String> C_menu = new ArrayList<>(Arrays.asList(
-					            "Eliminar actividad","Suspender actividad por un tiempo"));
-						String C_opcMenu =ingresarOpcion("¿Que desea hacer?",0,C_menu);
-						
-						Actividad C_actividad=ingresarActividad();
-						
-						if(C_opcMenu.equals("1")) {
-							Actividad.retirarActividad(C_actividad);
-							System.out.println("Se ha cancelado la actividad: "+C_actividad.getNombre()+", correctamente");
-						}else {
-							ArrayList<ArrayList<Integer>> C_listaFechas=ingresarPeriodoFechas();
-							Grupo.retirarActividad(C_actividad, C_listaFechas);
-							System.out.println("Se ha suspendido correctamente la actividad: "+C_actividad.getNombre()+", en los siguientes dias: "+C_listaFechas);
-						}
-						terminarCicloAdmin=terminarCicloAdmin();
-					break;
-					case"6":
-						terminarCicloAdmin=false;
-					break;
-					
-					}
-				}
-			break;
-			case "6"://Salir
-				System.out.println("Vuelva pronto :)");
-				terminarCicloPrincipal=false;
-			break;
-			}
-			
+		String filtro=ingresarOpcion("¿Que desea hacer?",0,opcionesFiltro);
+		ArrayList<Object> parametrosFiltrados=new ArrayList<>(7);
+		
+		//ACTUALIZAR LOS PARAMETROS SEGUN LA OPCION INGRESADA
+		boolean parametro0=filtro.equals("1")?true:false;
+		parametrosFiltrados.add(0,parametro0);//Borrar filtros
+		
+		int parametro1=filtro.equals("2")?ingresarClasificacion():clasificacion;
+		parametrosFiltrados.add(1,parametro1);//Clasificacion
+		
+		TiposActividad parametro2=filtro.equals("3")?ingresarTipoActividad():tipo;
+		parametrosFiltrados.add(2,parametro2);//Tipo actividad
+		
+		ArrayList<ArrayList<Integer>> parametro3=filtro.equals("4")?ingresarFiltroFecha(opcionFiltro):filtro.equals("6")?ingresarPeriodoFechas():fecha;
+		parametrosFiltrados.add(3,parametro3);//Fecha
+		
+		Idiomas parametro4=filtro.equals("5")?ingresarIdioma():idioma;
+		parametrosFiltrados.add(4,parametro4);//Idioma
+		
+		Destino parametro5=filtro.equals("6")?ingresarDestino():destino;
+		parametrosFiltrados.add(5,parametro5);//Destino
+		
+		Boolean parametro6=filtro.equals("7")&&opcionFiltro.equals("1")||filtro.equals("6")&&opcionFiltro.equals("2")||filtro.equals("7")?true:false;
+		parametrosFiltrados.add(6,parametro6);//Elegir opcion
+		
+		//BORRAR FILTROS
+		if(filtro.equals("0")||parametro6) {
+			for(int i=0;i<7;i++) {parametrosFiltrados.set(i,null);}
+			parametrosFiltrados.set(4,destino);
+			if(opcionFiltro.equals("3")) {parametrosFiltrados.set(2,fecha);}
 		}
 		entrada.close();
-	}
+		return parametrosFiltrados;
+		}
 
-	public static void ingresarOpcion(String string, int i, String string2, String string3, String string4) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'ingresarOpcion'");
-	}
-
+    public static ArrayList<ArrayList<Integer>> ingresarFiltroFecha(String opcionFiltro) {
+    	ArrayList<ArrayList<Integer>> fecha=new ArrayList<>();
+    	
+    	ArrayList<String> H_opcionesFecha=new ArrayList<>(Arrays.asList(
+				"Buscar por año","Buscar por mes","Buscar por dias en especifico"));
+		String opcionFecha=ingresarOpcion("¿Que desea hacer?",0,H_opcionesFecha);
+		
+		if(opcionFecha.equals("1")&&!opcionFiltro.equals("2")) {
+			int año=ingresarEntero("Ingrese el año: ");
+			ArrayList<Integer> añoFecha = new ArrayList<>(Arrays.asList(100, 100, año));
+			fecha.add(añoFecha);
+			
+		} else {
+			fecha=(opcionFecha.equals("2") || opcionFiltro.equals("2"))?ingresarFecha("1"):ingresarPeriodoFechas();
+		}
+		
+		return fecha;
+    }
 }
 

@@ -2,10 +2,8 @@ package gestorAplicacion.enums;
 
 import java.util.ArrayList;
 
-import clases.TiposActividad;
-import gestorAplicacion.interfaces.BusquedaNombres;
 
-public enum TiposActividad implements BusquedaNombres{
+public enum TiposActividad {
 	CULTURALES("Cultural", "Baja"),
     FAMILIARES("Familiar","Baja"),
     ECOLOGICAS("Ecológica", "Media"),
@@ -26,20 +24,18 @@ public enum TiposActividad implements BusquedaNombres{
      * 
      * @return Un ArrayList<String> con los nombres 
      */
-    @Override
-    public ArrayList<String> listaNombres(){
+    public static ArrayList<String> listaNombres(){
 		 ArrayList<String> ListaTipos=new ArrayList<>();
 		 for(TiposActividad tipos:TiposActividad.values()) {ListaTipos.add(tipos.getNombre());}
 		 return ListaTipos;
 	 }
-    /**
-     * Devuelve el objeto tipo con el nombre indicado
-     * 
-     * @param nombre, un string del nombre a buscar
-     * @return El objeto encontrado, o null si no se encuentra.
-     */
-    @Override
-    public TiposActividad buscarNombre(String nombre) {
+   /**
+    * Devuelve el objeto tipo con el nombre indicado
+    * 
+    * @param nombre, un string del nombre a buscar
+    * @return El objeto encontrado, o null si no se encuentra.
+    */
+   public static TiposActividad buscarNombre(String nombre) {
 		for(TiposActividad tipo:TiposActividad.values()) {
 			if(nombre==tipo.getNombre()) {
 				return tipo;
