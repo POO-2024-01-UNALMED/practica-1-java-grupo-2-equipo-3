@@ -115,66 +115,7 @@ public class Prueba {
 
         // ------ FUNCINALIDAD 2 ---------------------------------------
         public static void reservarActividades(){
-            boolean terminarReservaActividades = true;
-				while(terminarReservaActividades) {
-					ArrayList<String> opcionesCiclo = new ArrayList<>(Arrays.asList(
-				            "Realizar una nueva reserva",
-                            "Buscar reserva existente para agregar las actividades"));
-					String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?",0,opcionesCiclo);
 
-                    switch (opcionCicloEscogida) {
-                        case "1":
-                            // 1.OPCION REALIZAR UNA NUEVA RESERVA
-                            System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
-                            ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
-
-                            boolean menorEdad = true
-                            while(menorEdad){
-                                System.out.println("Ingrese el nombre del titular de la reserva: ");
-                                String nombre = entrada.nextLine();
-                                System.out.println("Ingrese la edad del titular de la reserva: ");
-                                int edad = entrada.nextInt();
-
-                                if edad < 18 {
-                                    System.out.println("El titular de la reserva debe ser mayor de edad");
-                                }
-                                else{
-                                    menorEdad = false;
-                                    break;
-                                }
-                            }
-                            //Verificar si el cliente tiene una suscripcion activa
-
-                            Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
-                            if (titular == null) {
-                                ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
-                                        "Sí", "No"));
-                                String opcionCicloEscogida = ingresarOpcion("No cuenta con una suscripción con nosotros," +
-                                        "¿desea comprar una para recibir descuentos impresionantes para su reserva?",0,opcionesClienteNoExiste);
-                                switch (opcionCicloEscogida) {
-                                    case "1":
-                                        System.out.println("Ingrese el tipo de suscripción que desea adquirir: ");
-                                        String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?",0,ListaTiposSuscripcion);
-                                        System.out.println("Ingrese la fecha de vencimiento de la suscripción: ");
-                                        ArrayList<Integer> vencimiento = ingresarFecha("2");
-                                        System.out.println("Ingrese la capacidad de la suscripción: ");
-                                        int capacidad = entrada.nextInt();
-                                        System.out.println("Ingrese el precio de la suscripción: ");
-                                        double precio = entrada.nextDouble();
-                                        Suscripcion nuevaSuscripcion = new Suscripcion(tipo, vencimiento, capacidad, precio);
-                                        titular.setSuscripcion(nuevaSuscripcion);
-                                        System.out.println("La suscripción se ha ingresado correctamente\n_______________Resumen_______________\n"+nuevaSuscripcion);
-                                        break;
-
-                                titular = new Cliente(nombre, edad);
-                            }
-                            Reserva nuevaReserva = new Reserva(cliente, listaFechas, listaActividades);
-                            nuevaReserva.asignarPrecioTotal();
-                            nuevaReserva.ingresarReserva();
-                            System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */
-
-					
-                }
         }
 
         // ------ FUNCINALIDAD 3 ---------------------------------------
@@ -414,10 +355,18 @@ public class Prueba {
             }
             entrada.close();
         }
+
+    }
+        }
+
+        
+    }
+    
+
+
+
+    
     }
 
-/*
- * For 
- */
     
 

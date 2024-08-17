@@ -1,7 +1,6 @@
 package gestorAplicacion.actividades;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
@@ -10,7 +9,8 @@ import gestorAplicacion.manejoReserva.Reserva;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.hospedaje.Hotel;
 
-public class Plan implements Serializable {
+import java.util.ArrayList;
+public class Plan {
     private ArrayList<Plan> paquetes;
     private String tipo;
     private Destino destino;
