@@ -284,7 +284,20 @@ public class Reserva {
         };
         return meses[fecha - 1];
     }
-
+    /**
+     * Comprueba si la lista ingresada es la lista de todos los dias de un mes
+     *
+     * @param la lista de fechas a comprobar.
+     * @return 'true' si es la lista del mes o 'false' si es una lista diferente.
+     */
+    public static boolean comprobarEsMes(ArrayList<ArrayList<Integer>> listaFechas) {
+    	String mes=listaFechas.get(0).get(1)+"/"+listaFechas.get(0).get(2);
+    	ArrayList<ArrayList<Integer>> listaMes=Reserva.mostrarListaFechas("1", mes);
+    	if(listaFechas.equals(listaMes)) {
+    		return true;
+    	}
+    	return false;
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
