@@ -264,14 +264,14 @@ public class Main {
 							System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
 							ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
 
-							boolean menorEdad = true;
+							boolean menorEdad = true
 							while(menorEdad){
 								System.out.println("Ingrese el nombre del titular de la reserva: ");
 								String nombre = entrada.nextLine();
 								System.out.println("Ingrese la edad del titular de la reserva: ");
 								int edad = entrada.nextInt();
 
-								if (edad < 18) {
+								if edad < 18 {
 									System.out.println("El titular de la reserva debe ser mayor de edad");
 								}
                                 else{
@@ -307,10 +307,13 @@ public class Main {
 								Reserva nuevaReserva = new Reserva(cliente, listaFechas, listaActividades);
 								nuevaReserva.asignarPrecioTotal();
 								nuevaReserva.ingresarReserva();
-								System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */
-
-
+								System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */");
+										terminarReservaActividades=terminarCicloAdmin();
+								break;
 							}
+					}
+				}
+
 			break;
 			
 			case"3"://FUNCIONALIDAD: Planear tu viaje

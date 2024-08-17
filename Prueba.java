@@ -172,10 +172,11 @@ public class Prueba {
                             nuevaReserva.asignarPrecioTotal();
                             nuevaReserva.ingresarReserva();
                             System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */
-
-
+                            terminarReservaActividades=terminarCicloAdmin();
+                            break;
                         }
-
+                }
+            }
         }
 
         // ------ FUNCINALIDAD 3 ---------------------------------------
