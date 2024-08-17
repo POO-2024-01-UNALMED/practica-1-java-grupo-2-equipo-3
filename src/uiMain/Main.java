@@ -193,8 +193,52 @@ public class Main {
 		String clasificacion=ingresarOpcion("Elija una clasificación(tenga en cuenta la edad de la menor persona del grupo)",0,opcionesClasificacion);
 		return Integer.parseInt(clasificacion);
     }
-    
-    /**
+
+	/**
+	 * Permite al usuario ingresar el nombre de un guía y busca el guía en la lista de guías activas.
+	 *
+	 * @return  El guía ingresado por el usuario.
+	 */
+	public static Guia ingresarGuia() {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("Ingrese el nombre del guia: ");
+
+		Guia guia = null;
+		while (true) {
+			String nombre = entrada.nextLine();
+			guia = Guia.buscarGuia(nombre);
+			if (guia != null) break;
+			System.out.println("Se ingreso incorrectamente el nombre, intentelo de nuevo y asegurese de ingresar el nombre de un guia activo");
+		}
+		entrada.close();
+		return guia;
+	}
+
+	/**
+	 * Permite al usuario ingresar el nombre de una actividad y el destino, y busca la actividad en la lista de actividades activas.
+	 *
+	 * @return  La actividad ingresada por el usuario.
+	 */
+	public static Actividad ingresarActividad() {
+		Scanner entrada = new Scanner(System.in);
+		Actividad actividad = null;
+		while (true) {
+			System.out.println("Ingrese el destino de la actividad: ");
+			String destino = entrada.nextLine();
+
+			System.out.println("Ingrese el nombre de la actividad: ");
+			String nombre = entrada.nextLine();
+
+			actividad = Actividad.buscarActividad(nombre, destino);
+			if (actividad != null) break;
+			System.out.println("Se ingreso incorrectamente el nombre o el destino, intentelo de nuevo y asegurese de ingresar la informacion de una actividad activa");
+		}
+		entrada.close();
+		return actividad;
+	}
+
+
+	/**
      * Pregunta al usuario si desea cerrar el ciclo de la funcionalidad.
      * 
      * @return  {@code true} si desea ir al menú, {@code false} si desea volver al inicio.
@@ -651,49 +695,7 @@ public class Main {
 		System.out.println(D_lineaTablaI);
 	}
 
-    /**
-     * Permite al usuario ingresar el nombre de un guía y busca el guía en la lista de guías activas.
-     * 
-     * @return  El guía ingresado por el usuario.
-     */
-    public static Guia ingresarGuia() {
-        Scanner entrada = new Scanner(System.in);
-        System.out.println("Ingrese el nombre del guia: ");
-        
-        Guia guia = null;
-        while (true) {
-            String nombre = entrada.nextLine();
-            guia = Guia.buscarGuia(nombre);
-            if (guia != null) break;
-            System.out.println("Se ingreso incorrectamente el nombre, intentelo de nuevo y asegurese de ingresar el nombre de un guia activo");
-        }
-        entrada.close();
-        return guia;
-    }
 
-    /**
-     * Permite al usuario ingresar el nombre de una actividad y el destino, y busca la actividad en la lista de actividades activas.
-     * 
-     * @return  La actividad ingresada por el usuario.
-     */
-    public static Actividad ingresarActividad() {
-        Scanner entrada = new Scanner(System.in);
-        Actividad actividad = null;
-        while (true) {
-            System.out.println("Ingrese el destino de la actividad: ");
-            String destino = entrada.nextLine();
-                                
-            System.out.println("Ingrese el nombre de la actividad: ");
-            String nombre = entrada.nextLine();
-            
-            actividad = Actividad.buscarActividad(nombre, destino);
-            if (actividad != null) break;
-            System.out.println("Se ingreso incorrectamente el nombre o el destino, intentelo de nuevo y asegurese de ingresar la informacion de una actividad activa");
-        }
-        entrada.close();
-        return actividad;
-    }
-    
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////METODOS FUNCIONALIDAD PLANEAR VIAJE///////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
