@@ -251,6 +251,7 @@ public class Main {
 			}
 		}
 		while (edad < 18);
+		entrada.close();
 		return edad;
 	}
 
