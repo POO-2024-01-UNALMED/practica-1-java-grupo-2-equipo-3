@@ -35,6 +35,7 @@ public class Cliente extends Persona {
     }
     public Cliente(String nombre, int edad) {
         super(nombre, edad);
+        this.grupos = new ArrayList<>();
     }
 
     //porfis dejenlo asi lo necesito para mi funcionalidad:(
@@ -74,6 +75,14 @@ public class Cliente extends Persona {
     public Grupo getHabitacion() {
         return habitacion;
     }
+
+    public void addGrupo(Grupo grupo) {
+        grupos.add(grupo);
+    }
+
+    public ArrayList<Grupo> getGrupos() {
+        return grupos;
+    }   
 
     
 }
