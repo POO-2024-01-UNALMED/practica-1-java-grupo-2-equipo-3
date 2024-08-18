@@ -132,6 +132,88 @@ public class Main {
         return listaFechas;
     }
 
+	/**
+	 * Verifica si la edad del usuario ingresada es mayor a 18 años
+	 *
+	 * @return int, la edad del usuario
+	 * */
+	public static int IngresoEdadTitular() {
+		Scanner entrada = new Scanner(System.in);
+		int edad;
+		do {
+			try {
+				System.out.println("Ingrese la edad del titular de la reserva: ");
+				edad = entrada.nextInt();
+				entrada.nextLine(); //Limpiar el buffer
+				if (edad < 18) {
+					System.out.println("El titular de la reserva debe ser mayor de edad");
+				}
+			} catch (Exception e) {
+				System.out.println("###ERROR###");
+				System.out.println("Ingrese un número entero para la edad.");
+				System.out.println("Por favor, intente de nuevo.");
+				System.out.println("//////////////////////////////////////////" + "\n");
+				entrada.next();
+				edad = -1;
+			}
+		}
+		while (edad < 18);
+		entrada.close();
+		return edad;
+	}
+
+	/**
+	 * Verifica si el usuario ingreso un texto valido.
+	 *
+	 * @param enunciado, la pregunta que se le quiere hacer al usuario
+	 * @return String, el texto ingresado por el usuario
+	 * */
+	public static String verificarIngresoString(String enunciado) {
+		Scanner entrada = new Scanner(System.in);
+		String texto;
+		do {
+			try {
+				System.out.println(enunciado);
+				texto = entrada.nextLine();
+				if (texto.isEmpty()) {
+					System.out.println("El texto ingresado es muy corto.");
+				}
+				//Verificar si el texto ingresado es un número
+				if (texto.matches("[0-9]+")) {
+					System.out.println("El texto ingresado no puede ser un número.");
+					texto = "";
+				}
+				//Verificar si el texto ingresado es un número con decimales
+				if (texto.matches("[0-9]+.[0-9]+")) {
+					System.out.println("El texto ingresado no puede ser un número con decimales.");
+					texto = "";
+				}
+				//Verificar si el texto ingresado es una combinación de números y letras, pero que no sea solo letras
+
+				if (texto.matches("[a-zA-Z0-9]+") && !texto.matches("[a-zA-Z]+")) {
+					System.out.println("El texto ingresado no puede ser una combinación de números y letras.");
+					texto = "";
+				}
+				//Verificar si el texto ingresado es una combinación de números, letras y caracteres especiales, pero que no sea solo letras
+				if (texto.matches("[a-zA-Z0-9!@#$%^&*()_+]+") && !texto.matches("[a-zA-Z]+")) {
+					System.out.println("El texto ingresado no puede ser una combinación de números, letras y caracteres especiales.");
+					texto = "";
+				}
+
+			} catch (Exception e) {
+				System.out.println("###ERROR###");
+				System.out.println("Ingrese un texto válido.");
+				System.out.println("Por favor, intente de nuevo.");
+				System.out.println("//////////////////////////////////////////" + "\n");
+				entrada.next();
+				texto= "";
+			}
+		}
+		while (texto.isEmpty());
+		entrada.close();
+		return texto;
+	}
+
     /**
      *  Permite al usuario ingresar un número entero desde la consola.
      * 
@@ -225,108 +307,6 @@ public class Main {
     	}
     	
     }
-
-	/**
-	 * Verifica si la edad del usuario ingresada es mayor a 18 años
-	 *
-	 * @return int, la edad del usuario
-	 * */
-	public static int verificarIngresoEdad() {
-		Scanner entrada = new Scanner(System.in);
-		int edad;
-		do {
-			try {
-				System.out.println("Ingrese la edad del titular de la reserva: ");
-				edad = entrada.nextInt();
-				if (edad < 18) {
-					System.out.println("El titular de la reserva debe ser mayor de edad");
-				}
-			} catch (Exception e) {
-				System.out.println("###ERROR###");
-				System.out.println("Ingrese un número entero para la edad.");
-				System.out.println("Por favor, intente de nuevo.");
-				System.out.println("//////////////////////////////////////////" + "\n");
-				entrada.next();
-				edad = -1;
-			}
-		}
-		while (edad < 18);
-		entrada.close();
-		return edad;
-	}
-
-	/**
-	 * Verifica si el usuario ingreso un texto valido.
-	 *
-	 * @param enunciado, la pregunta que se le quiere hacer al usuario
-	 * @return String, el texto ingresado por el usuario
-	 * */
-	public static String verificarIngresoString(String enunciado) {
-		Scanner entrada = new Scanner(System.in);
-		String texto;
-		do {
-			try {
-				System.out.println(enunciado);
-				texto = entrada.nextLine();
-				if (texto.isEmpty()) {
-					System.out.println("El texto ingresado es muy corto.");
-				}
-				//Verificar si el texto ingresado es un número
-				if (texto.matches("[0-9]+")) {
-					System.out.println("El texto ingresado no puede ser un número.");
-					texto = "";
-				}
-				//Verificar si el texto ingresado es un número con decimales
-				if (texto.matches("[0-9]+.[0-9]+")) {
-					System.out.println("El texto ingresado no puede ser un número con decimales.");
-					texto = "";
-				}
-				//Verificar si el texto ingresado es una combinación de números y letras
-				if (texto.matches("[a-zA-Z0-9]+")) {
-					System.out.println("El texto ingresado no puede ser una combinación de números y letras.");
-					texto = "";
-				}
-				//Verificar si el texto ingresado es una combinación de números, letras y caracteres especiales
-				if (texto.matches("[a-zA-Z0-9!@#$%^&*(),.?\":{}|<>]+")) {
-					System.out.println("El texto ingresado no puede ser una combinación de números, letras y caracteres especiales.");
-					texto = "";
-				}
-
-			} catch (Exception e) {
-				System.out.println("###ERROR###");
-				System.out.println("Ingrese un texto válido.");
-				System.out.println("Por favor, intente de nuevo.");
-				System.out.println("//////////////////////////////////////////" + "\n");
-				entrada.next();
-				texto= "";
-			}
-		}
-		while (texto.isEmpty());
-		return texto;
-	}
-
-	public static int verificarIngresoNumero(String enunciado) {
-		Scanner entrada = new Scanner(System.in);
-		int numero;
-		do {
-			try {
-				System.out.println(enunciado);
-				numero = entrada.nextInt();
-				if (numero < 0) {
-					System.out.println("El número ingresado no puede ser negativo.");
-				}
-			} catch (Exception e) {
-				System.out.println("###ERROR###");
-				System.out.println("Ingrese un número entero positivo.");
-				System.out.println("Por favor, intente de nuevo.");
-				System.out.println("//////////////////////////////////////////" + "\n");
-				entrada.next();
-				numero = -1;
-			}
-		}
-		while (numero < 0);
-		return numero;
-	}
 
     /**
      * Pregunta al usuario si desea cerrar el ciclo de la funcionalidad.
