@@ -160,9 +160,11 @@ public class Main {
      * @return Idioma seleccionado.
      */
     public static Idiomas ingresarIdioma() {
+    	Scanner entrada = new Scanner(System.in);
         ArrayList<String> ListaIdiomas = Idiomas.listaNombres();
         int opcIdiomas = Integer.parseInt(ingresarOpcion("Elija el idioma: ", 0, ListaIdiomas));
         Idiomas idioma = Idiomas.buscarNombre(ListaIdiomas.get(opcIdiomas - 1));
+        entrada.close();
         return idioma;
     }
 
@@ -172,9 +174,11 @@ public class Main {
      * @return Tipo de actividad seleccionado.
      */
     public static TiposActividad ingresarTipoActividad() {
+    	Scanner entrada = new Scanner(System.in);
         ArrayList<String> ListaTipos = TiposActividad.listaNombres();
         int opcTipo = Integer.parseInt(ingresarOpcion("Elija el tipo de actividad: ", 0, ListaTipos));
         TiposActividad tipo = TiposActividad.buscarNombre(ListaTipos.get(opcTipo - 1));
+        entrada.close();
         return tipo;
     }
 
@@ -184,9 +188,11 @@ public class Main {
      * @return Destino seleccionado.
      */
     public static Destino ingresarDestino() {
+    	Scanner entrada = new Scanner(System.in);
         ArrayList<String> ListaDestinos = Destino.listaNombres();
         int opcDestinos = Integer.parseInt(ingresarOpcion("Elija el destino: ", 0, ListaDestinos));
         Destino destino = Destino.buscarNombre(ListaDestinos.get(opcDestinos - 1));
+        entrada.close();
         return destino;
     }
     /**
@@ -195,9 +201,11 @@ public class Main {
      * @return Un int con el numero de la opcion escogida .
      */
     public static int ingresarClasificacion() {
+    	Scanner entrada = new Scanner(System.in);
     	ArrayList<String> opcionesClasificacion=new ArrayList<>(Arrays.asList(
 				"Menores de 7 años","Entre 7 y 15 años","Entre 15 y 18","Mayores de 18 años"));
 		String clasificacion=ingresarOpcion("Elija una clasificación(tenga en cuenta la edad de la menor persona del grupo)",0,opcionesClasificacion);
+		entrada.close();
 		return Integer.parseInt(clasificacion);
     }
     /**
@@ -1305,6 +1313,7 @@ public class Main {
 		}
 
     public static ArrayList<ArrayList<Integer>> ingresarFiltroFecha(String opcionFiltro) {
+    	
     	ArrayList<ArrayList<Integer>> fecha=new ArrayList<>();
     	
     	if(opcionFiltro.equals("2")) {fecha=ingresarFecha("1");}
@@ -1362,7 +1371,18 @@ public class Main {
     public static ArrayList<Object> escogerOpcionBusqueda(String busqueda,Reserva reserva) {
     	ArrayList<Object> filtros=new ArrayList<>();
     	ArrayList<String> menu=new ArrayList<>();
+    	
     	//CREAR MENU DE OPCIONES SEGUN LOS PARAMETROS INGRESADOS
+    	menu.add(0,"Segun un tipo de actividad");//Buscar segun tipo de actividad
+    	menu.add(1,busqueda.equals("Idioma")?"Segun disponibilidad":"Segun un idioma especifico");
+    	if(!busqueda.equals("Idioma")) {menu.add(2,busqueda.equals("Destino")?"Segun disponibilidad en una fecha":"Segun un mes");}
+    	if(busqueda.equals("Fecha")) {menu.add(3,"Segun un año");}
+    	
+    	String opcBusqueda=ingresarOpcion("¿Como desea buscar?",0,menu);
+    	
+    	TiposActividad tipoActividad=opcBusqueda.equals("1")?ingresarTipoActividad():null;
+    	Idiomas idioma=opcBusqueda.equals("2")&&(!busqueda.equals("Idioma"))?ingresarIdioma():null;
+    	ArrayList<ArrayList<Integer>> fecha=opcBusqueda.equals("3")?(busqueda.equals("Destino")?ingresarPeriodoFechas():ingresarFiltroFecha("2")):null;
     	if(busqueda.equals("Destino")) {
     		ArrayList<String> menuPlanearDestino=new ArrayList<>(Arrays.asList(
 					"Segun un tipo de actividad","Segun un idioma especifico","Segun disponibilidad en una fecha"));
