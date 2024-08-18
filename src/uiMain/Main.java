@@ -449,7 +449,7 @@ public class Main {
 						boolean terminarCicloEscogerDestino=true;
 						while(terminarCicloEscogerDestino) {
 							imprimirTablaPlanearDestino((String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4));
-							D_filtros=elegirFiltros("Destino",(String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4),(Destino)D_filtros.get(5),false);
+							D_filtros=elegirFiltros("Destino",(String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4),(Destino)D_filtros.get(5));
 							
 							//Verificar si se termina el ciclo
 							if((Boolean)D_filtros.get(6)==true) {
@@ -479,7 +479,7 @@ public class Main {
 						boolean terminarCicloEscogerFecha=true;
 						while(terminarCicloEscogerFecha) {
 							imprimirTablaPlanearFecha((String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4));
-							F_filtros=elegirFiltros("Fecha",(String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5),false);
+							F_filtros=elegirFiltros("Fecha",(String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
 							
 							//Verificar si se termina el ciclo
 							if((Boolean)F_filtros.get(6)==true) {
@@ -531,7 +531,7 @@ public class Main {
 						boolean terminarCicloEscogerIdioma=true;
 						while(terminarCicloEscogerIdioma) {
 							imprimirTablaPlanearIdioma((String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4));
-							I_filtros=elegirFiltros("Idioma",(String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4),(Destino)I_filtros.get(5),false);
+							I_filtros=elegirFiltros("Idioma",(String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4),(Destino)I_filtros.get(5));
 							
 							//Verificar si se termina el ciclo
 							if((Boolean)I_filtros.get(6)==true) {
@@ -586,7 +586,7 @@ public class Main {
 								boolean terminarCicloPlanearPaquete=true;
 								while(terminarCicloPlanearPaquete) {  
 									ArrayList<Object> P_listaPaquetesMostrados=imprimirTablaPlanearPlan((String)P_filtrosPaquete.get(8),P_opcPaqueteFecha,(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),false);
-									P_filtrosPaquete=elegirFiltros("Paquete",(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5),false);
+									P_filtrosPaquete=elegirFiltros("Paquete",(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
 									
 									//Verificar si se cambio de plan
 									if((Boolean)P_filtrosPaquete.get(7)==true) {
@@ -634,7 +634,7 @@ public class Main {
 									for(ArrayList<Integer> fecha:reservaFicticia.getFechas()) {
 										while(P_terminarCicloElegirActividad) {  
 											imprimirTablaPlanearPlan((String)P_filtrosPlan.get(8),P_opcPaqueteFecha,(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),false);
-											P_filtrosPlan=elegirFiltros("Plan",(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5),true);
+											P_filtrosPlan=elegirFiltros("Plan",(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
 											
 											//Verificar si se cambio de plan
 											if((Boolean)P_filtrosPlan.get(7)==true) {
@@ -672,7 +672,41 @@ public class Main {
 						}
 					}
 					//PLANEAR HOTEL
+					String H_opcionMenuHotel=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar hotel","Buscar las mejores opciones de hoteles")));
 					
+					switch(H_opcionMenuHotel) {
+					case "1"://Ingresar hotel
+						//no c como se ingresa hoteles
+					break;
+					
+					case "2"://Escoger idioma
+						ArrayList<Object> H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+						
+						boolean terminarCicloEscogerIdioma=true;
+						while(terminarCicloEscogerIdioma) {
+							imprimirTablaPlanearIdioma((String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4));
+							H_filtros=elegirFiltros("Idioma",(String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5),false);
+							
+							//Verificar si se termina el ciclo
+							if((Boolean)H_filtros.get(6)==true) {
+								
+								//Verificar si se cambio el destino
+								verificarCambioDestino(reservaFicticia,(Destino)H_filtros.get(5),false);
+								
+								//Verificar si se cambio la fecha
+								verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(H_filtros.get(3)),false);
+								
+								I_listaIdioma=new ArrayList<>(Arrays.asList((Idiomas)H_filtros.get(4)));
+								reservaFicticia.setIdiomas(I_listaIdioma);//Escoger idioma final
+								terminarCicloEscogerIdioma=false;
+							}
+							//Verificar si se borraron los filtros
+							if((Boolean)H_filtros.get(0)==true) {
+								H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+							}
+						}
+					break;
+					}
 					
 					
 				}//Fin ciclo plan
@@ -1105,11 +1139,15 @@ public class Main {
 		
 	}
     
+    public static void imprimirTablaPlanearHotel(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+		
+	}
+    
     public static ArrayList<Object> imprimirTablaPlanearPlan(String opcBusqueda,String opcFecha,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,boolean planPersonalizado) {
 		return null;
 	}
 
-	public static ArrayList<Object> elegirFiltros(String busqueda,String opcPrimerFiltro,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino,boolean escogerActividad) {
+	public static ArrayList<Object> elegirFiltros(String busqueda,String opcPrimerFiltro,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
 		ArrayList<String> opcionesFiltro = new ArrayList<>(7);
 
 		//CREAR MENU DE OPCIONES DE FILTRO SEGUN LOS PARAMETROS INGRESADOS
@@ -1120,8 +1158,9 @@ public class Main {
 		opcionesFiltro.add(4,busqueda.equals("Idioma")?"Escoger idioma":idioma==null?"Filtrar por un idioma en específico":"Cambiar idioma");//5.Filtrar por idioma
 		opcionesFiltro.add(5,!busqueda.equals("Destino")?"Cambiar destino":"Escoger Destino");//6.Filtrar por destino
 		if(busqueda.equals("Fecha")) {opcionesFiltro.add(6,"Escoger fechas");};//7.Elegir opcion Fechas
-		if(busqueda.equals("Plan")) {opcionesFiltro.add(6,escogerActividad==true?"Escoger actividad":"Escoger plan turistico");};//7.Elegir opcion Fechas
-		if(busqueda.equals("Plan")) {opcionesFiltro.add(7,escogerActividad==true?"Cambiar a planear paquete turistico":"Cambiar a planear plan personalizado");}//8.Cambiar opcion plan turistico
+		if(busqueda.equals("Plan")||busqueda.equals("Paquete")) {opcionesFiltro.add(6,busqueda.equals("Plan")?"Escoger actividad":"Escoger plan turistico");};//7.Elegir opcion Fechas
+		if(busqueda.equals("Hotel")) {opcionesFiltro.add(6,"Escoger hotel");};//7.Elegir opcion Hotel
+		if(busqueda.equals("Plan")||busqueda.equals("Paquete")) {opcionesFiltro.add(7,busqueda.equals("Plan")?"Cambiar a planear paquete turistico":"Cambiar a planear plan personalizado");}//8.Cambiar opcion plan turistico
 				
 		String filtro=ingresarOpcion("¿Que desea hacer?",0,opcionesFiltro);
 		ArrayList<Object> parametrosFiltrados=new ArrayList<>(7);
