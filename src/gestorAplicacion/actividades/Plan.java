@@ -2,6 +2,7 @@ package gestorAplicacion.actividades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
@@ -21,6 +22,7 @@ public class Plan implements Serializable {
     private String clasificacion;       //Probablemente enum
     private ArrayList<Grupo> grupos;
     private Reserva reserva;
+    private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
     public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, Hotel hotel, String clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
         this.tipo = tipo;
