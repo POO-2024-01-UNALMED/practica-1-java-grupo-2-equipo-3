@@ -26,11 +26,10 @@ public class Hotel implements  Serializable{
     private Destino destino;
     private int numeroHabitaciones;
     private double precio;                              //[tipo,disponibles,capacidad]    
-    
-    
+      
     private ArrayList<Grupo> grupos;
-
-    Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
+    private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
+    private ArrayList<Restaurante> restaurantes;
 
     
     
@@ -170,6 +169,10 @@ public class Hotel implements  Serializable{
         String indiceHotelEscogido = Main.ingresarOpcion("Seleccione el hotel en el cual se desea hospedar", 0, hotelesADesplegar);
         int indiceHotelEscogidoInt = Integer.parseInt(indiceHotelEscogido) - 1;
         System.out.println("Hotel escogido: " + hotelesDisponibles.get(indiceHotelEscogidoInt).getNombre());
+        
+        for (Cliente cliente : reserva.getClientes()) {
+            cliente.setHotel(hotelesDisponibles.get(indiceHotelEscogidoInt));
+        }
         return hotelesDisponibles.get(indiceHotelEscogidoInt);
 
 
@@ -401,7 +404,9 @@ public class Hotel implements  Serializable{
 
         ArrayList<Grupo> grupos = asignarHabitacion(reserva1, null);
 
-        System.out.println("Grupos asignados: " + cliente1.getGrupos().get(0).getTipoHabitacion());
+        System.out.println("Hotel asignado: " + cliente1.getHotel().getNombre());
+
+        ArrayList<Grupo> grupos3 = asignarHabitacion(reserva1, null);
 
 
         
@@ -481,6 +486,13 @@ public class Hotel implements  Serializable{
         this.grupos.add(grupo);
     }
 
+    public void setRestaurantes(ArrayList<Restaurante> restaurantes) {
+        this.restaurantes = restaurantes;
+    }
+
+    public ArrayList<Restaurante> getRestaurantes() {
+        return restaurantes;
+    }
 
     
 

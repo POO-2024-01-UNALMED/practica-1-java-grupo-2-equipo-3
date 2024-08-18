@@ -20,6 +20,7 @@ public class Grupo implements Serializable {
     private int capacidad;
     private int clasificacion;
 
+    private String tipoMesa;
     private String tipoHabitacion;
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
 
@@ -42,6 +43,14 @@ public class Grupo implements Serializable {
         this.tipoHabitacion = tipoHabitacion;
         this.capacidad=capacidad;
     }
+
+    public Grupo(Integer capacidad, String tipoMesa){
+        this.actividad= new Actividad("Restaurante", TiposActividad.RESTAURANTE);
+        this.tipoMesa = tipoMesa;
+        this.capacidad=capacidad;
+    }
+
+    
     /**
      * Retira un guía de un grupo en una fecha específica, primero busca si se puede reemplazar al guia 
      * si no se puede se busca si se puede reubicar a los clientes en otros grupos, si no se puede se le 
@@ -358,5 +367,31 @@ public class Grupo implements Serializable {
     public String getTipoHabitacion() {
         return tipoHabitacion;
     }
+
+    public void setTipoHabitacion(String tipoHabitacion) {
+        this.tipoHabitacion = tipoHabitacion;
+    }
+
+    public String getTipoMesa() {
+        return tipoMesa;
+    }
+
+    public void setTipoMesa(String tipoMesa) {
+        this.tipoMesa = tipoMesa;
+    }
+
+    public ArrayList<ArrayList<Integer>> getFechaOcupadas() {
+        return fechaOcupadas;
+    }
+
+    public void setFechaOcupadas(ArrayList<ArrayList<Integer>> fechaOcupadas) {
+        this.fechaOcupadas = fechaOcupadas;
+    }
+
+    public static ArrayList<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    
 
 }
