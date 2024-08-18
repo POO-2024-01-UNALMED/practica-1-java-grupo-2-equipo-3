@@ -33,7 +33,8 @@ public class Main {
         List<String> opcionesPregunta = new ArrayList<>(Arrays.asList(
                 "(Digite el numero de una unica opcion)",
                 "(Si es mas de uno digite los numeros separados por espacio)",
-                "(Elija maximo 2 opciones,Si es mas de una digite los numeros separados por espacio)"));
+                "(Elija maximo 2 opciones,Si es mas de una digite los numeros separados por espacio)" ,
+				"Porfavor seleccione las habitaciones que desea de cada tipo, de la siguiente forma [Num sencilla, Num Doble, Num suites] \n" + "Tenga presente que no pude asiganr un numero Total de habitaciones mayor al numero de adultos en su reserva, "));
         
         System.out.println(pregunta + " " + opcionesPregunta.get(opcionPregunta));
         for (int i = 0; i < listaString.size(); i++) {
@@ -52,11 +53,14 @@ public class Main {
             	if(numeros.length != 1) {longitud=false;}
             }
             
-            if (numeros.length == 1 && Reserva.verificarNumero(listaString.size(), opcionEscogida) && longitud) break;
+            if ( numeros.length == 1 && Reserva.verificarNumero(listaString.size(), opcionEscogida) && longitud) break;
+
+			if (opcionPregunta == 3 ) break;
             else if (Reserva.verificarLista(listaString.size(), opcionEscogida) && longitud) break;
             System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
+
         }
-        entrada.close();
+        //entrada.close();
         return opcionEscogida;
     }
 
