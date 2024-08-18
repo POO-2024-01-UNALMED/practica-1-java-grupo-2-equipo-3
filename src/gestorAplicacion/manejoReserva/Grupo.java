@@ -36,12 +36,6 @@ public class Grupo implements Serializable {
         grupos.add(this);
     }
 
-    // Constructor para los grupos de hospedaje
-    public Grupo(String tipoHabitacion, Integer capacidad){
-        this.actividad= new Actividad("Hospedaje", TiposActividad.HOSPEDAJE);
-        this.tipoHabitacion = tipoHabitacion;
-        this.capacidad=capacidad;
-    }
     /**
      * Retira un guía de un grupo en una fecha específica, primero busca si se puede reemplazar al guia 
      * si no se puede se busca si se puede reubicar a los clientes en otros grupos, si no se puede se le 
@@ -292,10 +286,6 @@ public class Grupo implements Serializable {
         }
         return cantidadClientes;
     }
-
-    public void añadirFechaOcupada(ArrayList<Integer> fecha) {
-        fechaOcupadas.add(fecha);   
-    }
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,9 +344,5 @@ public class Grupo implements Serializable {
 	public void setClasificacion(int clasificacion) {
 		this.clasificacion = clasificacion;
 	}
-
-    public String getTipoHabitacion() {
-        return tipoHabitacion;
-    }
 
 }

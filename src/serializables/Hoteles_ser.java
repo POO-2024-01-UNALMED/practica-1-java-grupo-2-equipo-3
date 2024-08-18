@@ -8,12 +8,8 @@ import java.io.*;
 
 import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.manejoReserva.Destino;
-import gestorAplicacion.manejoReserva.Grupo;
-import gestorAplicacion.enums.TiposActividad;
 
 public class Hoteles_ser {
-
-    
 
     public static void main(String[] args) {
 
@@ -24,12 +20,6 @@ public class Hoteles_ser {
         hotel1.setNumeroHabitaciones(50);
         hotel1.setPrecio(150000);
         hotel1.setPermiteSuscripcion(true);
-        Grupo grupoHotelParaiso_sencilla = new Grupo("Sencilla", 2);
-        Grupo grupoHotelParaiso_doble = new Grupo("Doble", 4);
-        Grupo grupoHotelParaiso_suite = new Grupo("Suite", 8);
-
-
-
 
         Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidad1 = new HashMap<>();
         ArrayList<ArrayList<Object>> habitaciones1 = new ArrayList<>(Arrays.asList(

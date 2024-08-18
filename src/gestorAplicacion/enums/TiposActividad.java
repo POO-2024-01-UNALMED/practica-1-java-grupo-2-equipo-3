@@ -9,11 +9,7 @@ public enum TiposActividad {
     ECOLOGICAS("Ecológica", "Media"),
     EXTREMAS("Extrema", "Extrema"),
     ACUATICAS("Acuática", "Alta"),
-    DEPORTIVAS("Deportiva", "Alta"),
-    HOSPEDAJE("Hospedaje", "Baja"),
-    RESTAURANTE("Restaurante", "Baja"),;
-
-    
+    DEPORTIVAS("Deportiva", "Alta");
 
     private final String nombre;
     private final String dificultad;

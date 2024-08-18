@@ -2,7 +2,6 @@ package gestorAplicacion.hospedaje;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.*;
@@ -26,13 +25,12 @@ public class Hotel implements  Serializable{
     private Destino destino;
     private int numeroHabitaciones;
     private double precio;                              //[tipo,disponibles,capacidad]    
-    
-    
-    private ArrayList<Grupo> grupos;
+    private ArrayList<ArrayList<Object>> diponibilidadHabitaciones; //[[20,8,2024] = [doble,10,4],[sencilla,20,2],[Suite,30,8]]
+    private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
-    Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
+    private ArrayList<ArrayList<Grupo>> grupos;
 
-    
+    private ArrayList<Object> habitacionesAsignadas;
     
 
     //Veriifcar si hay disponilibilas habitaciones
@@ -74,8 +72,6 @@ public class Hotel implements  Serializable{
         ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
         int totalClientes = reserva.getClientes().size();
         int adultos = 0;
-
-        System.out.println("Total de clientes: " + totalClientes);
 
         // Contar el número de adultos en la reserva
         for (Cliente cliente : reserva.getClientes()) {
@@ -126,6 +122,8 @@ public class Hotel implements  Serializable{
     }
 
 
+
+    
     public static boolean hoteleConSuscripcion(Hotel hotel, Reserva reserva){
         ArrayList<Hotel> hotelesConSuscripcion = new ArrayList<Hotel>();
 
@@ -188,13 +186,10 @@ public class Hotel implements  Serializable{
     }
 
 
-    
-
-
-    public static ArrayList<Grupo> asignarHabitacion(Reserva reserva, Hotel hotel) {
+    public static void asignarHabitacion(Reserva reserva, Hotel hotel) {
         hotel = asignarHotel(reserva, cargarHoteles());
         ArrayList<String> listaString = new ArrayList<>();
-        ArrayList<ArrayList<Cliente>> listaHabitacionesClientes = new ArrayList<>();
+        ArrayList<Integer> capacidadesHotel = new ArrayList<>();
         
         // Mostrar la disponibilidad de habitaciones en el hotel
         System.out.println("Disponibilidad de habitaciones en el hotel:");
@@ -203,76 +198,56 @@ public class Hotel implements  Serializable{
             Integer disponibles = (Integer) habitacion.get(1);
             Integer capacidad = (Integer) habitacion.get(2);
             listaString.add(tipoHabitacion + " - Disponibles: " + disponibles + " - Capacidad: " + capacidad);
-            // Inicializar la lista de clientes para cada habitación
-            listaHabitacionesClientes.add(new ArrayList<>()); 
         }
-        
+    
         Integer totalHabitaciones = 0;
         String[] habitacionesEscogidasArray = new String[3];
         boolean habitacionesAsignadas = false;
-        
+    
         while (!habitacionesAsignadas) {
             String mensaje = "";
+    
             String habitacionesEscogidas = Main.ingresarOpcion(mensaje, 3, listaString);
+            
             habitacionesEscogidasArray = habitacionesEscogidas.split(" ");
             // [Número de sencillas, Número de dobles, Número de suites]
-            totalHabitaciones = Integer.parseInt(habitacionesEscogidasArray[0]) +
-                                Integer.parseInt(habitacionesEscogidasArray[1]) +
+            totalHabitaciones = Integer.parseInt(habitacionesEscogidasArray[0]) + 
+                                Integer.parseInt(habitacionesEscogidasArray[1]) + 
                                 Integer.parseInt(habitacionesEscogidasArray[2]);
-            Integer capacidadHabitacionesSeleccionada = 2 * Integer.parseInt(habitacionesEscogidasArray[0]) +
-                                                        4 * Integer.parseInt(habitacionesEscogidasArray[1]) +
-                                                        8 * Integer.parseInt(habitacionesEscogidasArray[2]);
-
-            System.out.println("Capacidad de habitaciones seleccionadas: " + capacidadHabitacionesSeleccionada.toString());
-            System.out.println("Numero de Cliente: " + reserva.getClientes().size());
-        
+            
             if (totalHabitaciones > numeroDeAdultos(reserva.getClientes())) {
                 System.out.println("El número total de habitaciones no puede ser mayor al número de adultos en la reserva.");
                 totalHabitaciones = 0;
-                
-            }
-
-            else if(totalHabitaciones == 0) {
-                System.out.println("No se han asignado habitaciones. Por favor intente nuevamente.");
-                
-            }
-
-            else if (capacidadHabitacionesSeleccionada < reserva.getClientes().size()) {
-                System.out.println("La capacidad total de las habitaciones seleccionadas no es suficiente para alojar a todos los adultos en la reserva.");
-                totalHabitaciones = 0;             
-                
-            }
-        
-             else {
+            } else {
                 habitacionesAsignadas = true;
             }
         }
-        
-        ArrayList<String> listaHabitacionesIndividuales = new ArrayList<>();
+    
         ArrayList<Integer> capacidadHabitaciones = new ArrayList<>();
+        ArrayList<String> listaHabitacionesIndividuales = new ArrayList<>();
         ArrayList<Boolean> hayAdultoEnHabitacion = new ArrayList<>();  // Para verificar si hay un adulto en cada habitación
-        
+    
         // Crear las habitaciones individuales basadas en la selección
         int numSencillas = Integer.parseInt(habitacionesEscogidasArray[0]);
         int numDobles = Integer.parseInt(habitacionesEscogidasArray[1]);
         int numSuites = Integer.parseInt(habitacionesEscogidasArray[2]);
-        
+    
         for (int i = 0; i < numSencillas; i++) {
-            listaHabitacionesIndividuales.add("sencilla");
+            listaHabitacionesIndividuales.add("Sencilla - capacidad 2");
             capacidadHabitaciones.add(2);
             hayAdultoEnHabitacion.add(false);  // Inicialmente no hay adultos en ninguna habitación
         }
         for (int i = 0; i < numDobles; i++) {
-            listaHabitacionesIndividuales.add("doble");
+            listaHabitacionesIndividuales.add("Doble - capacidad 4");
             capacidadHabitaciones.add(4);
             hayAdultoEnHabitacion.add(false);
         }
         for (int i = 0; i < numSuites; i++) {
-            listaHabitacionesIndividuales.add("suite");
+            listaHabitacionesIndividuales.add("Suite - capacidad 8");
             capacidadHabitaciones.add(8);
             hayAdultoEnHabitacion.add(false);
         }
-        
+    
         // Asignar habitaciones a cada cliente
         for (Cliente cliente : reserva.getClientes()) {
             boolean habitacionAsignada = false;
@@ -280,17 +255,20 @@ public class Hotel implements  Serializable{
                 // Construir el menú directamente como una cadena
                 String menu = "";
                 for (int i = 0; i < listaHabitacionesIndividuales.size(); i++) {
-                    menu += (i + 1) + ". Habitación " + (i + 1) + ": " + listaHabitacionesIndividuales.get(i) + " - capacidad " + capacidadHabitaciones.get(i) + "\n";
+                    menu += (i + 1) + ". Habitación " + (i + 1) + ": " + listaHabitacionesIndividuales.get(i) + "\n";
                 }
-        
+    
+                // Aquí el mensaje se muestra una sola vez antes de pedir la opción
                 String entrada1 = Main.ingresarOpcion(
                     "Seleccione en qué habitación desea alojar a " + cliente.getNombre() + " (Digite el número de una única opción):\n" + menu,
                     0, new ArrayList<>()
                 );
-        
+    
                 int indiceHabitacion;
                 try {
+                    // Ajuste de índice para que coincida con la lista (comienza en 1, pero la lista en 0)
                     indiceHabitacion = Integer.parseInt(entrada1) - 1;
+                    System.out.println("indiceHabitacion: " + indiceHabitacion);
                     if (indiceHabitacion < 0 || indiceHabitacion >= listaHabitacionesIndividuales.size()) {
                         System.out.println("La opción ingresada es incorrecta, por favor intente nuevamente.");
                         continue;
@@ -299,7 +277,7 @@ public class Hotel implements  Serializable{
                     System.out.println("La opción ingresada es incorrecta, por favor intente nuevamente.");
                     continue;
                 }
-        
+    
                 // Verificar si el cliente es un adulto o un menor de edad
                 if (cliente.getEdad() < 18) {  // Si el cliente es menor de edad
                     if (!hayAdultoEnHabitacion.get(indiceHabitacion)) {  // Verifica si no hay adultos en la habitación seleccionada
@@ -307,54 +285,27 @@ public class Hotel implements  Serializable{
                         continue;
                     }
                 }
-        
+    
                 // Disminuir la capacidad de la habitación y asignar al cliente
                 if (capacidadHabitaciones.get(indiceHabitacion) > 0) {
                     capacidadHabitaciones.set(indiceHabitacion, capacidadHabitaciones.get(indiceHabitacion) - 1);
-        
-                    // Añadir cliente a la lista correspondiente
-                    listaHabitacionesClientes.get(indiceHabitacion).add(cliente);
-        
+                    listaHabitacionesIndividuales.set(indiceHabitacion,
+                        listaHabitacionesIndividuales.get(indiceHabitacion).split(" - ")[0] +
+                        " - capacidad " + capacidadHabitaciones.get(indiceHabitacion));
+    
                     // Si el cliente es un adulto, marcar que hay un adulto en esa habitación
                     if (cliente.getEdad() >= 18) {
                         hayAdultoEnHabitacion.set(indiceHabitacion, true);
                     }
-                    
-                    cliente.setNombre("");
-                    System.out.println("Cliente " + cliente.getNombre() + " asignado a habitación tipo " + listaHabitacionesIndividuales.get(indiceHabitacion));
-                    
-                    
+    
                     habitacionAsignada = true;
                 } else {
                     System.out.println("No hay capacidad en la habitación seleccionada.");
                 }
-
-                
-            }
-
-            
-        }
-        for (int i = 0; i < listaHabitacionesIndividuales.size(); i++) {
-            ArrayList<Cliente> clientes = listaHabitacionesClientes.get(i);
-            String tipoHabitacion = listaHabitacionesIndividuales.get(i); // Obtén el tipo de habitación
-            Grupo grupo = new Grupo(tipoHabitacion, clientes.size() ); // Pasa el tipo de habitación al crear el grupo
-            for (Cliente cliente : clientes) {
-                cliente.addGrupo(grupo);
-                hotel.agregarGrupo(grupo); 
-                
             }
         }
-
-    
-        return hotel.getGrupos();
-
-        
-        
-        
+        System.out.println("Habitaciones asignadas correctamente." + listaHabitacionesIndividuales);
     }
-    
-    
-    
     
     
       
@@ -392,16 +343,16 @@ public class Hotel implements  Serializable{
 
 
         // Añadir clientes a la reserva
-        Cliente cliente1 = new Cliente("Juan Pérez", 30);
-        Cliente cliente2 = new Cliente("María López", 25);
-        Cliente cliente3 = new Cliente("Pedro Gómez", 10);
-        ArrayList<Cliente> clientes = new ArrayList<>(Arrays.asList(cliente1, cliente2, cliente3));
-        reserva1.setClientes(clientes);
-    
+        reserva1.añadirCliente("Juan Pérez", 30);
+        reserva1.añadirCliente("Ana Gómez", 25);
+        reserva1.añadirCliente("juani", 10);
 
-        ArrayList<Grupo> grupos = asignarHabitacion(reserva1, null);
+        ArrayList<Hotel> listaHoteles = cargarHoteles();
+        
 
-        System.out.println("Grupos asignados: " + cliente1.getGrupos().get(0).getTipoHabitacion());
+        
+
+        asignarHabitacion(reserva1, null);
 
 
         
@@ -440,7 +391,7 @@ public class Hotel implements  Serializable{
         return disponibilidadHabitaciones;
     } 
 
-    public ArrayList<Grupo> getGrupos() {
+    public ArrayList<ArrayList<Grupo>> getGrupos() {
         return grupos;
     }
 
@@ -465,7 +416,7 @@ public class Hotel implements  Serializable{
         
     }
 
-    public void setGrupos(ArrayList<Grupo> grupos) {
+    public void setGrupos(ArrayList<ArrayList<Grupo>> grupos) {
         this.grupos = grupos;
     }
 
@@ -476,13 +427,6 @@ public class Hotel implements  Serializable{
     public void setPermiteSuscripcion(boolean permiteSuscripcion) {
         this.permiteSuscripcion = permiteSuscripcion;
     }
-
-    public void agregarGrupo(Grupo grupo) {
-        this.grupos.add(grupo);
-    }
-
-
-    
 
     
 
