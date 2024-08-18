@@ -565,7 +565,7 @@ public class Main {
 								
 								//Verificar si se cambio de plan
 								if((Boolean)P_filtrosPlan.get(7)==true) {
-									P_opcionMenuPlan="2";
+									P_opcionMenuPlan="1";
 									terminarCicloPlanearPlan=false;
 								}
 								
