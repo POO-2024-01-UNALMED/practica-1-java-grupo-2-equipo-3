@@ -14,6 +14,7 @@ import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
+import gestorAplicacion.manejoReserva.Suscripcion;
 
 public class Main {
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,6 +217,108 @@ public class Main {
     	}
     	
     }
+
+	/**
+	 * Verifica si la edad del usuario ingresada es mayor a 18 años
+	 *
+	 * @return int, la edad del usuario
+	 * */
+	public static int verificarIngresoEdad() {
+		Scanner entrada = new Scanner(System.in);
+		int edad;
+		do {
+			try {
+				System.out.println("Ingrese la edad del titular de la reserva: ");
+				edad = entrada.nextInt();
+				if (edad < 18) {
+					System.out.println("El titular de la reserva debe ser mayor de edad");
+				}
+			} catch (Exception e) {
+				System.out.println("###ERROR###");
+				System.out.println("Ingrese un número entero para la edad.");
+				System.out.println("Por favor, intente de nuevo.");
+				System.out.println("//////////////////////////////////////////" + "\n");
+				entrada.next();
+				edad = -1;
+			}
+		}
+		while (edad < 18);
+		return edad;
+	}
+
+	/**
+	 * Verifica si el usuario ingreso un texto valido.
+	 *
+	 * @param enunciado, la pregunta que se le quiere hacer al usuario
+	 * @return String, el texto ingresado por el usuario
+	 * */
+	public static String verificarIngresoString(String enunciado) {
+		Scanner entrada = new Scanner(System.in);
+		String texto;
+		do {
+			try {
+				System.out.println(enunciado);
+				texto = entrada.nextLine();
+				if (texto.isEmpty()) {
+					System.out.println("El texto ingresado es muy corto.");
+				}
+				//Verificar si el texto ingresado es un número
+				if (texto.matches("[0-9]+")) {
+					System.out.println("El texto ingresado no puede ser un número.");
+					texto = "";
+				}
+				//Verificar si el texto ingresado es un número con decimales
+				if (texto.matches("[0-9]+.[0-9]+")) {
+					System.out.println("El texto ingresado no puede ser un número con decimales.");
+					texto = "";
+				}
+				//Verificar si el texto ingresado es una combinación de números y letras
+				if (texto.matches("[a-zA-Z0-9]+")) {
+					System.out.println("El texto ingresado no puede ser una combinación de números y letras.");
+					texto = "";
+				}
+				//Verificar si el texto ingresado es una combinación de números, letras y caracteres especiales
+				if (texto.matches("[a-zA-Z0-9!@#$%^&*(),.?\":{}|<>]+")) {
+					System.out.println("El texto ingresado no puede ser una combinación de números, letras y caracteres especiales.");
+					texto = "";
+				}
+
+			} catch (Exception e) {
+				System.out.println("###ERROR###");
+				System.out.println("Ingrese un texto válido.");
+				System.out.println("Por favor, intente de nuevo.");
+				System.out.println("//////////////////////////////////////////" + "\n");
+				entrada.next();
+				texto= "";
+			}
+		}
+		while (texto.isEmpty());
+		return texto;
+	}
+
+	public static int verificarIngresoNumero(String enunciado) {
+		Scanner entrada = new Scanner(System.in);
+		int numero;
+		do {
+			try {
+				System.out.println(enunciado);
+				numero = entrada.nextInt();
+				if (numero < 0) {
+					System.out.println("El número ingresado no puede ser negativo.");
+				}
+			} catch (Exception e) {
+				System.out.println("###ERROR###");
+				System.out.println("Ingrese un número entero positivo.");
+				System.out.println("Por favor, intente de nuevo.");
+				System.out.println("//////////////////////////////////////////" + "\n");
+				entrada.next();
+				numero = -1;
+			}
+		}
+		while (numero < 0);
+		return numero;
+	}
+
     /**
      * Pregunta al usuario si desea cerrar el ciclo de la funcionalidad.
      * 
@@ -226,7 +329,13 @@ public class Main {
         String opcionCerrarCiclo = ingresarOpcion("¿Que desea hacer?", 0, cerrarCiclo);
         return !opcionCerrarCiclo.equals("2");
     }
- 
+
+
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////METODO MAIN////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////    
@@ -264,59 +373,46 @@ public class Main {
 					String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?",0,opcionesCiclo);
 
 					switch (opcionCicloEscogida) {
-						case "1":
-							// 1.OPCION REALIZAR UNA NUEVA RESERVA
-							System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
-							ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
+                        case "1":
+                            // 1.OPCION REALIZAR UNA NUEVA RESERVA
+                            System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
+                            ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
 
-							boolean menorEdad = true;
-							while(menorEdad){
-								System.out.println("Ingrese el nombre del titular de la reserva: ");
-								String nombre = entrada.nextLine();
-								System.out.println("Ingrese la edad del titular de la reserva: ");
-								int edad = entrada.nextInt();
+                            int edad = verificarIngresoEdad();
+							String nombre = verificarIngresoString("Ingrese el nombre del titular de la reserva: ");
+                            //Verificar si el cliente tiene una suscripcion activa
 
-								if (edad < 18) {
-									System.out.println("El titular de la reserva debe ser mayor de edad");
-								}
-                                else{
-									menorEdad = false;
-									break;
-								}
-							}
-							//Verificar si el cliente tiene una suscripcion activa
+                            Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
+                            if (titular == null) {
+                                ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
+                                        "Sí", "No"));
+                                String opcionCicloEscogida = ingresarOpcion("No cuenta con una suscripción con nosotros," +
+                                        "¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
+                                switch (opcionCicloEscogida) {
+                                    case "1":
+                                        System.out.println("Ingrese el tipo de suscripción que desea adquirir: ");
+                                        String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, ListaTiposSuscripcion);
+                                        System.out.println("Ingrese la fecha de vencimiento de la suscripción: ");
+                                        ArrayList<Integer> vencimiento = ingresarFecha("2");
+                                        System.out.println("Ingrese la capacidad de la suscripción: ");
+                                        int capacidad = entrada.nextInt();
+                                        System.out.println("Ingrese el precio de la suscripción: ");
+                                        double precio = entrada.nextDouble();
+                                        Suscripcion nuevaSuscripcion = new Suscripcion(tipo, vencimiento, capacidad, precio);
+                                        titular.setSuscripcion(nuevaSuscripcion);
+                                        System.out.println("La suscripción se ha ingresado correctamente\n_______________Resumen_______________\n" + nuevaSuscripcion);
+                                        break;
 
-							Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
-							if (titular == null) {
-								ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
-										"Sí", "No"));
-								String opcionCicloEscogida = ingresarOpcion("No cuenta con una suscripción con nosotros," +
-										"¿desea comprar una para recibir descuentos impresionantes para su reserva?",0,opcionesClienteNoExiste);
-								switch (opcionCicloEscogida) {
-									case "1":
-										System.out.println("Ingrese el tipo de suscripción que desea adquirir: ");
-										String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?",0,ListaTiposSuscripcion);
-										System.out.println("Ingrese la fecha de vencimiento de la suscripción: ");
-										ArrayList<Integer> vencimiento = ingresarFecha("2");
-										System.out.println("Ingrese la capacidad de la suscripción: ");
-										int capacidad = entrada.nextInt();
-										System.out.println("Ingrese el precio de la suscripción: ");
-										double precio = entrada.nextDouble();
-										Suscripcion nuevaSuscripcion = new Suscripcion(tipo, vencimiento, capacidad, precio);
-										titular.setSuscripcion(nuevaSuscripcion);
-										System.out.println("La suscripción se ha ingresado correctamente\n_______________Resumen_______________\n"+nuevaSuscripcion);
-										break;
-
-									titular = new Cliente(nombre, edad);
-								}
-								Reserva nuevaReserva = new Reserva(cliente, listaFechas, listaActividades);
-								nuevaReserva.asignarPrecioTotal();
-								nuevaReserva.ingresarReserva();
-								System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */");
-										terminarReservaActividades=terminarCicloAdmin();
-								break;
-							}
-					}
+                                    titular = new Cliente(nombre, edad);
+                                }
+                                Reserva nuevaReserva = new Reserva(cliente, listaFechas, listaActividades);
+                                nuevaReserva.asignarPrecioTotal();
+                                nuevaReserva.ingresarReserva();
+                                System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */");
+                                terminarReservaActividades = terminarCicloAdmin();
+                                break;
+                            }
+                    }
 				}
 			
 			break;
