@@ -24,9 +24,11 @@ public class Hoteles_ser {
         hotel1.setNumeroHabitaciones(50);
         hotel1.setPrecio(150000);
         hotel1.setPermiteSuscripcion(true);
-        Grupo grupoHotelParaiso_sencilla = new Grupo("Sencilla", 2);
-        Grupo grupoHotelParaiso_doble = new Grupo("Doble", 4);
-        Grupo grupoHotelParaiso_suite = new Grupo("Suite", 8);
+        Grupo restauranteAsiatico = new Grupo(10, "Asiatico");
+        Grupo restauranteFastfood = new Grupo(20, "Fastfood");
+        Grupo restauranteSuite = new Grupo(8, "Suite");
+        hotel1.setGrupos(new ArrayList<>(Arrays.asList(restauranteAsiatico, restauranteFastfood, restauranteSuite)));
+
 
 
 

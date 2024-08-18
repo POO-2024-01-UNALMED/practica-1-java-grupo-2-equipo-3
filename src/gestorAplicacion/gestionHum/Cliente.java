@@ -56,7 +56,7 @@ public class Cliente extends Persona {
         this.suscripcion = suscripcion;
     }
 
-    private void setHotel(Hotel hotel) {
+    public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 
@@ -83,6 +83,10 @@ public class Cliente extends Persona {
     public ArrayList<Grupo> getGrupos() {
         return grupos;
     }   
+
+    public void setRestaurantes(Restaurante restaurante) {
+        restaurantes.add(restaurante);
+    }
 
     
 }
