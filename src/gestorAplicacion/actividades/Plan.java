@@ -19,12 +19,12 @@ public class Plan implements Serializable {
     private ArrayList<Actividad> actividades;
     private double precio;
     private Hotel hotel;
-    private String clasificacion;       //Probablemente enum
+    private int clasificacion;       //Probablemente enum
     private ArrayList<Grupo> grupos;
     private Reserva reserva;
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
-    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, Hotel hotel, String clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
+    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, Hotel hotel, int clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
         this.tipo = tipo;
         this.destino = destino;
         this.actividades = actividades;
@@ -34,10 +34,21 @@ public class Plan implements Serializable {
         this.grupos = grupos;
         this.reserva = reserva;
     }
+
+    public Plan(String tipo, Reserva reserva) {
+        this.tipo = tipo;
+        this.reserva = reserva;
+        this.actividades = new ArrayList<>();
+        this.clasificacion = reserva.getClasificacion();
+        this.destino = reserva.getDestino();
+        this.reserva.setTipoPlan(this.tipo);
+
+    }
     
     public Plan() {
     	this.actividades=new ArrayList<>();
     }
+
     /**
      * Añade una actividad a la lista de actividades del plan
      * 
@@ -45,6 +56,21 @@ public class Plan implements Serializable {
     public void añadirActividad(Actividad actividad) {
 		this.actividades.add(actividad);	
 	}
+
+    /**
+     * Retorna el tipo del plan
+     *
+     * @param valor obtenido por ingresarOpcion
+     * @return String del tipo de plan
+     */
+    public static String asignarTipo(int valor) {
+        if (valor == 1) {
+            return "PP";
+        } else if (valor == 2) {
+            return "PT";
+        }
+        return "";
+    }
 
 
     ////////////////////////////Métodos de acceso////////////////////////////

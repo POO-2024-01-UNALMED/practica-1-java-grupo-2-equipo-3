@@ -110,7 +110,6 @@ public class Hotel implements  Serializable{
         int totalClientes = reserva.getClientes().size();
         int adultos = 0;
 
-        System.out.println("Total de clientes: " + totalClientes);
 
         // Contar el número de adultos en la reserva
         for (Cliente cliente : reserva.getClientes()) {
@@ -154,7 +153,9 @@ public class Hotel implements  Serializable{
 
             if (hotelDisponible) {
                 hotelesDisponibles.add(hotel);
+                
             }
+            
         }
    
         
@@ -184,7 +185,6 @@ public class Hotel implements  Serializable{
         ArrayList<Hotel> hotelesDisponibles = verificarDisponibilidadHotel(reserva, hotelesEnDestino);
 
         if (hotelesDisponibles.size() == 0) {
-            System.out.println("No hay hoteles disponibles para la reserva seleccionada.");
             return null;
         }
 
@@ -205,7 +205,6 @@ public class Hotel implements  Serializable{
 
         String indiceHotelEscogido = Main.ingresarOpcion("Seleccione el hotel en el cual se desea hospedar", 0, hotelesADesplegar);
         int indiceHotelEscogidoInt = Integer.parseInt(indiceHotelEscogido) - 1;
-        System.out.println("Hotel escogido: " + hotelesDisponibles.get(indiceHotelEscogidoInt).getNombre());
         
         for (Cliente cliente : reserva.getClientes()) {
             cliente.setHotel(hotelesDisponibles.get(indiceHotelEscogidoInt));
@@ -237,7 +236,6 @@ public class Hotel implements  Serializable{
         ArrayList<ArrayList<Cliente>> listaHabitacionesClientes = new ArrayList<>();
         
         // Mostrar la disponibilidad de habitaciones en el hotel
-        System.out.println("Disponibilidad de habitaciones en el hotel:");
         for (ArrayList<Object> habitacion : hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0))) {
             String tipoHabitacion = (String) habitacion.get(0);
             Integer disponibles = (Integer) habitacion.get(1);
@@ -263,22 +261,17 @@ public class Hotel implements  Serializable{
                                                         4 * Integer.parseInt(habitacionesEscogidasArray[1]) +
                                                         8 * Integer.parseInt(habitacionesEscogidasArray[2]);
 
-            System.out.println("Capacidad de habitaciones seleccionadas: " + capacidadHabitacionesSeleccionada.toString());
-            System.out.println("Numero de Cliente: " + reserva.getClientes().size());
         
             if (totalHabitaciones > numeroDeAdultos(reserva.getClientes())) {
-                System.out.println("El número total de habitaciones no puede ser mayor al número de adultos en la reserva.");
                 totalHabitaciones = 0;
                 
             }
 
             else if(totalHabitaciones == 0) {
-                System.out.println("No se han asignado habitaciones. Por favor intente nuevamente.");
                 
             }
 
             else if (capacidadHabitacionesSeleccionada < reserva.getClientes().size()) {
-                System.out.println("La capacidad total de las habitaciones seleccionadas no es suficiente para alojar a todos los adultos en la reserva.");
                 totalHabitaciones = 0;             
                 
             }
@@ -332,18 +325,15 @@ public class Hotel implements  Serializable{
                 try {
                     indiceHabitacion = Integer.parseInt(entrada1) - 1;
                     if (indiceHabitacion < 0 || indiceHabitacion >= listaHabitacionesIndividuales.size()) {
-                        System.out.println("La opción ingresada es incorrecta, por favor intente nuevamente.");
                         continue;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("La opción ingresada es incorrecta, por favor intente nuevamente.");
                     continue;
                 }
         
                 // Verificar si el cliente es un adulto o un menor de edad
                 if (cliente.getEdad() < 18) {  // Si el cliente es menor de edad
                     if (!hayAdultoEnHabitacion.get(indiceHabitacion)) {  // Verifica si no hay adultos en la habitación seleccionada
-                        System.out.println("No puede asignar un menor de edad a una habitación sin adultos. Seleccione otra habitación.");
                         continue;
                     }
                 }
@@ -361,12 +351,10 @@ public class Hotel implements  Serializable{
                     }
                     
                     cliente.setNombre("");
-                    System.out.println("Cliente " + cliente.getNombre() + " asignado a habitación tipo " + listaHabitacionesIndividuales.get(indiceHabitacion));
                     
                     
                     habitacionAsignada = true;
                 } else {
-                    System.out.println("No hay capacidad en la habitación seleccionada.");
                 }
 
                 
@@ -393,70 +381,9 @@ public class Hotel implements  Serializable{
         
     }
     
+
+
     
-    
-    
-    
-      
-    
-        
-
-    //////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////// main ////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////
-
-    public static void main(String[] args) {
-
-
-        // ejemplos de Destinos
-        Destino destino1 = new Destino("Medellin");
-        Destino destino2 = new Destino("Cartagena");
-
-        // fechas de ejemplo
-        ArrayList<ArrayList<Integer>> fechas1 = new ArrayList<>(Arrays.asList(
-            new ArrayList<>(Arrays.asList(18, 8, 2024)),
-            new ArrayList<>(Arrays.asList(19, 8, 2024))
-        ));
-        
-
-        //reservas
-        Reserva reserva1 = new Reserva(
-            destino1, // destino
-            new ArrayList<>(Arrays.asList(Idiomas.ESPANOL, Idiomas.INGLES)), // idiomas
-            fechas1, // fechas
-            5, // clasificación (ahora int)
-            "Todo Incluido", // tipoPlan
-            true, // existeSuscripcion
-            null // plan
-        );
-
-
-        // Añadir clientes a la reserva
-        Cliente cliente1 = new Cliente("Juan Pérez", 30);
-        Cliente cliente2 = new Cliente("María López", 25);
-        Cliente cliente3 = new Cliente("Pedro Gómez", 10);
-        ArrayList<Cliente> clientes = new ArrayList<>(Arrays.asList(cliente1, cliente2, cliente3));
-        reserva1.setClientes(clientes);
-    
-
-        ArrayList<Grupo> grupos = asignarHabitacion(reserva1, null);
-
-        System.out.println("Hotel asignado: " + cliente1.getHotel().getNombre());
-
-        ArrayList<Grupo> grupos3 = asignarHabitacion(reserva1, null);
-
-
-        
-
-        
-
-
-    }
-
-
-
-
-
 
     ///////////////////////////////////////////////////////////////////////////
     /////////////////////////// Metodos De Acceso /////////////////////////////

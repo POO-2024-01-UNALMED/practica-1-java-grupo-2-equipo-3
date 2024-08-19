@@ -65,6 +65,25 @@ public class Main {
         entrada.close();
         return opcionEscogida;
     }
+	/**
+     * Imprime los valores [Fechas, idiomas, Clientes] de la reserva que se ingresa.
+     * 
+     * @param Reserva:   Reserva la cual se desea imprimir sus atributos.
+     * @return              String con los valores de la reserva.
+     */
+	public static String imprimirReserva(Reserva reserva) {
+
+		ArrayList<ArrayList<Integer>> fechas = reserva.getFechas();
+        ArrayList<Idiomas> idiomas = reserva.getIdiomas();
+        ArrayList<Cliente> clientes = reserva.getClientes();  
+        
+        String menu = "Su reserva es la siguiente: \n" + 
+        "Fechas de la reserva:" + fechas + "\n" +
+        "Idiomas:" + idiomas + "\n" +
+        "Clientes:" + clientes + "\n";
+        
+        return menu;
+	}
 
     /**
      * Permite al usuario ingresar una fecha.
@@ -321,6 +340,16 @@ public class Main {
         return !opcionCerrarCiclo.equals("2");
     }
 
+	public static Cliente ingresarCliente(){
+
+		String nombre = IngresoString("Ingrese el nombre del nuevo cliente: ");
+		Integer edad = ingresarEntero("Ingrese la edad del nuevo cliente: ");
+		Cliente cliente = new Cliente(nombre, edad);
+		return cliente;
+
+
+	}
+
 
 
 
@@ -404,6 +433,35 @@ public class Main {
                                 break;
                             }
                     }
+					//Parte actividades
+					ArrayList<String> tiposDePlan = new ArrayList<>(Arrays.asList(
+							"Plan personalizado\n" +
+									"(Se escogen las actividades desde 0 de manera manual)",
+							"Paquete turistico\n" +
+									"(Se escoge un plan turistico predefinido, con actividades generales ya establecidas)"));
+					String tipoPlan = ingresarOpcion("¿Qué desea escoger?",0,tiposDePlan);
+					Plan planCreado = null;
+					while (planCreado == null) {
+						switch (tipoPlan) {
+							case "1":
+								//Plan personalizado
+								String tipoEscogido = Plan.asignarTipo(Integer.parseInt(tipoPlan));
+								planCreado = new Plan(tipoEscogido, reservaCreada);
+								ArrayList<String> opcionesActividades =
+
+								break;
+							case "2":
+								//Paquete turistico
+								ArrayList<String> paquetes = new ArrayList<>(Arrays.asList(
+										"Paquete turistico 1",
+										"Paquete turistico 2",
+										"Paquete turistico 3"));
+								String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
+								planCreado = new Plan(paquete);
+								break;
+					}
+					}
+				}
 				}
 			
 			break;

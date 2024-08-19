@@ -88,7 +88,15 @@ public class Cliente extends Persona {
         restaurantes.add(restaurante);
     }
 
-    
+    public ArrayList<Restaurante> getRestaurantes() {
+        return restaurantes;
+    }
+
+    public void setGrupos(Grupo grupo) {
+        grupos.add(grupo);
+    }
+
+  
 }
 
 
