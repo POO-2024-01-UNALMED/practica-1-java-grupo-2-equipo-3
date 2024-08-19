@@ -306,6 +306,16 @@ public class Reserva {
     	}
     	return false;
     }
+    /**
+     * Retorna la fecha en string
+     *
+     * @param fecha la fecha a convertir
+     * @return String de la fecha
+     */
+    public static String mostrarFechaString(ArrayList<Integer> fecha) {
+    	String fechaString="["+fecha.get(0)+"/"+mostrarMes(fecha.get(1))+"/"+fecha.get(2)+"]";
+    	return fechaString;
+    }
 /////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
 
 /**

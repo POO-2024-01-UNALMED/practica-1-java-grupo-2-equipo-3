@@ -1132,7 +1132,31 @@ public class Main {
 ////////////////////////////METODOS FUNCIONALIDAD PLANEAR VIAJE///////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
     
-    public static void imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    public static ArrayList<Destino> imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
+    	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
+
+    	//PRIMERA PARTE
+		System.out.println(D_lineaTablaI);
+		String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Idioma: " +idioma.getNombre():"Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0));
+        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("3")?"Cantidad de dias: "+fecha.size():"" ;
+         
+		System.out.printf("|%-47s%-47s%-32s|%n","",PrimeraLinea1,PrimeraLinea2);
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
+		
+		//SEGUNDA PARTE
+		if(opcBusqueda.equals("1")) {
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Cantidad de","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+		}else if(opcBusqueda.equals("2")) {
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+		}else {
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+				
+		}
+		
+
+		
 		
 	}
     
