@@ -2,6 +2,7 @@ package gestorAplicacion.manejoReserva;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
@@ -229,6 +230,17 @@ public class Actividad implements Registrable, Serializable {
         actividad.destino.setActividades(actividades);
         actividad = null;
         return true;
+    }
+    /**
+     * Muestra un string del rango de edad de cada clasificacion
+     *
+     * @param indice o numero de la clasificacion
+     * @return string del rango
+     */
+    public static String mostrarClasificacion(int indice) {
+    	ArrayList<String> opcionesClasificacion=new ArrayList<>(Arrays.asList(
+				"[0<edad<7]","[7<edad<15]","[15<edad<18]","[18<edad]"));
+		return opcionesClasificacion.get(indice-1);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
