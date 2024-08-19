@@ -65,6 +65,52 @@ public class Main {
         entrada.close();
         return opcionEscogida;
     }
+
+	/**
+	 * Permite al usuario ingresar una opción basada en una pregunta dada sobre la seleccion de actividades y una lista de opciones.
+	 *
+	 * @param pregunta          La pregunta a mostrar al usuario.
+	 * @param diasReserva       La cantidad de dias de la reserva.
+	 * @param listaString       Lista de opciones disponibles.
+	 *
+	 * @return                  La lista de los nombres de las actividades seleccionadas por el usuario.
+	 */
+	public static ArrayList<String> ingresarOpcionActividad(String pregunta, int diasReserva, ArrayList<String> listaString) {
+		Scanner entrada = new Scanner(System.in);
+		ArrayList<String> nombresEscogidos = new ArrayList<>();
+
+		String opcionesPregunta = "Su reserva es de "+diasReserva+" dias, por favor seleccione POR LO MENOS \n" +
+						"la misma cantidad de actividades que le interesaría realizar en su estancia en el destino \n" +
+						"con el fin de tener más opciones a escoger, ingrese el número de las actividades que le interesen separadas por un espacio." ;
+
+		System.out.println(pregunta + "\n" + opcionesPregunta);
+		for (int i = 0; i < listaString.size(); i++) {
+			System.out.println(i + 1 + ". " + listaString.get(i));
+		}
+		String opcionEscogida;
+		while (true) {
+			opcionEscogida = entrada.nextLine();
+
+			String[] numeros = opcionEscogida.split(" ");
+			for (String index : numeros) {
+				nombresEscogidos.add(listaString.get(Integer.parseInt(index) - 1));
+			}
+			boolean longitud = true;
+				if (numeros.length < diasReserva) { longitud = false;}
+
+			if (numeros.length == 1 && Reserva.verificarNumero(listaString.size(), opcionEscogida) && longitud) {
+				break;
+			}
+			else if (Reserva.verificarLista(listaString.size(), opcionEscogida) && longitud){
+				break;
+				}
+			System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
+		}
+		entrada.close();
+		return nombresEscogidos;
+	}
+
+
 	/**
      * Imprime los valores [Fechas, idiomas, Clientes] de la reserva que se ingresa.
      * 
@@ -188,7 +234,7 @@ public class Main {
 	 * @param enunciado, la pregunta que se le quiere hacer al usuario
 	 * @return String, el texto ingresado por el usuario
 	 * */
-	public static String IngresoString(String enunciado) {
+	public static String ingresarString (String enunciado) {
 		Scanner entrada = new Scanner(System.in);
 		String texto;
 		do {
@@ -342,7 +388,7 @@ public class Main {
 
 	public static Cliente ingresarCliente(){
 
-		String nombre = IngresoString("Ingrese el nombre del nuevo cliente: ");
+		String nombre = ingresarString("Ingrese el nombre del nuevo cliente: ");
 		Integer edad = ingresarEntero("Ingrese la edad del nuevo cliente: ");
 		Cliente cliente = new Cliente(nombre, edad);
 		return cliente;
@@ -399,7 +445,7 @@ public class Main {
                             ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
 
                             int edad = IngresoEdadTitular();
-							String nombre = IngresoString("Ingrese el nombre del titular de la reserva: ");
+							String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
                             //Verificar si el cliente tiene una suscripcion activa
 
                             Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
@@ -446,8 +492,14 @@ public class Main {
 							case "1":
 								//Plan personalizado
 								String tipoEscogido = Plan.asignarTipo(Integer.parseInt(tipoPlan));
-								planCreado = new Plan(tipoEscogido, reservaCreada);
-								ArrayList<String> opcionesActividades =
+								ArrayList<Actividad> actividadesDisponibles = reservaCreada.escogerPlan(tipoEscogido);
+								planCreado = reservaCreada.plan;
+								ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(actividadesDisponibles);
+								ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaCreada.getFechas().size(), opcionesActividades);
+								planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
+
+								//Método de verificación de actividades
+								
 
 								break;
 							case "2":
