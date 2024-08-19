@@ -22,7 +22,7 @@ public class Cliente extends Persona {
 	private Hotel hotel;
 	private Grupo habitacion;
     private Grupo mesaRestaurante;
-
+    
 	  
 	@Override
 	public String toString() {
@@ -40,13 +40,13 @@ public class Cliente extends Persona {
         this.grupos = new ArrayList<>();
     }
 
-    public void añadirNuevaSuscripcion(int posic) {
-        this.suscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular)
-    }
-
     //porfis dejenlo asi lo necesito para mi funcionalidad:(
     public Cliente() {
     	this.setEdad(18);
+    }
+
+    public boolean mayorDeEdad() {
+        return this.getEdad() >= 18;
     }
 
     public void cancelarActividad(Actividad actividad, ArrayList<Integer> fecha) {

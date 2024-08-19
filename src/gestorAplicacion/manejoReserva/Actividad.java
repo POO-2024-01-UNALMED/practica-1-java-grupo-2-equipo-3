@@ -2,7 +2,11 @@ package gestorAplicacion.manejoReserva;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+import java.util.Arrays;
+>>>>>>> refs/remotes/origin/master
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
@@ -236,16 +240,34 @@ public class Actividad implements Registrable, Serializable {
         return true;
     }
 
+    /**
+     * Muestra un string del rango de edad de cada clasificacion
+     *
+     * @param indice o numero de la clasificacion
+     * @return string del rango
+     */
+    public static String mostrarClasificacion(int indice) {
+    	ArrayList<String> opcionesClasificacion=new ArrayList<>(Arrays.asList(
+				"[0<edad<7]","[7<edad<15]","[15<edad<18]","[18<edad]"));
+		return opcionesClasificacion.get(indice-1);
+    }
 
+    /**
+     * Verifica si la capacidad de la actividad es mayor o igual a la cantidad de clientes
+     *
+     * @param Reserva o numero de la clasificacion
+     * @return Boolenam si la capacidad de la actividad es mayor o igual a la cantidad de clientes
+     */
     public static boolean verificarCapacidadActividad(Reserva reserva){
 
 
-    if (reserva.getActividades().getCapacidad() >= reserva.getClientes().size()){
+        if (reserva.getActividades().getCapacidad() >= reserva.getClientes().size()){
+            return true;
+        }
+    
         return true;
     }
 
-    return true;
-}
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

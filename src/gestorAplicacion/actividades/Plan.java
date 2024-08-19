@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
+import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
@@ -92,6 +93,24 @@ public class Plan implements Serializable {
                 }
             }
         }
+    }
+
+    public ArrayList<Actividad> actividadesDisponiblesDia(ArrayList<Integer> fecha) {
+        ArrayList<Actividad> actividadesDisponibles = new ArrayList<>();
+        for(Actividad actividad: this.actividades) {
+            ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, this.reserva.getIdiomas().get(0), this.reserva.getClientes());
+            if(existenGrupos.size() > 0) {
+                    actividadesDisponibles.add(actividad);
+            }
+            else if(existenGrupos.isEmpty()) {
+                ArrayList<Guia> guiasCapacitados = actividad.buscarGuia(this.reserva.getIdiomas().get(0));
+                ArrayList<Guia> guiasConDisponibilidad = Guia.buscarDisponibilidad(guiasCapacitados, fecha);
+                if(guiasConDisponibilidad.size() > 0) {
+                    actividadesDisponibles.add(actividad);
+                }
+            }
+        }
+        return actividadesDisponibles;
     }
 
 
@@ -211,6 +230,7 @@ public class Plan implements Serializable {
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
     }
+
 
 
 }
