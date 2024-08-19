@@ -3,13 +3,13 @@ import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.manejoReserva.*;
 import gestorAplicacion.gestionHum.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.*;
 
 import javax.net.ssl.HostnameVerifier;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Funcionalidad4 {
     public static void ModificarReserva() {
@@ -52,6 +52,24 @@ public class Funcionalidad4 {
 
     /////////////////////////////////////////////////////// ALEJANDRO ///////////////////////////////////////////////////////
 
+    public static Reserva ingreasrCodigoReserva() {
+    Integer codigo = Main.ingresarEntero("Ingrese el codigo de la reserva que desea modificar: ");
+    Reserva reserva = null;
+    
+    try (FileInputStream fis = new FileInputStream("reserva_" + codigo + ".txt");
+         ObjectInputStream ois = new ObjectInputStream(fis)) {
+        reserva = (Reserva) ois.readObject();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+    
+    return reserva;
+}
+
     
 
 
@@ -82,10 +100,11 @@ public class Funcionalidad4 {
 
     }
 
-    public static void modificarFechas(Reserva reserva) {
+    public static void agregarFecha(Reserva reserva) {
         ArrayList<ArrayList<Integer>> fechasAnteriores = reserva.getFechas();
         reserva.setFechas(null);
         boolean salir = false;
+        
         while (!salir) {
             ArrayList<ArrayList<Integer>> fechas = Main.ingresarFecha("1");
             reserva.setFechas(fechas);
@@ -93,9 +112,9 @@ public class Funcionalidad4 {
             if (verificacionCondicionesHospedaje(reserva)) {
                 salir = true;
             } else {
-                String entrada = Main.ingresarOpcion("La reserva no cumple con los parametros del hotel", 0, new ArrayList<>(Arrays.asList("continuar y elimiar Hotel", "Volver a menu de modificar reserva")));
-                Integer entradaInt = Integer.parseInt(entrada);
-                if (entradaInt == 1) {
+                String opcion = Main.ingresarOpcion("La reserva no cumple con los parametros del hotel", 0, new ArrayList<>(Arrays.asList("continuar y elimiar Hotel", "Volver a menu de modificar reserva")));
+                int opcionInt = Integer.parseInt(opcion);
+                if (opcionInt == 1) {
                     for (Cliente cliente : reserva.getClientes()) {
                         cliente.setHotel(null);
                     }
@@ -105,13 +124,49 @@ public class Funcionalidad4 {
                 }
             }
             
-            String entrada = Main.ingresarOpcion("Desea agregar mas fechas", 0, new ArrayList<>(Arrays.asList("Si", "No")));
-            int entradaInt = Integer.parseInt(entrada);
-            if (entradaInt == 2) {
+            String opcionAgregar = Main.ingresarOpcion("Desea agregar mas fechas", 0, new ArrayList<>(Arrays.asList("Si", "No")));
+            int opcionAgregarInt = Integer.parseInt(opcionAgregar);
+            if (opcionAgregarInt == 2) {
                 salir = true;
             }
         }
     }
+
+    public static void eliminarFecha(Reserva reserva) {
+        ArrayList<ArrayList<Integer>> fechas = reserva.getFechas();
+        if (fechas == null || fechas.isEmpty()) {
+            System.out.println("No hay fechas para eliminar.");
+            return;
+        }
+    
+        boolean salir = false;
+        while (!salir) {
+            System.out.println("Fechas actuales de la reserva:");
+            for (int i = 0; i < fechas.size(); i++) {
+                System.out.println((i + 1) + ": " + fechas.get(i));
+            }
+    
+            int indice = Main.ingresarEntero("Ingrese el número de la fecha que desea eliminar (0 para salir): ");
+            if (indice == 0) {
+                salir = true;
+            } else if (indice > 0 && indice <= fechas.size()) {
+                fechas.remove(indice - 1);
+                reserva.setFechas(fechas);
+            } else {
+            }
+    
+            if (!fechas.isEmpty()) {
+                String opcion = Main.ingresarOpcion("Desea eliminar otra fecha?", 0, new ArrayList<>(Arrays.asList("Si", "No")));
+                int opcionInt = Integer.parseInt(opcion);
+                if (opcionInt == 2) {
+                    salir = true;
+                }
+            } else {
+                salir = true;
+            }
+        }
+    }
+    
 
     public static void agregarClientes(Reserva reserva) {
     boolean salir = false;
@@ -179,7 +234,7 @@ public class Funcionalidad4 {
     
 
     public static void modificarDestino(Reserva reserva){
-        String destinoNombre = Main.IngresoString("Ingrese el nuevo destino, tenga presente que esto obligara a cambiar de hotel: ");
+        String destinoNombre = Main.ingresarString("Ingrese el nuevo destino, tenga presente que esto obligara a cambiar de hotel: ");
         Destino destino = new Destino(destinoNombre);
         reserva.setDestino(destino);
         for(Cliente cliente: reserva.getClientes()){
