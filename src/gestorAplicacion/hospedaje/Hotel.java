@@ -118,7 +118,9 @@ public class Hotel implements  Serializable{
 
             if (hotelDisponible) {
                 hotelesDisponibles.add(hotel);
+                
             }
+            
         }
 
         return hotelesDisponibles;
@@ -356,70 +358,9 @@ public class Hotel implements  Serializable{
         
     }
     
+
+
     
-    
-    
-    
-      
-    
-        
-
-    //////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////// main ////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////
-
-    public static void main(String[] args) {
-
-
-        // ejemplos de Destinos
-        Destino destino1 = new Destino("Medellin");
-        Destino destino2 = new Destino("Cartagena");
-
-        // fechas de ejemplo
-        ArrayList<ArrayList<Integer>> fechas1 = new ArrayList<>(Arrays.asList(
-            new ArrayList<>(Arrays.asList(18, 8, 2024)),
-            new ArrayList<>(Arrays.asList(19, 8, 2024))
-        ));
-        
-
-        //reservas
-        Reserva reserva1 = new Reserva(
-            destino1, // destino
-            new ArrayList<>(Arrays.asList(Idiomas.ESPANOL, Idiomas.INGLES)), // idiomas
-            fechas1, // fechas
-            5, // clasificación (ahora int)
-            "Todo Incluido", // tipoPlan
-            true, // existeSuscripcion
-            null // plan
-        );
-
-
-        // Añadir clientes a la reserva
-        Cliente cliente1 = new Cliente("Juan Pérez", 30);
-        Cliente cliente2 = new Cliente("María López", 25);
-        Cliente cliente3 = new Cliente("Pedro Gómez", 10);
-        ArrayList<Cliente> clientes = new ArrayList<>(Arrays.asList(cliente1, cliente2, cliente3));
-        reserva1.setClientes(clientes);
-    
-
-        ArrayList<Grupo> grupos = asignarHabitacion(reserva1, null);
-
-        System.out.println("Hotel asignado: " + cliente1.getHotel().getNombre());
-
-        ArrayList<Grupo> grupos3 = asignarHabitacion(reserva1, null);
-
-
-        
-
-        
-
-
-    }
-
-
-
-
-
 
     ///////////////////////////////////////////////////////////////////////////
     /////////////////////////// Metodos De Acceso /////////////////////////////
