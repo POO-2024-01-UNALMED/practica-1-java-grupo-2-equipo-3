@@ -21,6 +21,7 @@ public class Reserva {
     private String tipoPlan;
     private boolean existeSuscripcion;
     private Plan plan;
+    private Hotel hotel;
     
     /**
      * Constructor sin parametros de la clase Reserva.
