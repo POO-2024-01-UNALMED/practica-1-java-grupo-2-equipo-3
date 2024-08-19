@@ -184,7 +184,7 @@ public class Funcionalidad4 {
         reserva.setDestino(destino);
         for(Cliente cliente: reserva.getClientes()){
             cliente.setHotel(null);
-        }
+        }   
         
     }
 

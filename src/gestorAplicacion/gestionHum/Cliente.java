@@ -20,6 +20,7 @@ public class Cliente extends Persona {
 	private Suscripcion suscripcion;
 	private Hotel hotel;
 	private Grupo habitacion;
+    private Grupo mesaRestaurante;
 
 	  
 	@Override
@@ -95,6 +96,17 @@ public class Cliente extends Persona {
     public void setGrupos(Grupo grupo) {
         grupos.add(grupo);
     }
+
+    public void setMesaRestaurante(Grupo mesaRestaurante) {
+        this.mesaRestaurante = mesaRestaurante;
+    }
+
+    public Grupo getMesaRestaurante() {
+        return mesaRestaurante;
+    }
+
+    
+
 
   
 }
