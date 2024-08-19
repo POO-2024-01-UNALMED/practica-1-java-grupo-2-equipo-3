@@ -9,6 +9,7 @@ import gestorAplicacion.manejoReserva.Suscripcion;
 import gestorAplicacion.gestionHum.Persona;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Destino;
+import gestorAplicacion.actividades.Plan;
 
 
 

@@ -6,6 +6,7 @@ import gestorAplicacion.gestionHum.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.io.*;
 
 import javax.net.ssl.HostnameVerifier;
@@ -262,5 +263,43 @@ public class Funcionalidad4 {
         }
         return false;
     }
+
+
+
+    public static boolean verificaionPlan(Actividad actividad){
+
+        if (actividad.getPlan() != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    public static boolean verificarTipoPlan(Reserva reserva){
+        if (reserva.getTipoPlan() == "Paquete"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean verificarCapacidadActividad(Reserva reserva){
+
+        
+
+
+        for (String tipo: reserva.getActividades.getCapacidad){
+
+            if(Actividad.verificarCapacidadActividad(reserva)){
+                return true;
+            }
+        
+    }
+    return false;
+}
+
 
 }

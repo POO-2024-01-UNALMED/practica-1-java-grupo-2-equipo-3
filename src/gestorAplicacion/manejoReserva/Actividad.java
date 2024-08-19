@@ -2,11 +2,14 @@ package gestorAplicacion.manejoReserva;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
+import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.interfaces.Registrable;
+import gestorAplicacion.actividades.Plan;;
 
 public class Actividad implements Registrable, Serializable {
     private String nombre;
@@ -16,6 +19,8 @@ public class Actividad implements Registrable, Serializable {
     private int capacidad;
     private int clasificacion;
     private double precio;
+    private Plan plan;
+    private String tipoPlan;
 
     /**
      * Constructor para crear una actividad con un nombre y un destino.
@@ -230,6 +235,17 @@ public class Actividad implements Registrable, Serializable {
         actividad = null;
         return true;
     }
+
+
+    public static boolean verificarCapacidadActividad(Reserva reserva){
+
+
+    if (reserva.getActividades().getCapacidad() >= reserva.getClientes().size()){
+        return true;
+    }
+
+    return true;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,5 +309,21 @@ public class Actividad implements Registrable, Serializable {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public String getTipoPlan() {
+        return tipoPlan;
+    }
+
+    public void setTipoPlan(String tipoPlan) {
+        this.tipoPlan = tipoPlan;
+    }
 
 }
