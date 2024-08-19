@@ -21,7 +21,7 @@ public class Cliente extends Persona {
 	private Hotel hotel;
 	private Grupo habitacion;
     private Grupo mesaRestaurante;
-
+    
 	  
 	@Override
 	public String toString() {
