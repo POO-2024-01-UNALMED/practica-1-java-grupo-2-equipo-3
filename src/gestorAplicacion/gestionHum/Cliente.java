@@ -40,7 +40,7 @@ public class Cliente extends Persona {
 
     //porfis dejenlo asi lo necesito para mi funcionalidad:(
     public Cliente() {
-    	
+    	this.setEdad(18);
     }
 
     public void cancelarActividad(Actividad actividad, ArrayList<Integer> fecha) {

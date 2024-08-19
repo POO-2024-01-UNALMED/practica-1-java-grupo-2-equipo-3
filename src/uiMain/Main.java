@@ -10,6 +10,7 @@ import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
@@ -535,14 +536,16 @@ public class Main {
 					}
 					
 					int cantidadPersonas=ingresarEntero("Ingrese la cantidad de personas: ");
-					Cliente clienteFicticio=new Cliente();//OJOOOO
+					ArrayList<Cliente> listaClientes=new ArrayList<>();
+	    			for(int i=0;i<cantidadPersonas;i++) {listaClientes.add(new Cliente());}
+	    			reservaFicticia.setClientes(listaClientes);
 					
 					boolean ciclo_planHotel=true;
 					while(ciclo_planHotel)	{
 						//PLANEAR PLAN TURISTICO=P
 						String P_opcionMenuPlan=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Escoger un plan personalizado","Escoger un paquete turistico")));
 						
-						Plan P_plan=null;
+						Plan P_plan=new Plan();
 						boolean P_terminarCicloPlanTuristico=true;
 						while(P_terminarCicloPlanTuristico) {
 							switch(P_opcionMenuPlan) {
@@ -588,11 +591,12 @@ public class Main {
 											//Verificar si se cambio de idioma
 											verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPaquete.get(4),false);
 											
-											//Elegir paquete,mostrar el precio, guardar precio
-											P_listaPaquetes=null;//((Plan)P_listaPaquetesMostrados)LLamar al metodo que devuelve el to string de los paquetes
+											//Elegir paquete
+											P_paquetesDisponibles=null;//Llamar al metodo que muestre las opciones de paquetes segun los parametros
+											P_listaPaquetes=null;//LLamar al metodo que devuelve el to string de los paquetes
 											P_opcPaquete=ingresarOpcion("¿Cual paquete desea?",0,P_listaPaquetes);
 											reservaFicticia.setPlan(P_paquetesDisponibles.get((Integer.parseInt(P_opcPaquete))-1));
-										
+											
 											
 											P_terminarCicloPlanTuristico=false;
 										}
@@ -634,8 +638,13 @@ public class Main {
 													//Verificar si se cambio de idioma
 													if(verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPlan.get(4),true)) {P_terminarCicloFor=false;}
 													
-													//OJOOO NO C COMO SE MANEJAN LAS ACTIVIDAES
-													ciclo_planHotel=false;
+													//Ingresar actividad al plan
+													ArrayList<Actividad> P_listaActividades=null;
+													ArrayList<String> P_actividadesNombre=new ArrayList<>();
+													for(Actividad actividad:P_listaActividades) {P_actividadesNombre.add(actividad.getNombre());}
+													String P_opcActividad=ingresarOpcion("Elija una actividad: ", 0, P_actividadesNombre);
+													P_plan.añadirActividad(P_listaActividades.get(Integer.parseInt(P_opcActividad)-1));
+													P_terminarCicloElegirActividad=false;
 												}	
 												//Verificar si se borraron los filtros
 												if((Boolean)P_filtrosPlan.get(0)==true) {
@@ -658,7 +667,11 @@ public class Main {
 						
 						switch(H_opcionMenuHotel) {
 						case "1"://Ingresar hotel
-							//no c como se ingresa hoteles
+							ArrayList<String>H_hotelesDisponibles=Hotel.mostrarHotelesDisponibles(reservaFicticia);
+							String H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
+							Hotel H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
+							for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
+							
 						break;
 						
 						case "2"://Escoger hotel
@@ -680,9 +693,15 @@ public class Main {
 									//Verificar si se cambio de idioma
 									if(verificarCambioIdioma(reservaFicticia, (Idiomas)H_filtros.get(4),true)) {terminarCicloEscogerHotel=false;}
 									
-									//Ingresar hotel
+									//Verificar si se cambio la cantidad de personas
+									verificarCantidadPersonas(reservaFicticia, (int)H_filtros.get(1));
 									
-									terminarCicloEscogerHotel=false;
+									//Ingresar hotel
+									H_hotelesDisponibles=null;
+									H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
+									H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
+									for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
+									ciclo_planHotel=false;
 								}	
 									
 								}
@@ -693,7 +712,7 @@ public class Main {
 							}
 						break;
 						}
-						
+					//AÑADIR OTROS METODOS DE HOTEL Y MOSTRAR PRESUPUESTO	
 	
 				}//Fin ciclo plan
 			break;
@@ -1230,6 +1249,22 @@ public class Main {
     		String opcIdioma=ingresarOpcion("¿Que desea hacer'", 0, new ArrayList<>(Arrays.asList("Continuar con el nuevo idioma","Volver a seleccionar el idioma escogido anteriormente")));
     		if(opcIdioma.equals("1")) {
     			reserva.setIdiomas(new ArrayList<Idiomas>(Arrays.asList(idioma)));
+    			return true;}
+    	}
+    	return false;
+    }
+    
+    public static boolean verificarCantidadPersonas(Reserva reserva, int cantidad) {
+    	if(reserva.getClientes().size()!=cantidad) {
+    		System.out.println("Se cambio la cantidad de personas guardada anteriormente ("+reserva.getClientes().size()+") por una nueva cantidad ("+cantidad);
+    		System.out.println("Tenga en cuenta que si cambia la cantidad de personas se le hara el presupuesto con la nueva cantidad y no se tendra en cuenta la anterior cantidad de personas.");
+    		String opcIdioma=ingresarOpcion("¿Que desea hacer'", 0, new ArrayList<>(Arrays.asList("Continuar con la nueva cantidad de personas","Volver a seleccionar la cantidad de personas escogida anteriormente")));
+    		if(opcIdioma.equals("1")) {
+    			ArrayList<Cliente> listaClientes=new ArrayList<>();
+    			for(int i=0;i<cantidad;i++) {
+    				listaClientes.add(new Cliente());
+    			}
+    			reserva.setClientes(listaClientes);
     			return true;}
     	}
     	return false;
