@@ -163,7 +163,6 @@ public class Actividad implements Registrable, Serializable {
         this.precio = Math.round(precio / 100) * 100;
     }
 
-
     /**
      * Busca en los guias capacitados para la actividad los guías que hablen un idioma específico.
      *

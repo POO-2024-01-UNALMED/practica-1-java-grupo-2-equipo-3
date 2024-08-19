@@ -66,6 +66,23 @@ public class Reserva {
         return null;
     }
 
+    //método escogerPlan de la clase Reserva. En este método buscamos todas las actividades posibles a realizar según la clasificación dada que se encuentren en el destino con el método actividadesDisponibles de la clase Destino, que se le entregará a escogerActividades de la clase Plan donde se seleccionará la misma cantidad de actividades que los días que se van a quedar sin importar el orden de selección y se asigna la lista de actividades de plan.
+
+
+    public ArrayList<Actividad> escogerPlan(String tipoEscogido) {
+        ArrayList<Actividad> actividadesPosibles = destino.actividadesDisponibles(clasificacion, clientes.size());
+        //Qué hacer si no hay actividades disponibles en un destino que cumpla con los criterios de clasificación y cantidad de personas
+        if (actividadesPosibles.isEmpty()) {
+            return null;
+        }
+        else if (fechas.size() >= actividadesPosibles.size()) {
+            return null;
+        }
+        Plan plan = new Plan(tipoEscogido, this);
+        this.plan = plan;
+        return actividadesPosibles;
+    }
+
 
     /**
      * Muestra una lista de días consecutivos a partir de una fecha dada.
@@ -295,7 +312,7 @@ public class Reserva {
     /**
      * Comprueba si la lista ingresada es la lista de todos los dias de un mes
      *
-     * @param la lista de fechas a comprobar.
+     * @param listaFechas lista de fechas a comprobar.
      * @return 'true' si es la lista del mes o 'false' si es una lista diferente.
      */
     public static boolean comprobarEsMes(ArrayList<ArrayList<Integer>> listaFechas) {
@@ -328,6 +345,7 @@ public class Reserva {
     	Cliente cliente = new Cliente(nombre, edad);
     	clientes.add(cliente);
     }
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////

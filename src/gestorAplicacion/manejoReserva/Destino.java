@@ -2,6 +2,7 @@ package gestorAplicacion.manejoReserva;
 
 import java.util.ArrayList;
 
+import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
@@ -63,6 +64,23 @@ public class Destino implements Serializable{
             Destino.ingresarGuia(guia, listaDestinos, 1);
         }
         return listaDestinos;
+    }
+
+    /**
+     * Muestra las actividades disponibles en un destino.
+     *
+     * @param clasificacion     La clasificación de las actividades a mostrar.
+     * @param cantidadPersonas  La cantidad de personas para las actividades.
+     * @return Una lista de actividades disponibles en el destino.
+     */
+    public ArrayList<Actividad> actividadesDisponibles(int clasificacion, int cantidadPersonas) {
+        ArrayList<Actividad> actividadesPosibles = new ArrayList<>();
+        for (Actividad actividad : actividades) {
+            if (actividad.getClasificacion() <= clasificacion && actividad.getCapacidad() >= cantidadPersonas) {
+                actividadesPosibles.add(actividad);
+            }
+        }
+        return actividadesPosibles;
     }
 
     /**
@@ -337,5 +355,6 @@ public class Destino implements Serializable{
 	public void setGuias(ArrayList<Guia> guias) {
 		this.guias = guias;
 	}
+
 
 }

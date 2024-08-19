@@ -58,6 +58,44 @@ public class Plan implements Serializable {
 	}
 
     /**
+     * muestra los nombres de las actividades ingresadas, para que el usuario pueda seleccionarlas
+     *
+     * @param actividades
+     * @return ArrayList<String> con los nombres de las actividades
+     */
+    public static ArrayList<String> mostrarNombreActividad(ArrayList<Actividad> actividades) {
+        ArrayList<String> nombres = new ArrayList<>();
+        for (Actividad actividad : actividades) {
+            nombres.add(actividad.getNombre());
+        }
+        return nombres;
+    }
+
+    /**
+     * muestra los nombres de las actividades existentes en el plan
+     *
+     * @return ArrayList<String> con los nombres de las actividades
+     */
+    public ArrayList<String> mostrarNombreActividad() {
+        ArrayList<String> nombres = new ArrayList<>();
+        for (Actividad actividad : this.actividades) {
+            nombres.add(actividad.getNombre());
+        }
+        return nombres;
+    }
+
+
+    public void escogerActividadesIniciales(ArrayList<Actividad> actividadesDisponibles, ArrayList<String> seleccionadas) {
+        for(String nombre: seleccionadas) {
+            for(Actividad actividad: actividadesDisponibles) {
+                if(actividad.getNombre().equals(nombre)) {
+                    this.actividades.add(actividad);
+                }
+            }
+        }
+    }
+
+    /**
      * Retorna el tipo del plan
      *
      * @param valor obtenido por ingresarOpcion
