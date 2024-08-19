@@ -20,12 +20,12 @@ public class Suscripcion implements Serializable {
 
 
     // Analizar el temas de listaClientes
-    public Suscripcion(String tipo, ArrayList<Integer> vencimiento, int capacidad, double precio, int descTransporte, float descTour, float descHotel) {
+    public Suscripcion(String tipo, ArrayList<Integer> vencimiento, int capacidad, double precio, int descRestauranteGratis, float descTour, float descHotel) {
         this.tipo = tipo;
         this.fechaVencimiento = vencimiento;
         this.capacidad = capacidad;
         this.precio = precio;
-        this.descRestauranteGratis = descTransporte;
+        this.descRestauranteGratis = descRestauranteGratis;
         this.descTour = descTour;
         this.descHotel = descHotel;
     }
@@ -133,6 +133,10 @@ public class Suscripcion implements Serializable {
         //Metodo que asigna la fecha de vencimiento teniendo en cuenta la fecha actual
         ArrayList<Integer> ultimaFecha = ultimaFechaReserva(fechas);
         fechaVencimiento = new ArrayList<>(Arrays.asList(ultimaFecha.get(0), ultimaFecha.get(1), ultimaFecha.get(2) + 2));
+    }
+
+    public ArrayList<String> mostrarPosiblesSuscripciones() {
+
     }
 
 
