@@ -53,7 +53,7 @@ public class Cliente extends Persona {
     ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void setSuscripcion(Suscripcion suscripcion) {
+    public void setSuscripcion(Suscripcion suscripcion) {
         this.suscripcion = suscripcion;
     }
 
@@ -61,7 +61,7 @@ public class Cliente extends Persona {
         this.hotel = hotel;
     }
 
-    private void setHabitacion(Grupo habitacion) {
+    public void setHabitacion(Grupo habitacion) {
         this.habitacion = habitacion;
     }
 

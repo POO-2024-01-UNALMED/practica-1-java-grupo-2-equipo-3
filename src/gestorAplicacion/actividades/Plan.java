@@ -129,6 +129,12 @@ public class Plan implements Serializable {
         return "";
     }
 
+    public void asignarPrecio(){
+        for(Actividad actividad: getActividades()){
+            this.precio += actividad.getPrecio();
+        }
+    }
+
     public static String stringPaqueteTuristico(Plan plan) {
     	String paquete = "Destino: " + plan.getDestino().getNombre() + "\n";
     	paquete += "Actividades: ";

@@ -9,7 +9,7 @@ import gestorAplicacion.gestionHum.Cliente;
 public class Suscripcion implements Serializable {
     private static final long serialVersionUID = 1L;
     private static ArrayList<Cliente> listaClientes = new ArrayList<>();
-    private static final ArrayList<String> listaTipos = new ArrayList<>(Arrays.asList("Básica", "General", "Premium", "VIP"));
+    private static final ArrayList<String> LISTA_TIPOS = new ArrayList<>(Arrays.asList("Básica", "General", "Premium", "VIP"));
     private String tipo;
     private ArrayList<Integer> fechaVencimiento;       //Otra instancia de una fecha
     private int capacidad;
@@ -37,6 +37,16 @@ public class Suscripcion implements Serializable {
         this.precio = precio;
         listaClientes.add(titular);
         //Falta asignar la suscripción al cliente
+    }
+
+    public Suscripcion(String tipo, ArrayList<ArrayList<Integer>> fechas, Cliente titular) {
+        this.tipo = tipo;
+        asignarPrecio();
+        asignarDescuentos();
+        asignarCapacidad();
+        asignarFechaVencimiento(fechas);
+        listaClientes.add(titular);
+        titular.setSuscripcion(this);
     }
 
 
@@ -93,6 +103,27 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    public static double precioPorTipo(String tipo) {
+        //Metodo que retorna el precio de la suscripcion dependiendo del tipo de suscripcion
+        switch (tipo) {
+            case "Básica" -> {
+                return 100000;
+            }
+            case "General" -> {
+                return 200000;
+            }
+            case "Premium" -> {
+                return 300000;
+            }
+            case "VIP" -> {
+                return 400000;
+            }
+            default -> {
+                return 0;
+            }
+        }
+    }
+
     public void asignarDescuentos() {
         //Metodo que asigna los descuentos de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -119,6 +150,27 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    public static ArrayList<Float> descuentosPorTipo(String tipo) {
+        //Metodo que retorna los descuentos de la suscripcion dependiendo del tipo de suscripcion
+        switch (tipo) {
+            case "Básica" -> {
+                return new ArrayList<>(Arrays.asList(0f, 0.15f, 0.15f));
+            }
+            case "General" -> {
+                return new ArrayList<>(Arrays.asList(0f, 0.2f, 0.2f));
+            }
+            case "Premium" -> {
+                return new ArrayList<>(Arrays.asList(1f, 0.35f, 0.35f));
+            }
+            case "VIP" -> {
+                return new ArrayList<>(Arrays.asList(2f, 0.5f, 0.5f));
+            }
+            default -> {
+                return new ArrayList<>(Arrays.asList(0f, 0f, 0f));
+            }
+        }
+    }
+
     public void asignarCapacidad() {
         //Metodo que asigna la capacidad de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -129,23 +181,44 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    public static int capacidadPorTipo(String tipo) {
+        //Metodo que retorna la capacidad de la suscripcion dependiendo del tipo de suscripcion
+        switch (tipo) {
+            case "Básica" -> {
+                return 1;
+            }
+            case "General" -> {
+                return 2;
+            }
+            case "Premium" -> {
+                return 4;
+            }
+            case "VIP" -> {
+                return 8;
+            }
+            default -> {
+                return 0;
+            }
+        }
+    }
+
     public void asignarFechaVencimiento(ArrayList<ArrayList<Integer>> fechas) {
         //Metodo que asigna la fecha de vencimiento teniendo en cuenta la fecha actual
         ArrayList<Integer> ultimaFecha = ultimaFechaReserva(fechas);
         fechaVencimiento = new ArrayList<>(Arrays.asList(ultimaFecha.get(0), ultimaFecha.get(1), ultimaFecha.get(2) + 2));
     }
 
-    public ArrayList<String> mostrarPosiblesSuscripciones() {
-
+    public static ArrayList<String> mostrarPosiblesSuscripciones() {
+        ArrayList<String> posiblesSuscripciones = new ArrayList<>();
+        for (String tipo : LISTA_TIPOS) {
+            String texto = "Tipo: " + tipo +
+                    "\n Precio: " + precioPorTipo(tipo) +
+                    "\n Descuentos: " + descuentosPorTipo(tipo) +
+                    "\n Capacidad: " + capacidadPorTipo(tipo);
+            posiblesSuscripciones.add(texto);
+        }
+        return posiblesSuscripciones;
     }
-
-
-
-
-
-
-
-
 
     public boolean verificarFechaVencimiento(ArrayList<Integer> ultimaFecha) {
 
@@ -194,7 +267,7 @@ public class Suscripcion implements Serializable {
         this.precio = precio;
     }
 
-    public void setDescRestauranteGratis(float descRestauranteGratis) {
+    public void setDescRestauranteGratis(int descRestauranteGratis) {
         this.descRestauranteGratis = descRestauranteGratis;
     }
 
@@ -211,7 +284,7 @@ public class Suscripcion implements Serializable {
     }
 
     public static ArrayList<String> getListaTipos() {
-        return listaTipos;
+        return LISTA_TIPOS;
     }
 
     public String getTipo() {
@@ -241,10 +314,5 @@ public class Suscripcion implements Serializable {
     public float getDescHotel() {
         return descHotel;
     }
-
-
-
-
-
 
 }

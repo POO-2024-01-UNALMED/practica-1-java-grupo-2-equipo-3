@@ -450,31 +450,48 @@ public class Main {
 
                             Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
                             if (titular == null) {
+								titular = new Cliente(nombre, edad);
                                 ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
                                         "Sí", "No"));
                                 String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros," +
                                         "¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
+										Suscripcion nuevaSuscripcion = null;
                                 switch (opcionCicloComprarSuscripcion) {
                                     case "1":
-                                        System.out.println("");
-                                        String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, ListaTiposSuscripcion);
-                                        System.out.println("Ingrese la fecha de vencimiento de la suscripción: ");
-                                        ArrayList<Integer> vencimiento = ingresarFecha("2");
-                                        System.out.println("Ingrese la capacidad de la suscripción: ");
-                                        int capacidad = entrada.nextInt();
-                                        System.out.println("Ingrese el precio de la suscripción: ");
-                                        double precio = entrada.nextDouble();
-                                        Suscripcion nuevaSuscripcion = new Suscripcion(tipo, vencimiento, capacidad, precio);
-                                        titular.setSuscripcion(nuevaSuscripcion);
-                                        System.out.println("La suscripción se ha ingresado correctamente\n_______________Resumen_______________\n" + nuevaSuscripcion);
-                                        break;
+										ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
+                                        String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
+										switch (tipo) {
+											case "1":
+												//Básica
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
+												break;
+											case "2":
+												//General
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
+												break;
+											case "3":
+												//Premium
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
+												break;
+											case "4":
+												//VIP
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
+												break;
+										}
+										System.out.println("La suscripción se ha ingresado correctamente");
+										break;
+									case "2":
+										System.out.println("No se ha ingresado ninguna suscripción");
+										break;
+								}
+							}
+							//INGRESAR DESTINO
+							Destino destino = ingresarDestino();
+							//INGRESAR
 
-                                    titular = new Cliente(nombre, edad);
-                                }
+
                                 Reserva nuevaReserva = new Reserva(cliente, listaFechas, listaActividades);
-                                nuevaReserva.asignarPrecioTotal();
-                                nuevaReserva.ingresarReserva();
-                                System.out.println("La reserva se ha realizado correctamente\n_______________Resumen____________ */");
+
                                 terminarReservaActividades = terminarCicloAdmin();
                                 break;
                             }
