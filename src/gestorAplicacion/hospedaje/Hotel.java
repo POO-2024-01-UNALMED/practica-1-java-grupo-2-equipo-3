@@ -31,7 +31,43 @@ public class Hotel implements  Serializable{
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
     private ArrayList<Restaurante> restaurantes;
 
-    
+    /**
+     * Muestra una lista de hoteles disponibles según una reserva específica.
+     *
+     *
+     * @param reserva La reserva que contiene la información de destino y fechas.
+     * @return Una lista de cadenas con la información de los hoteles disponibles.
+     */
+    public static ArrayList<String> mostrarHotelesDisponibles(Reserva reserva) {
+        ArrayList<Hotel> hotelesEnDestino = hotelesEnDestino(reserva, cargarHoteles());
+        ArrayList<Hotel> hotelesDisponibles = verificarDisponibilidadHotel(reserva, hotelesEnDestino);
+
+        ArrayList<String> hotelesADesplegar = new ArrayList<>();
+        // Agrega los hoteles disponibles y su información para que el Cliente Decida
+        for (Hotel hotel : hotelesDisponibles) {
+            hotelesADesplegar.add(
+                hotel.getNombre() +
+                "\n Habitaciones para fechas: " + hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0)) +
+                "\n Precio Base: " + hotel.getPrecio() +
+                "\n Cuenta con posibilidad de descuento: " + (Hotel.hoteleConSuscripcion(hotel, reserva) ? "Sí" : "No")
+            );
+        }
+        return hotelesADesplegar;
+    }
+    /**
+     * Busca el hotel elegido de la ista de hoteles disponibles según una reserva específica.
+     *
+     *
+     * @param reserva La reserva que contiene la información de destino y fechas.
+     * @param opcElegida un string de la opcion elegida
+     * @return Hotel El objeto del hotel elegido
+     */
+    public static Hotel buscarHotelLista(Reserva reserva, String opcElegida) {
+    	ArrayList<Hotel> hotelesEnDestino = hotelesEnDestino(reserva, cargarHoteles());
+        ArrayList<Hotel> hotelesDisponibles = verificarDisponibilidadHotel(reserva, hotelesEnDestino);
+        Hotel hotel=hotelesDisponibles.get(Integer.parseInt(opcElegida)-1);
+        return hotel;
+    }
     
 
     //Veriifcar si hay disponilibilas habitaciones
@@ -122,11 +158,12 @@ public class Hotel implements  Serializable{
             }
             
         }
-
+   
+        
         return hotelesDisponibles;
     }
 
-
+   
     public static boolean hoteleConSuscripcion(Hotel hotel, Reserva reserva){
         ArrayList<Hotel> hotelesConSuscripcion = new ArrayList<Hotel>();
 

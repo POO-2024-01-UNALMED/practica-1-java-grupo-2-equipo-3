@@ -34,7 +34,17 @@ public class Plan implements Serializable {
         this.grupos = grupos;
         this.reserva = reserva;
     }
-
+    
+    public Plan() {
+    	this.actividades=new ArrayList<>();
+    }
+    /**
+     * Añade una actividad a la lista de actividades del plan
+     * 
+     */
+    public void añadirActividad(Actividad actividad) {
+		this.actividades.add(actividad);	
+	}
 
 
     ////////////////////////////Métodos de acceso////////////////////////////
@@ -110,5 +120,6 @@ public class Plan implements Serializable {
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
     }
+
 
 }
