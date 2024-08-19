@@ -499,15 +499,15 @@ public class Main {
 								planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
 
 								//Método de verificación de actividades
-								
+								System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
+
 
 								break;
 							case "2":
 								//Paquete turistico
-								ArrayList<String> paquetes = new ArrayList<>(Arrays.asList(
-										"Paquete turistico 1",
-										"Paquete turistico 2",
-										"Paquete turistico 3"));
+								ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles();
+								//Tomar datos de la lista de Plan pero crear copia del objeto.
+
 								String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
 								planCreado = new Plan(paquete);
 								break;

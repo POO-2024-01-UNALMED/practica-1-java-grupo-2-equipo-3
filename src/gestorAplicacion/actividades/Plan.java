@@ -13,7 +13,7 @@ import gestorAplicacion.hospedaje.Hotel;
 
 import java.util.ArrayList;
 public class Plan implements Serializable {
-    private ArrayList<Plan> paquetes;
+    private static ArrayList<Plan> paquetes;
     private String tipo;
     private Destino destino;
     private ArrayList<Actividad> actividades;
@@ -95,6 +95,26 @@ public class Plan implements Serializable {
         }
     }
 
+
+    /**
+     * Muestra los paquetes turísticos disponibles que cumplan con los parámetros
+     *
+     * @param cantidadPersonas
+     * @param destino
+     * @param clasificacion
+     * @param dias
+     * @return ArrayList<Plan> con los paquetes turísticos disponibles
+     */
+    public static ArrayList<Plan> paquetesDisponibles(int cantidadPersonas, Destino destino, int clasificacion, int dias) {
+        ArrayList<Plan> paquetesDisponibles = new ArrayList<>();
+        for(Plan plan: paquetes) {
+            if(plan.getDestino().equals(destino) && plan.getClasificacion() == clasificacion && plan.getActividades().size() >= dias && plan.getClasificacion() <= clasificacion) {
+                paquetesDisponibles.add(plan);
+            }
+        }
+        return paquetesDisponibles;
+    }
+
     /**
      * Retorna el tipo del plan
      *
@@ -108,6 +128,16 @@ public class Plan implements Serializable {
             return "PT";
         }
         return "";
+    }
+
+    public static String stringPaqueteTuristico(Plan plan) {
+    	String paquete = "Destino: " + plan.getDestino().getNombre() + "\n";
+    	paquete += "Actividades: ";
+    	for(Actividad actividad: plan.getActividades()) {
+    		paquete += actividad.getNombre() + ", ";
+    	}
+    	paquete += "\nPrecio por persona: " + plan.getPrecio() + "\n";
+    	return paquete;
     }
 
 
@@ -161,11 +191,11 @@ public class Plan implements Serializable {
         this.hotel = hotel;
     }
 
-    public String getClasificacion() {
+    public int getClasificacion() {
         return clasificacion;
     }
 
-    public void setClasificacion(String clasificacion) {
+    public void setClasificacion(int clasificacion) {
         this.clasificacion = clasificacion;
     }
 
