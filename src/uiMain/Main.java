@@ -452,11 +452,11 @@ public class Main {
                             if (titular == null) {
                                 ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
                                         "Sí", "No"));
-                                String opcionCicloEscogida = ingresarOpcion("No cuenta con una suscripción con nosotros," +
+                                String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros," +
                                         "¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
-                                switch (opcionCicloEscogida) {
+                                switch (opcionCicloComprarSuscripcion) {
                                     case "1":
-                                        System.out.println("Ingrese el tipo de suscripción que desea adquirir: ");
+                                        System.out.println("");
                                         String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, ListaTiposSuscripcion);
                                         System.out.println("Ingrese la fecha de vencimiento de la suscripción: ");
                                         ArrayList<Integer> vencimiento = ingresarFecha("2");
@@ -505,7 +505,7 @@ public class Main {
 								break;
 							case "2":
 								//Paquete turistico
-								ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles();
+								ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles(reservaCreada.getClientes().size(), reservaCreada.getDestino(), reservaCreada.getClasificacion(), reservaCreada.getFechas().size());
 								//Tomar datos de la lista de Plan pero crear copia del objeto.
 
 								String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);

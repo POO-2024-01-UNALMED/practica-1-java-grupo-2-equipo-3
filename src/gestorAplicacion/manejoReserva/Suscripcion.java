@@ -14,18 +14,18 @@ public class Suscripcion implements Serializable {
     private ArrayList<Integer> fechaVencimiento;       //Otra instancia de una fecha
     private int capacidad;
     private double precio;
-    private float descTransporte;
+    private int descRestauranteGratis;
     private float descTour;
     private float descHotel;
 
 
     // Analizar el temas de listaClientes
-    public Suscripcion(String tipo, ArrayList<Integer> vencimiento, int capacidad, double precio, float descTransporte, float descTour, float descHotel) {
+    public Suscripcion(String tipo, ArrayList<Integer> vencimiento, int capacidad, double precio, int descRestauranteGratis, float descTour, float descHotel) {
         this.tipo = tipo;
         this.fechaVencimiento = vencimiento;
         this.capacidad = capacidad;
         this.precio = precio;
-        this.descTransporte = descTransporte;
+        this.descRestauranteGratis = descRestauranteGratis;
         this.descTour = descTour;
         this.descHotel = descHotel;
     }
@@ -66,6 +66,79 @@ public class Suscripcion implements Serializable {
         return null;
     }
 
+    public static void agregarCliente(Cliente cliente) {
+        listaClientes.add(cliente);
+    }
+
+    public static void eliminarCliente(Cliente cliente) {
+        listaClientes.remove(cliente);
+    }
+
+    public static void eliminarCliente(String nombre) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getNombre().equals(nombre)) {
+                listaClientes.remove(cliente);
+                break;
+            }
+        }
+    }
+
+    public void asignarPrecio() {
+        //Metodo que asigna el precio de la suscripcion dependiendo del tipo de suscripcion
+        switch (tipo) {
+            case "Básica" -> precio = 100000;
+            case "General" -> precio = 200000;
+            case "Premium" -> precio = 300000;
+            case "VIP" -> precio = 400000;
+        }
+    }
+
+    public void asignarDescuentos() {
+        //Metodo que asigna los descuentos de la suscripcion dependiendo del tipo de suscripcion
+        switch (tipo) {
+            case "Básica" -> {
+                descRestauranteGratis = 0;
+                descTour = 0.15f;
+                descHotel = 0.15f;
+            }
+            case "General" -> {
+                descRestauranteGratis = 0;
+                descTour = 0.2f;
+                descHotel = 0.2f;
+            }
+            case "Premium" -> {
+                descRestauranteGratis = 1;
+                descTour = 0.35f;
+                descHotel = 0.35f;
+            }
+            case "VIP" -> {
+                descRestauranteGratis = 2;
+                descTour = 0.5f;
+                descHotel = 0.5f;
+            }
+        }
+    }
+
+    public void asignarCapacidad() {
+        //Metodo que asigna la capacidad de la suscripcion dependiendo del tipo de suscripcion
+        switch (tipo) {
+            case "Básica" -> capacidad = 1;
+            case "General" -> capacidad = 2;
+            case "Premium" -> capacidad = 4;
+            case "VIP" -> capacidad = 8;
+        }
+    }
+
+    public void asignarFechaVencimiento(ArrayList<ArrayList<Integer>> fechas) {
+        //Metodo que asigna la fecha de vencimiento teniendo en cuenta la fecha actual
+        ArrayList<Integer> ultimaFecha = ultimaFechaReserva(fechas);
+        fechaVencimiento = new ArrayList<>(Arrays.asList(ultimaFecha.get(0), ultimaFecha.get(1), ultimaFecha.get(2) + 2));
+    }
+
+    public ArrayList<String> mostrarPosiblesSuscripciones() {
+
+    }
+
 
 
 
@@ -101,7 +174,11 @@ public class Suscripcion implements Serializable {
     ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setTipos(String tipo) {
+    public static void setListaClientes(ArrayList<Cliente> listaClientes) {
+        Suscripcion.listaClientes = listaClientes;
+    }
+
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -117,8 +194,8 @@ public class Suscripcion implements Serializable {
         this.precio = precio;
     }
 
-    public void setDescTransporte(float descTransporte) {
-        this.descTransporte = descTransporte;
+    public void setDescRestauranteGratis(float descRestauranteGratis) {
+        this.descRestauranteGratis = descRestauranteGratis;
     }
 
     public void setDescTour(float descTour) {
@@ -127,6 +204,14 @@ public class Suscripcion implements Serializable {
 
     public void setDescHotel(float descHotel) {
         this.descHotel = descHotel;
+    }
+
+    public static ArrayList<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+    public static ArrayList<String> getListaTipos() {
+        return listaTipos;
     }
 
     public String getTipo() {
@@ -145,8 +230,8 @@ public class Suscripcion implements Serializable {
         return precio;
     }
 
-    public float getDescTransporte() {
-        return descTransporte;
+    public float getDescRestauranteGratis() {
+        return descRestauranteGratis;
     }
 
     public float getDescTour() {

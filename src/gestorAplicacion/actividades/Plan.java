@@ -18,18 +18,17 @@ public class Plan implements Serializable {
     private Destino destino;
     private ArrayList<Actividad> actividades;
     private double precio;
-    private Hotel hotel;
     private int clasificacion;       //Probablemente enum
     private ArrayList<Grupo> grupos;
     private Reserva reserva;
+    private int cantidadDias;
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
-    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, Hotel hotel, int clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
+    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, int clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
         this.tipo = tipo;
         this.destino = destino;
         this.actividades = actividades;
         this.precio = precio;
-        this.hotel = hotel;
         this.clasificacion = clasificacion;
         this.grupos = grupos;
         this.reserva = reserva;
@@ -181,14 +180,6 @@ public class Plan implements Serializable {
 
     public void setPrecio(double precio) {
         this.precio = precio;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
     }
 
     public int getClasificacion() {
