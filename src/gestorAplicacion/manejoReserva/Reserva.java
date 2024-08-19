@@ -37,6 +37,18 @@ public class Reserva {
         this.clientes.add(titular);
         reservasExistentes.add(this);
     }
+
+    public Reserva(Cliente titular, ArrayList<ArrayList<Integer>> fechasViaje, Idiomas idioma, Destino destino){
+        this.codigo = ++ultimoCodigo;
+        this.clientes = new ArrayList<Cliente>();
+        this.clientes.add(titular);
+        this.fechas = fechasViaje;
+        this.idiomas = new ArrayList<Idiomas>();
+        this.idiomas.add(idioma);
+        this.destino = destino;
+        reservasExistentes.add(this);
+    }
+
     public Reserva(Destino destino, ArrayList<Idiomas> idiomas, ArrayList<ArrayList<Integer>> fechas, int clasificacion, String tipoPlan, boolean existeSuscripcion, Plan plan) {
     	this.codigo = ++ultimoCodigo;
         this.destino = destino;
@@ -88,7 +100,7 @@ public class Reserva {
      * Muestra una lista de días consecutivos a partir de una fecha dada.
      *
      * @param cantidadDias La cantidad de días a mostrar.
-     * @param fecha        La fecha de inicio en formato [día, mes, año].
+     * @param fechaInicio       La fecha de inicio en formato [día, mes, año].
      * @return Una lista de listas que representan las fechas en formato [día, mes, año].
      */
     public static ArrayList<ArrayList<Integer>> mostrarDias(int cantidadDias, ArrayList<Integer> fechaInicio) {

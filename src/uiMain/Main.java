@@ -439,27 +439,27 @@ public class Main {
 					String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?",0,opcionesCiclo);
 
 					switch (opcionCicloEscogida) {
-                        case "1":
-                            // 1.OPCION REALIZAR UNA NUEVA RESERVA
-                            System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
-                            ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
+						case "1":
+							// 1.OPCION REALIZAR UNA NUEVA RESERVA
+							System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
+							ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
 
-                            int edad = IngresoEdadTitular();
+							int edad = IngresoEdadTitular();
 							String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
-                            //Verificar si el cliente tiene una suscripcion activa
+							//Verificar si el cliente tiene una suscripcion activa
 
-                            Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
-                            if (titular == null) {
+							Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
+							if (titular == null) {
 								titular = new Cliente(nombre, edad);
-                                ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
-                                        "Sí", "No"));
-                                String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros," +
-                                        "¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
-										Suscripcion nuevaSuscripcion = null;
-                                switch (opcionCicloComprarSuscripcion) {
-                                    case "1":
+								ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList(
+										"Sí", "No"));
+								String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros," +
+										"¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
+								Suscripcion nuevaSuscripcion = null;
+								switch (opcionCicloComprarSuscripcion) {
+									case "1":
 										ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
-                                        String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
+										String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
 										switch (tipo) {
 											case "1":
 												//Básica
@@ -487,50 +487,47 @@ public class Main {
 							}
 							//INGRESAR DESTINO
 							Destino destino = ingresarDestino();
-							//INGRESAR
+							//INGRESAR IDIOMAS
+							Idiomas idioma = ingresarIdioma();
+							//Crear la reserva a partir de los datos ingresados
+							Reserva reservaCreada = new Reserva(titular, listaFechas, idioma, destino);
+
+							//Parte actividades
+							ArrayList<String> planesPosibles = new ArrayList<>(Arrays.asList(
+									"Plan personalizado\n" +
+											"(Se escogen las actividades desde 0 de manera manual)",
+									"Paquete turistico\n" +
+											"(Se escoge un plan turistico predefinido, con actividades generales ya establecidas)"));
+							String tipoPlan = ingresarOpcion("¿Qué desea escoger?", 0, planesPosibles);
+							Plan planCreado = null;
+							while (planCreado == null) {
+								switch (tipoPlan) {
+									case "1":
+										//Plan personalizado
+										String tipoEscogido = Plan.asignarTipo(Integer.parseInt(tipoPlan));
+										ArrayList<Actividad> actividadesDisponibles = reservaCreada.escogerPlan(tipoEscogido);
+										planCreado = reservaCreada.getPlan();
+										ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(actividadesDisponibles);
+										ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaCreada.getFechas().size(), opcionesActividades);
+										planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
+
+										//Método de verificación de actividades
+										System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
 
 
-                                Reserva nuevaReserva = new Reserva(cliente, listaFechas, listaActividades);
 
-                                terminarReservaActividades = terminarCicloAdmin();
-                                break;
-                            }
-                    }
-					//Parte actividades
-					ArrayList<String> tiposDePlan = new ArrayList<>(Arrays.asList(
-							"Plan personalizado\n" +
-									"(Se escogen las actividades desde 0 de manera manual)",
-							"Paquete turistico\n" +
-									"(Se escoge un plan turistico predefinido, con actividades generales ya establecidas)"));
-					String tipoPlan = ingresarOpcion("¿Qué desea escoger?",0,tiposDePlan);
-					Plan planCreado = null;
-					while (planCreado == null) {
-						switch (tipoPlan) {
-							case "1":
-								//Plan personalizado
-								String tipoEscogido = Plan.asignarTipo(Integer.parseInt(tipoPlan));
-								ArrayList<Actividad> actividadesDisponibles = reservaCreada.escogerPlan(tipoEscogido);
-								planCreado = reservaCreada.plan;
-								ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(actividadesDisponibles);
-								ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaCreada.getFechas().size(), opcionesActividades);
-								planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
+										break;
+									case "2":
+										//Paquete turistico
+										ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles(reservaCreada.getClientes().size(), reservaCreada.getDestino(), reservaCreada.getClasificacion(), reservaCreada.getFechas().size());
+										//Tomar datos de la lista de Plan pero crear copia del objeto.
 
-								//Método de verificación de actividades
-								System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
-
-
-								break;
-							case "2":
-								//Paquete turistico
-								ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles(reservaCreada.getClientes().size(), reservaCreada.getDestino(), reservaCreada.getClasificacion(), reservaCreada.getFechas().size());
-								//Tomar datos de la lista de Plan pero crear copia del objeto.
-
-								String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
-								planCreado = new Plan(paquete);
-								break;
+										String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
+										planCreado = new Plan(paquete);
+										break;
+							}
+						}
 					}
-					}
-				}
 				}
 			
 			break;
