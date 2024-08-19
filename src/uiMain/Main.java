@@ -679,7 +679,7 @@ public class Main {
 						//no c como se ingresa hoteles
 					break;
 					
-					case "2"://Escoger idioma
+					case "2"://Escoger hotel
 						ArrayList<Object> H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
 						
 						boolean terminarCicloEscogerIdioma=true;
@@ -1277,9 +1277,9 @@ public class Main {
     	ArrayList<String> menu=new ArrayList<>();
     	
     	//CREAR MENU DE OPCIONES SEGUN LOS PARAMETROS INGRESADOS
-    	menu.add(0,"Segun un tipo de actividad");//Buscar segun tipo de actividad
-    	menu.add(1,busqueda.equals("Idioma")?"Segun disponibilidad":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Segun una clasificacion de edad":"Segun un idioma especifico");//Buscar segun idioma o disponibilidad en idioma o clasificacion en plan
-    	if(!busqueda.equals("Idioma")) {menu.add(2,busqueda.equals("Destino")?"Segun disponibilidad en una fecha":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Ver todas las opciones disponibles":"Segun un mes");}//Buscar segun fecha o mes en fecha o todas las opciones en plan
+    	menu.add(0,busqueda.equals("Hotel")?"Segun sus actividades":"Segun un tipo de actividad");//Buscar segun tipo de actividad
+    	menu.add(1,busqueda.equals("Idioma")||busqueda.equals("Hotel")?"Segun disponibilidad":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Segun una clasificacion de edad":"Segun un idioma especifico");//Buscar segun idioma o disponibilidad en idioma o clasificacion en plan
+    	if(!busqueda.equals("Idioma")) {menu.add(2,busqueda.equals("Destino")?"Segun disponibilidad en una fecha":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Ver todas las opciones disponibles":busqueda.equals("Hotel")?"Segun sus restaurantes":"Segun un mes");}//Buscar segun fecha o mes en fecha o todas las opciones en plan o restaurantes en hotel
     	if(busqueda.equals("Fecha")) {menu.add(3,"Segun un año");}//buscar segun año en fecha
     	
     	String pregunta=busqueda.equals("Paquete")?"¿Como desea buscar su paquete?":busqueda.equals("Plan")?"¿Como desea buscar sus actividades?":"¿Como desea buscar?";
@@ -1288,14 +1288,14 @@ public class Main {
     	//AÑADIR PARAMETROS AL FILTRO
     	int clasificacion=(opcBusqueda.equals("2")&&(busqueda.equals("Paquete")||busqueda.equals("Plan")))?ingresarClasificacion():0;
     	TiposActividad tipoActividad=opcBusqueda.equals("1")?ingresarTipoActividad():null;
-    	Idiomas idioma=opcBusqueda.equals("2")&&(!busqueda.equals("Idioma"))?(busqueda.equals("Paquete")||busqueda.equals("Plan"))?reserva.getIdiomas().get(0):ingresarIdioma():null;
+    	Idiomas idioma=opcBusqueda.equals("2")&&(!busqueda.equals("Idioma"))?(busqueda.equals("Paquete")||busqueda.equals("Plan")||busqueda.equals("Hotel"))?reserva.getIdiomas().get(0):ingresarIdioma():null;
     	Destino destino=busqueda.equals("Destino")?null:reserva.getDestino();
     	ArrayList<ArrayList<Integer>> fecha = null;
-    	if (!busqueda.equals("Fecha")) {fecha = opcBusqueda.equals("3") ? ingresarPeriodoFechas() : reserva.getFechas();} 
+    	if (!busqueda.equals("Fecha")) {fecha = opcBusqueda.equals("3") ? ingresarPeriodoFechas() :!busqueda.equals("Destino")?reserva.getFechas():null;} 
     	else {fecha = opcBusqueda.equals("3") ? ingresarFiltroFecha("Fecha") : ingresarFiltroFecha("Año");}
-    	boolean actividades=busqueda.equals("Plan")?true:false;
     	
-    	filtros=new ArrayList<>(Arrays.asList(busqueda,clasificacion,tipoActividad,fecha,idioma,destino,actividades,false,opcBusqueda));
+    	
+    	filtros=new ArrayList<>(Arrays.asList(false,clasificacion,tipoActividad,fecha,idioma,destino,false,false,opcBusqueda));
 		
     	return filtros;
     }
