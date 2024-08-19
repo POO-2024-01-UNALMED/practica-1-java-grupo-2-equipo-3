@@ -96,11 +96,7 @@ public class Cliente extends Persona {
         grupos.add(grupo);
     }
 
-    public void setDestino(Destino destino) {
-        this.destino = destino;
-    }
-
-    
+  
 }
 
 
