@@ -681,6 +681,7 @@ public class Main {
 									if(verificarCambioIdioma(reservaFicticia, (Idiomas)H_filtros.get(4),true)) {terminarCicloEscogerHotel=false;}
 									
 									//Ingresar hotel
+									
 									terminarCicloEscogerHotel=false;
 								}	
 									
