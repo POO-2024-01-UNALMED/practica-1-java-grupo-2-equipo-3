@@ -231,7 +231,8 @@ public class Hotel implements  Serializable{
 
 
     public static ArrayList<Grupo> asignarHabitacion(Reserva reserva, Hotel hotel) {
-        hotel = asignarHotel(reserva, cargarHoteles());
+        ArrayList<Hotel> listaHoteles = cargarHoteles();
+        hotel = asignarHotel(reserva, listaHoteles);
         ArrayList<String> listaString = new ArrayList<>();
         ArrayList<ArrayList<Cliente>> listaHabitacionesClientes = new ArrayList<>();
         
@@ -372,6 +373,20 @@ public class Hotel implements  Serializable{
                 
             }
         }
+
+
+        ///////////// SobreEscribir el serializable de la lista de hoteles con los cambios realizados ////////////////
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream("src/serializables/listaHoteles.txt");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+       objectOutputStream.writeObject(listaHoteles);
+   } catch (FileNotFoundException e) {
+       e.printStackTrace();
+       
+   } catch (IOException e) {
+       e.printStackTrace();
+       
+   }
 
     
         return hotel.getGrupos();
