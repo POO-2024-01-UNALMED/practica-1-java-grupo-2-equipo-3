@@ -513,7 +513,13 @@ public class Main {
 
 										//Método de verificación de actividades
 										System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
+										for(ArrayList<Integer> fecha:reservaCreada.getFechas()) {
+											ArrayList<Actividad> actividadesPosibles = planCreado.actividadesDisponiblesDia(fecha);
+											ArrayList<String> actividadesDia = Plan.mostrarNombreActividad(actividadesPosibles);
+											ArrayList<String> actividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", 1, actividadesDia);
 
+
+										}
 
 
 										break;
