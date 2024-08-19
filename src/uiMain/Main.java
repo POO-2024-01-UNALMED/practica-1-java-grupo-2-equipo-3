@@ -1199,30 +1199,89 @@ public class Main {
 		String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Idioma: " +idioma.getNombre():"Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0));
         String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("3")?"Cantidad de dias: "+fecha.size():"" ;
          
-		System.out.printf("|%-47s%-47s%-32s|%n","",PrimeraLinea1,PrimeraLinea2);
+		System.out.printf("|%-47s%-50s%-30s|%n","",PrimeraLinea1,PrimeraLinea2);
 		System.out.println(D_lineaTabla);
 		System.out.println(D_lineaTabla);
 		
 		//SEGUNDA PARTE
 		if(opcBusqueda.equals("1")) {
-			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Cantidad de","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","","Cantidad de","Promedio de precios","Guias","Hoteles","Idioma mas","Clasificacion mas","");
+			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","Destino:","actividades:","actividades:","disponibles:","disponible:","disponible:","solicitada:","Oferta:");
 		}else if(opcBusqueda.equals("2")) {
 			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","Destino:","culturales:","familiares:","ecologicas:","extremas:","acuaticas:","deportivas:","actividades:");
 		}else {
-			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
-				
+			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-17s|%-15s|%-15s|%-10s|%n","","Cantidad de","Promedio de precios","Hoteles","Promedio de","Cantidad de","Principales","");
+			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-17s|%-15s|%-15s|%-10s|%n","Destino:","actividades:","actividades:","disponibles:","precios hoteles:","personas:","actividades:","Temporada:");	
 		}
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
+		
+		//IMPRIMIR CUERPO
 		
 
 		
 		
 	}
     
-    public static void imprimirTablaPlanearFecha(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    public static void imprimirTablaPlanearFecha(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
+    	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------- ";
+    	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------|";
+    	
+    	//PRIMERA PARTE
+    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Idioma: " +idioma.getNombre():opcBusqueda.equals("3")?"Mes: "+Reserva.mostrarMes(fecha.get(0).get(1)):"Año: "+fecha.get(0).get(2);
+        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("3")?"Año: "+fecha.get(0).get(2):"" ;
+        System.out.println(D_lineaTablaI);
+    	System.out.printf("|%-45s%-50s%-20s|%n","","Destino:"+destino.getNombre(),"");
+		System.out.printf("|%-45s%-50s%-20s|%n","","","");
+		System.out.printf("|%-47s%-48s%-20s|%n","",PrimeraLinea1,PrimeraLinea2);
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
 		
+		//SEGUNDA PARTE
+		if(opcBusqueda.equals("1")) {
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","","Disponibilidad","Disponibilidad","Idioma mas","Cantidad de","");
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","Mes:","de actividades:","de hoteles:","solicitado:","personas:","Oferta:");
+		}else if(opcBusqueda.equals("2")) {
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","","Tipo de actividades","Disponibilidad","Promedio de","Cantidad ","");
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","Mes:","mas solicitado:","de guias:","precios:","de precios:","Oferta");
+		}else {
+			String TerceraLinea1=opcBusqueda.equals("3")?"Cantidad de":"";
+			String CuartaLinea1=opcBusqueda.equals("3")?"Dia:":"Mes:";
+			String CuartaLinea2=opcBusqueda.equals("3")?"personas:":"Temporada:";
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","","Disponibilidad:","Promedio de precios","Disponibilidad:","Promedio de",TerceraLinea1);
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",CuartaLinea1,"de actividades:","Actividades:","hoteles:","precios hoteles:",CuartaLinea2);
+		}
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
+		//IMPRIMIR CUERPO
 	}
 	
-    public static void imprimirTablaPlanearIdioma(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    public static void imprimirTablaPlanearIdioma(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
+    	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
+    	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
+   
+    	//PRIMERA PARTE
+    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():"Disponibilidad";
+        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():"" ;
+        System.out.println(D_lineaTablaI);
+    	System.out.printf("|%-43s%-49s%-35s|%n","","Destino:"+destino.getNombre(),"");
+    	System.out.printf("|%-43s%-49s%-35s|%n","Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0)),"","Cantidad de dias: "+fecha.size());
+		System.out.printf("|%-127s|%n","");
+		System.out.printf("|%-43s%-49s%-35s|%n","",PrimeraLinea1,PrimeraLinea2);
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
+		
+		//SEGUNDA PARTE
+		if(opcBusqueda.equals("1")) {
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","Idioma:","culturales:","familiares:","ecologicas:","extremas:","acuaticas:","deportivas:","actividades:");
+		}else {
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","","Disponibilidad:","Promedio de precios","Cantidad de","Cantidad de","Clasificacion","");
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","Idioma:","de actividades:","Actividades:","personas:","guias:","mas solicitada","Oferta:");
+		}
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
 		
 	}
     
