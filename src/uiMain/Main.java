@@ -433,6 +433,35 @@ public class Main {
                                 break;
                             }
                     }
+					//Parte actividades
+					ArrayList<String> tiposDePlan = new ArrayList<>(Arrays.asList(
+							"Plan personalizado\n" +
+									"(Se escogen las actividades desde 0 de manera manual)",
+							"Paquete turistico\n" +
+									"(Se escoge un plan turistico predefinido, con actividades generales ya establecidas)"));
+					String tipoPlan = ingresarOpcion("¿Qué desea escoger?",0,tiposDePlan);
+					Plan planCreado = null;
+					while (planCreado == null) {
+						switch (tipoPlan) {
+							case "1":
+								//Plan personalizado
+								String tipoEscogido = Plan.asignarTipo(Integer.parseInt(tipoPlan));
+								planCreado = new Plan(tipoEscogido, reservaCreada);
+								ArrayList<String> opcionesActividades =
+
+								break;
+							case "2":
+								//Paquete turistico
+								ArrayList<String> paquetes = new ArrayList<>(Arrays.asList(
+										"Paquete turistico 1",
+										"Paquete turistico 2",
+										"Paquete turistico 3"));
+								String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
+								planCreado = new Plan(paquete);
+								break;
+					}
+					}
+				}
 				}
 			
 			break;

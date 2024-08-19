@@ -308,16 +308,18 @@ public class Reserva {
     }
 /////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
 
-/**
-* Añade un cliente a la lista de clientes de la reserva.
-*
-* @param nombre El nombre del cliente.
-* @param edad   La edad del cliente.
-*/
+    /**
+    * Añade un cliente a la lista de clientes de la reserva.
+    *
+    * @param nombre El nombre del cliente.
+    * @param edad   La edad del cliente.
+    */
     public void añadirCliente(String nombre, int edad) {
     	Cliente cliente = new Cliente(nombre, edad);
     	clientes.add(cliente);
-}
+    }
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
