@@ -58,16 +58,7 @@ public class Funcionalidad4 {
 
     public static void mostrarReserva(Reserva reserva){
 
-        ArrayList<ArrayList<Integer>> fechas = reserva.getFechas();
-        ArrayList<Idiomas> idiomas = reserva.getIdiomas();
-        ArrayList<Cliente> clientes = reserva.getClientes();  
-        
-        String menu = "Su reserva es la siguiente: \n" + 
-        "Fechas de la reserva:" + fechas + "\n" +
-        "Idiomas:" + idiomas + "\n" +
-        "Clientes:" + clientes + "\n";
-        
-        System.out.println(menu);
+        Main.imprimirReserva(reserva);
 
     }
 
@@ -110,6 +101,62 @@ public class Funcionalidad4 {
         
 
 
+    }
+
+    public static void agregarClientes(Reserva reserva){
+        boolean salir = false;
+        while(!salir){
+            Cliente cliente = Main.ingresarCliente();
+            reserva.getClientes().add(cliente);
+            String entrada = Main.ingresarOpcion("Desea agregar mas clientes", 0, new ArrayList<>(Arrays.asList("Si", "No")));
+            int entradaInt = Integer.parseInt(entrada) - 1;
+            if(entradaInt == 1){
+                salir = true;
+            }
+
+        }
+
+    }
+
+    public static void eliminarCliente(Reserva reserva){
+
+        ArrayList<Cliente> clientes = reserva.getClientes();
+        ArrayList<String> nombres = new ArrayList<>();
+        for(Cliente cliente: clientes){
+            nombres.add(cliente.getNombre());
+        }
+        String nombre = Main.ingresarOpcion("Ingrese el nombre del cliente que desea eliminar", 0, nombres);
+        for(Cliente cliente: clientes){
+            if(cliente.getNombre().equals(nombre)){
+                clientes.remove(cliente);
+                break;
+            }
+        }
+    }
+
+    public static void modificarIdiomas(Reserva reserva){
+    
+        ArrayList<Idiomas> idiomas = new ArrayList<>();
+        boolean salir = false;
+        while(!salir){
+            String idioma = Main.ingresarOpcion("Ingrese el idioma", 0, Idiomas.listaNombres());
+            idiomas.add(Idiomas.valueOf(idioma));
+            String entrada = Main.ingresarOpcion("Desea agregar mas idiomas", 0, new ArrayList<>(Arrays.asList("Si", "No")));
+            int entradaInt = Integer.parseInt(entrada) - 1;
+            if(entradaInt == 1){
+                salir = true;
+            }
+    
+        }
+        reserva.setIdiomas(idiomas);
+    
+    }
+
+    public static void modificarDestino(Reserva reserva){
+        String destinoNombre = Main.IngresoString("Ingrese el nuevo destino: ");
+        Destino destino = new Destino(destinoNombre);
+        reserva.setDestino(destino);
+        
     }
 
 }

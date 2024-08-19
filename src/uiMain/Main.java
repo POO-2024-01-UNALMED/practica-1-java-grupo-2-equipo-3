@@ -65,6 +65,25 @@ public class Main {
         entrada.close();
         return opcionEscogida;
     }
+	/**
+     * Imprime los valores [Fechas, idiomas, Clientes] de la reserva que se ingresa.
+     * 
+     * @param Reserva:   Reserva la cual se desea imprimir sus atributos.
+     * @return              String con los valores de la reserva.
+     */
+	public static String imprimirReserva(Reserva reserva) {
+
+		ArrayList<ArrayList<Integer>> fechas = reserva.getFechas();
+        ArrayList<Idiomas> idiomas = reserva.getIdiomas();
+        ArrayList<Cliente> clientes = reserva.getClientes();  
+        
+        String menu = "Su reserva es la siguiente: \n" + 
+        "Fechas de la reserva:" + fechas + "\n" +
+        "Idiomas:" + idiomas + "\n" +
+        "Clientes:" + clientes + "\n";
+        
+        return menu;
+	}
 
     /**
      * Permite al usuario ingresar una fecha.
@@ -320,6 +339,16 @@ public class Main {
         String opcionCerrarCiclo = ingresarOpcion("¿Que desea hacer?", 0, cerrarCiclo);
         return !opcionCerrarCiclo.equals("2");
     }
+
+	public static Cliente ingresarCliente(){
+
+		String nombre = IngresoString("Ingrese el nombre del nuevo cliente: ");
+		Integer edad = ingresarEntero("Ingrese la edad del nuevo cliente: ");
+		Cliente cliente = new Cliente(nombre, edad);
+		return cliente;
+
+
+	}
 
 
 
