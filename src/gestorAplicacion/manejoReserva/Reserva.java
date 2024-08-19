@@ -21,6 +21,7 @@ public class Reserva {
     private String tipoPlan;
     private boolean existeSuscripcion;
     private Plan plan;
+    private boolean itsPlaneacion;
     
     /**
      * Constructor sin parametros de la clase Reserva.
@@ -30,6 +31,7 @@ public class Reserva {
      */
     public Reserva() {
 		this.codigo = ++ultimoCodigo;
+		this.itsPlaneacion=true;
 	}
     public Reserva(Cliente titular) {
         this.codigo = ++ultimoCodigo;
@@ -47,6 +49,7 @@ public class Reserva {
         this.existeSuscripcion = existeSuscripcion;
         this.plan = plan;
         this.clientes = new ArrayList<Cliente>();
+        this.itsPlaneacion=false;
         reservasExistentes.add(this);
     }
 
