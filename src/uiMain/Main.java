@@ -427,9 +427,6 @@ public class Main {
 			
 			switch(opcionMenuPrincipal) {
 			case "1"://FUNCIONALIDAD: Reservar un plan de actividades turisticas
-			break;
-			
-			case"2"://FUNCIONALIDAD: Reservar un hospedaje
 				boolean terminarReservaActividades = true;
 				while(terminarReservaActividades) {
 					ArrayList<String> opcionesReserva = new ArrayList<>(Arrays.asList(
@@ -546,11 +543,39 @@ public class Main {
 										String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
 										planCreado = new Plan(paquete);
 										break;
+								}
 							}
-						}
+						case "2":
+							// 2.OPCION BUSCAR RESERVA EXISTENTE PARA AGREGAR LAS ACTIVIDADES
+							Reserva reserva = Reserva.buscarReserva();
+							if (reserva == null) {
+								System.out.println("No se encontró ninguna reserva con los datos ingresados.");
+								break;
+							}
+							ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(reserva.getPlan().getActividades());
+							ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reserva.getFechas().size(), opcionesActividades);
+							ArrayList<Actividad> actividadesDisponibles = reserva.escogerPlan(reserva.getPlan().getTipo());
+							ArrayList<Actividad> seleccionInicial = reserva.getPlan().escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
+
+							//Método de verificación de actividades por día
+							System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
+							for(ArrayList<Integer> fecha:reserva.getFechas()) {
+								ArrayList<Actividad> actividadesPosibles = reserva.getPlan().actividadesDisponiblesDia(fecha, seleccionInicial);
+								if (actividadesPosibles.isEmpty()) {
+									System.out.println("No hay actividades disponibles para el día " + fecha);
+
+									continue;
+								}
+								ArrayList<String> actividadesDia = Plan.mostrarNombreActividad(actividadesPosibles);
+								ArrayList<String> actividadEscogida = ingresarOpcionActividad("Elija las actividades que desea realizar", 1, actividadesDia);
+								reserva.getPlan().escogerActividadesDia(actividadesPosibles, actividadEscogida, fecha);
+							}
+							break;
 					}
 				}
+			break;
 			
+			case"2"://FUNCIONALIDAD: Reservar un hospedaje
 			break;
 			
 			case"3"://FUNCIONALIDAD: Planear tu viaje

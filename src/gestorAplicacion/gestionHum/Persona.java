@@ -10,10 +10,10 @@ import gestorAplicacion.manejoReserva.Grupo;
 public abstract class Persona implements Serializable {
     private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
 
-    private int edad;
-    private String nombre;
-    private Destino destino;
-    private ArrayList<Idiomas> idiomas;
+    protected int edad;
+    protected String nombre;
+    protected Destino destino;
+    protected ArrayList<Idiomas> idiomas;
 
     public Persona(String nombre, Destino destino, int edad) {
         this.idiomas = new ArrayList<>();
