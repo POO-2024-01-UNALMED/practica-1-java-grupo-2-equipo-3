@@ -23,7 +23,10 @@ public class Grupo implements Serializable {
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
     private ArrayList<Cliente> clientes;
 
-
+    public Grupo(Guia guia){
+        this.guia = guia;
+        grupos.add(this);
+    }
     public Grupo(ArrayList<Integer> fecha, Guia guia, Actividad actividad, Idiomas idioma,
                  ArrayList<ArrayList<Cliente>> listaReservas) {
         super();
