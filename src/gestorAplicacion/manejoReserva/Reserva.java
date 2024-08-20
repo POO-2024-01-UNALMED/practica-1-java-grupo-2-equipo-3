@@ -653,6 +653,10 @@ public class Reserva implements Serializable {
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
+	public void añadirResereva() {
+		 reservasExistentes.add(this);
+		
+	}
 
 
 }

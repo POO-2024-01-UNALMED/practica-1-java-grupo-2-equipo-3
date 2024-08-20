@@ -1021,7 +1021,18 @@ public class Main {
 							}
 						break;
 						}
-					//AÑADIR OTROS METODOS DE HOTEL Y MOSTRAR PRESUPUESTO	
+					System.out.println("______________________RESUMEN DE LA PLANEACION__________________");
+					System.out.println("El precio de tu plan es:"+reservaFicticia.getPlan().getPrecio()*reservaFicticia.getClientes().size());
+					System.out.println("El precio de tu hotel es:"+reservaFicticia.getClientes().get(0).getHotel().getPrecio()*reservaFicticia.getClientes().size());
+					System.out.println(reservaFicticia.toString());
+					String opcGuardarReserva=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<String>(Arrays.asList("Guardar plan:","Borrar plan")));
+					if(opcGuardarReserva.equals("1")) {
+						reservaFicticia.añadirResereva();
+						System.out.println("Su plan se ha guardado exitosamente,debe guardar el codigo para realizar su reserva con la informacion del plan ");
+					}
+					System.out.println("");
+					System.out.println("Gracias por planear su viaje con nosotros :)");
+					terminarCicloPlan=terminarCicloFuncionalidad();
 	
 				}//Fin ciclo plan
 			break;
