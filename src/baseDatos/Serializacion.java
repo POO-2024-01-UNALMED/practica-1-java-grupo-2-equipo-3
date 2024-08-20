@@ -106,8 +106,17 @@ public class Serializacion {
 
         // Crear grupos
 
-        Grupo grupo1 = new Grupo("Grupo 1");
-        Grupo grupo2 = new Grupo("Grupo 2");
+        Grupo grupo1 = new Grupo(guia1);
+        Grupo grupo2 = new Grupo(guia2);
+        Grupo grupo3 = new Grupo(guia3);
+        Grupo grupo4 = new Grupo(guia4);
+        Grupo grupo5 = new Grupo(guia5);
+        Grupo grupo6 = new Grupo(guia6);
+        Grupo grupo7 = new Grupo(guia7);
+        Grupo grupo8 = new Grupo(guia8);
+        Grupo grupo9 = new Grupo(guia9);
+        Grupo grupo10 = new Grupo(guia10);
+
 
 
 
