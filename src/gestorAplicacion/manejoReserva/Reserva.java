@@ -209,7 +209,8 @@ public class Reserva implements Serializable {
 	        	if(num<0) {return false;}
 	            return true;
 	        }
-	        return num >= 1 && num <= max;
+	        boolean verificacion= (num >= 1 && num <= max);
+	        return verificacion;
 	    } catch (NumberFormatException e) {
 	        return false;
 	    }
