@@ -537,7 +537,9 @@ public class Main {
 										break;
 									case "2":
 										//Paquete turistico
-										ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles(reservaCreada.getClientes().size(), reservaCreada.getDestino(), reservaCreada.getClasificacion(), reservaCreada.getFechas().size());
+										ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles(reservaCreada.getClientes().size(), reservaCreada.getDestino(), reservaCreada.getClasificacion(), reservaCreada.getFechas());
+										ArrayList<String> paquetes = new ArrayList<String>();
+										
 										//Tomar datos de la lista de Plan pero crear copia del objeto.
 
 										String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
