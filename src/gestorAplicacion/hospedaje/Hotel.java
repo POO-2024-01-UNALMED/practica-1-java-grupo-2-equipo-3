@@ -13,7 +13,6 @@ import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
-import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
@@ -76,37 +75,7 @@ public class Hotel implements  Serializable{
         Hotel hotel=hotelesDisponibles.get(Integer.parseInt(opcElegida)-1);
         return hotel;
     }
-    /**
-     * Busca la cantidad de hoteles en un destino
-   
-     * @param destino el destino que se dea buscar
-     * @return Hotel El objeto del hotel elegido
-     */
-    public static int cantidadHotelesDestino(Destino destino) {
-    	int cantidadHoteles=0;
-    	for(Hotel hotel:cargarHoteles()) {
-    		if(hotel.getDestino().equals(destino)) {cantidadHoteles++;}
-    	}
-    	return cantidadHoteles;
-    }
     
-    /**
-     * Calcula el promedio de los precios de hoteles para un destino específico.
-     * 
-     * @param destino  El destino para el cual se calculará el promedio de los precios de hoteles.
-     * @return         El promedio de los precios de los hoteles en el destino especificado.
-     */
-    public static long promedioPreciosActividades(Destino destino) {
-        long promedio = 0;
-        int cantidad = cantidadHotelesDestino(destino);
-        
-        if (cantidad == 0) {return 0;}
-        for (Hotel hotel : cargarHoteles()) {
-            if (hotel.getDestino().equals(destino)) {promedio += hotel.precio;}
-        }
-
-        return promedio / cantidad;
-    }
 
     //Veriifcar si hay disponilibilas habitaciones
     //revisar los grupos que estan asignaso al hotel, si un grupo tien la fecha que estamos buscando:
@@ -395,6 +364,26 @@ public class Hotel implements  Serializable{
             }
         }
     
+        // Actualizar la capacidad de las habitaciones en el mapa disponibilidadHabitaciones del hotel
+        for (int i = 0; i < listaHabitacionesIndividuales.size(); i++) {
+            String tipoHabitacion = listaHabitacionesIndividuales.get(i);
+            int habitacionesSeleccionadas = 0;
+            if (tipoHabitacion.equals("sencilla")) {
+                habitacionesSeleccionadas = numSencillas;
+            } else if (tipoHabitacion.equals("doble")) {
+                habitacionesSeleccionadas = numDobles;
+            } else if (tipoHabitacion.equals("suite")) {
+                habitacionesSeleccionadas = numSuites;
+            }
+    
+            ArrayList<ArrayList<Object>> habitacionesDisponibles = hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0));
+            for (ArrayList<Object> habitacion : habitacionesDisponibles) {
+                if (habitacion.get(0).equals(tipoHabitacion)) {
+                    habitacion.set(1, (Integer) habitacion.get(1) - habitacionesSeleccionadas);
+                }
+            }
+        }
+    
         for (int i = 0; i < listaHabitacionesIndividuales.size(); i++) {
             ArrayList<Cliente> clientes = listaHabitacionesClientes.get(i);
             String tipoHabitacion = listaHabitacionesIndividuales.get(i); // Obtén el tipo de habitación
@@ -404,6 +393,9 @@ public class Hotel implements  Serializable{
                 hotel.agregarGrupo(grupo);
             }
         }
+
+        listaHoteles.removeIf(h -> h.getNombre().equals(hotel.getNombre()));
+        listaHoteles.add(hotel);
     
         ///////////// SobreEscribir el serializable de la lista de hoteles con los cambios realizados ////////////////
     

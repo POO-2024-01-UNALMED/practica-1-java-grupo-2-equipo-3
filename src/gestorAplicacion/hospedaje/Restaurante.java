@@ -55,8 +55,7 @@ public class Restaurante implements Serializable{
 
     }
 
-    public static void asignarMesaRestaurante(Reserva reserva) {
-        Restaurante restaurante = asignarRestaurante(reserva);
+    public static void asignarMesaRestaurante(Reserva reserva, Restaurante restaurante){ {
         ArrayList<Grupo> grupos = restaurante.getGrupos();
         ArrayList<String> listaOpciones = new ArrayList<String>();
     
@@ -95,7 +94,7 @@ public class Restaurante implements Serializable{
     
         for (Cliente cliente : reserva.getClientes()) {
             cliente.setMesaRestaurante(grupos.get(Integer.parseInt(mesasEscogidasArray[0]) - 1));
-        }
+        }}
     
         //System.out.println("Mesas asignadas correctamente.");
     }
