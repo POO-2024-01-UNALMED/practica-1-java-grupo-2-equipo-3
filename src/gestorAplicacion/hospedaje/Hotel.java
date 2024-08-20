@@ -62,6 +62,21 @@ public class Hotel implements  Serializable{
         return hotelesADesplegar;
     }
     /**
+     * Filtra y devuelve una lista de hoteles disponibles en un destino específico para una fecha dada.
+     *
+     * @param destino  El destino donde se buscan los hoteles disponibles.
+     * @param fecha    La fecha para la cual se busca disponibilidad. Se espera que sea una lista de enteros que representa la fecha.
+     *
+     * @return         Una lista de hoteles que están disponibles en el destino dado para la fecha especificada.
+     */
+    public static ArrayList<Hotel> mostrarHotelesFiltrados(Destino destino,ArrayList<Integer> fecha){
+    	 ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
+    	for(Hotel hotel:cargarHoteles()) {
+    		if(hotel.getDestino().equals(destino)&&hotel.getDisponibilidadHabitaciones().get(fecha)!=null) {hotelesDisponibles.add(hotel);}
+    	}
+    	return hotelesDisponibles;
+    }
+    /**
      * Busca el hotel elegido de la ista de hoteles disponibles según una reserva específica.
      *
      *
@@ -96,7 +111,7 @@ public class Hotel implements  Serializable{
      * @param destino  El destino para el cual se calculará el promedio de los precios de hoteles.
      * @return         El promedio de los precios de los hoteles en el destino especificado.
      */
-    public static long promedioPreciosActividades(Destino destino) {
+    public static long promedioPreciosHoteles(Destino destino) {
         long promedio = 0;
         int cantidad = cantidadHotelesDestino(destino);
         
@@ -105,6 +120,16 @@ public class Hotel implements  Serializable{
             if (hotel.getDestino().equals(destino)) {promedio += hotel.precio;}
         }
 
+        return promedio / cantidad;
+    }
+    public static long promedioPreciosHoteles(ArrayList<Hotel> hoteles) {
+        long promedio = 0;
+        int cantidad = hoteles.size();
+        
+        if (cantidad == 0) {return 0;}
+        for (Hotel hotel : hoteles) {
+            promedio += hotel.precio;
+        }
         return promedio / cantidad;
     }
     //Veriifcar si hay disponilibilas habitaciones
