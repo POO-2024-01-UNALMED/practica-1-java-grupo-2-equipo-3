@@ -100,7 +100,44 @@ public class Hotel implements  Serializable{
    	 else {oferta="Baja";}
    	 return oferta;
     }
-
+    /**
+     * Filtra y devuelve una lista de hoteles disponibles en un destino específico para una fecha dada.
+     *
+     * @param destino  El destino donde se buscan los hoteles disponibles.
+     * @param fecha    La fecha para la cual se busca disponibilidad. Se espera que sea una lista de enteros que representa la fecha.
+     *
+     * @return         Una lista de hoteles que están disponibles en el destino dado para la fecha especificada.
+     */
+    public static ArrayList<Hotel> mostrarHotelesFiltrados(Destino destino,ArrayList<Integer> fecha){
+    	 ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
+    	for(Hotel hotel:cargarHoteles()) {
+    		if(hotel.getDestino().equals(destino)&&hotel.getDisponibilidadHabitaciones().get(fecha)!=null) {hotelesDisponibles.add(hotel);}
+    	}
+    	return hotelesDisponibles;
+    }
+    public static ArrayList<Hotel> mostrarHotelesFiltrados(Destino destino){
+   	 ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
+   	for(Hotel hotel:cargarHoteles()) {
+   		if(hotel.getDestino().equals(destino)) {hotelesDisponibles.add(hotel);}
+   	}
+   	return hotelesDisponibles;
+   }
+    /**
+     * Calcula el promedio de precios de una lista de hoteles.
+     *
+     * @param hoteles Una lista de objetos Hotel de los cuales se calculará el promedio de precios.
+     * @return El promedio de los precios de los hoteles en la lista. Si la lista está vacía, retorna 0.
+     */
+    public static long promedioPreciosHoteles(ArrayList<Hotel> hoteles) {
+        long promedio = 0;
+        int cantidad = hoteles.size();
+        
+        if (cantidad == 0) {return 0;}
+        for (Hotel hotel : hoteles) {
+            promedio += hotel.precio;
+        }
+        return promedio / cantidad;
+    }
     /**
      * Muestra una lista de hoteles disponibles según una reserva específica.
      *
