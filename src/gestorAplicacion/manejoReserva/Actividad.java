@@ -186,7 +186,7 @@ public class Actividad implements Registrable, Serializable {
    	 
    	 if(isClasificacionMatch&&isTipoMatch&&isIdiomaMatch&&isFechaMatch) {return true;}
    	 return false;
-   	 
+    }
 
     public boolean buscarIdiomaEnActividad(Idiomas idioma) {
     	for(Guia guia:this.guias) {
@@ -337,21 +337,7 @@ public class Actividad implements Registrable, Serializable {
 		return opcionesClasificacion.get(indice-1);
     }
 
-    /**
-     * Verifica si la capacidad de la actividad es mayor o igual a la cantidad de clientes
-     *
-     * @param reserva o numero de la clasificacion
-     * @return Boolenam si la capacidad de la actividad es mayor o igual a la cantidad de clientes
-     */
-    public static boolean verificarCapacidadActividad(Reserva reserva){
-
-        //Reserva no tiene actividades
-        if (reserva.getActividades().getCapacidad() >= reserva.getClientes().size()){
-            return true;
-        }
     
-        return true;
-    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////

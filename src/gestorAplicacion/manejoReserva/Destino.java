@@ -250,69 +250,6 @@ public class Destino implements Serializable{
         return porcentajeExtra;
     }
 
-
-
-    /**
-     * Metodos para encontrar que detinos tiene cada idioma
-     *
-     * @param destinos destinos existentes.
-     * @return El porcentaje de precio extra por idioma.
-     */
-
-     public static ArrayList<ArrayList<Destino>> destinosPorIdioma(ArrayList<Destino> destinos) {
-        // Crear una lista para cada idioma
-        ArrayList<Destino> destinosIngles = new ArrayList<>();
-        ArrayList<Destino> destinosPortugues = new ArrayList<>();
-        ArrayList<Destino> destinosEspanol = new ArrayList<>();
-        ArrayList<Destino> destinosFrances = new ArrayList<>();
-        ArrayList<Destino> destinosItaliano = new ArrayList<>();
-    
-        // Recorrer todos los destinos y verificar los idiomas disponibles en cada uno
-        for (Destino destino : destinos) {
-            for (Guia guia : destino.getGuias()) {
-                for (Idiomas idioma : guia.getIdiomas()) {
-                    switch (idioma) {
-                        case INGLES:
-                            if (!destinosIngles.contains(destino)) {
-                                destinosIngles.add(destino);
-                            }
-                            break;
-                        case PORTUGUES:
-                            if (!destinosPortugues.contains(destino)) {
-                                destinosPortugues.add(destino);
-                            }
-                            break;
-                        case ESPANOL:
-                            if (!destinosEspanol.contains(destino)) {
-                                destinosEspanol.add(destino);
-                            }
-                            break;
-                        case FRANCES:
-                            if (!destinosFrances.contains(destino)) {
-                                destinosFrances.add(destino);
-                            }
-                            break;
-                        case ITALIANO:
-                            if (!destinosItaliano.contains(destino)) {
-                                destinosItaliano.add(destino);
-                            }
-                            break;
-                    }
-                }
-            }
-        }
-    
-        // Crear una lista de listas para almacenar todas las listas de destinos
-        ArrayList<ArrayList<Destino>> destinosIdiomas = new ArrayList<>();
-        destinosIdiomas.add(destinosIngles);
-        destinosIdiomas.add(destinosPortugues);
-        destinosIdiomas.add(destinosEspanol);
-        destinosIdiomas.add(destinosFrances);
-        destinosIdiomas.add(destinosItaliano);
-    
-        return destinosIdiomas;
-    }
-
      /**
       * Devuelve la lista de los nombres de todos los destinos existentes
       * 
@@ -338,7 +275,6 @@ public class Destino implements Serializable{
          return null;
      }
      public ArrayList<Object> mostrarPlaneacionDestino(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
-     public static ArrayList<Object> mostrarPlaneacionDestino(String opcBusqueda,Destino destino,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
     	 ArrayList<Object> tabla=new ArrayList<Object>();
     	 
     	 ArrayList<Object> posicion1=new ArrayList<>();//"1"&"3"=cantidad de actividades;"2"=actividades culturales;

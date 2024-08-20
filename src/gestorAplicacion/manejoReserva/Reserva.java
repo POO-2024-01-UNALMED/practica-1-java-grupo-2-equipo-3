@@ -240,12 +240,12 @@ public class Reserva {
         }
         String[] listaString = fecha.split("/");
         if (listaString.length == 2) {
-            if (!Reserva.verificarNumero(12, listaString[0])) {
-                return false;
+            if (Reserva.verificarNumero(12, listaString[0])) {
+                return true;
             }
         } else if (listaString.length == 3) {
-            if (!Reserva.verificarNumero(12, listaString[1])) {
-                return false;
+            if (Reserva.verificarNumero(12, listaString[1])) {
+                return true;
             }
         } else {
             return false;
