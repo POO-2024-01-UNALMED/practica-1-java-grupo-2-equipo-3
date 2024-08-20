@@ -25,14 +25,15 @@ public class Plan implements Serializable {
     private int cantidadDias;
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
-    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, int clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
+    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, int clasificacion, Reserva reserva) {
         this.tipo = tipo;
         this.destino = destino;
         this.actividades = actividades;
-        this.precio = precio;
         this.clasificacion = clasificacion;
-        this.grupos = grupos;
         this.reserva = reserva;
+        this.reserva.setPlan(this);
+        this.tipo = reserva.getTipoPlan();
+        this.grupos = new ArrayList<Grupo>();
     }
 
     public Plan(String tipo, Reserva reserva) {
@@ -148,6 +149,20 @@ public class Plan implements Serializable {
                 }
             }
         }
+        asignarPrecio();
+    }
+
+    public void escogerActividadesDiaPaquete(ArrayList<Actividad> actividadesPosibles, ArrayList<String> actividadEscogida, ArrayList<Integer> fecha) {
+        for (String nombre : actividadEscogida) {
+            for (Actividad actividad : actividadesPosibles) {
+                if (actividad.getNombre().equals(nombre)) {
+                    ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, this.reserva.getIdiomas().get(0), this.reserva.getClientes());
+                    Grupo grupo = new Grupo(actividad, this.reserva.getClientes(), fecha, this.reserva.getIdiomas().get(0));
+                    this.grupos.add(grupo);
+                }
+            }
+        }
+        asignarPrecio();
     }
 
     /**
@@ -156,17 +171,31 @@ public class Plan implements Serializable {
      * @param cantidadPersonas
      * @param destino
      * @param clasificacion
-     * @param dias
+     * @param fechas
      * @return ArrayList<Plan> con los paquetes turísticos disponibles
      */
-    public static ArrayList<Plan> paquetesDisponibles(int cantidadPersonas, Destino destino, int clasificacion, int dias) {
-        ArrayList<Plan> paquetesDisponibles = new ArrayList<>();
+    public static ArrayList<Plan> paquetesDisponibles(int cantidadPersonas, Destino destino, int clasificacion, ArrayList<ArrayList<Integer>> fechas) {
+
+        ArrayList<Plan> paquetesPosibles = new ArrayList<>();
         for (Plan plan : paquetes) {
-            if (plan.getDestino().equals(destino) && plan.getClasificacion() == clasificacion && plan.getActividades().size() >= dias && plan.getClasificacion() <= clasificacion) {
-                paquetesDisponibles.add(plan);
+            ArrayList<ArrayList<Integer>> fechasDisponibles = new ArrayList<>();
+            for (ArrayList<Integer> fecha : fechas) {
+                if (plan.getDestino().equals(destino) &&
+                        plan.getClasificacion() <= clasificacion &&
+                        plan.getActividades().size() >= fechas.size()) {
+                    for (Actividad actividad : plan.getActividades()) {
+                        ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, plan.getReserva().getIdiomas().get(0), cantidadPersonas);
+                        if (!existenGrupos.isEmpty()) {
+                            fechasDisponibles.add(fecha);
+                        }
+                    }
+                }
+            }
+            if (fechasDisponibles.size() == fechas.size()) {
+                paquetesPosibles.add(plan);
             }
         }
-        return paquetesDisponibles;
+        return paquetesPosibles;
     }
 
     /**

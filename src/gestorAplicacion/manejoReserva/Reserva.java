@@ -67,6 +67,18 @@ public class Reserva {
         reservasExistentes.add(this);
     }
 
+    @Override
+    public String toString() {
+        return  "Estos son los datos de su reserva: \n" +
+                "codigo=" + codigo +
+                "\n destino=" + destino +
+                "\n idiomas=" + idiomas +
+                "\n fechas=" + fechas +
+                "\n clasificacion=" + clasificacion +
+                "\n tipoPlan=" + tipoPlan +
+                "\n actividades" + plan.getActividades();
+    }
+
 
     /**
      * Busca una reserva en la lista de reservas existentes a partir de su código.
