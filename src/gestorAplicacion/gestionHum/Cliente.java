@@ -15,7 +15,7 @@ import gestorAplicacion.actividades.Plan;
 
 
 public class Cliente extends Persona {
-    private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
+    private static final long serialVersionUID = 2L; // Agregado para la compatibilidad de serialización
 
     private ArrayList<Restaurante> restaurantes;
 	private ArrayList<Grupo> grupos;
@@ -27,8 +27,11 @@ public class Cliente extends Persona {
 	  
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+        if(this.suscripcion != null) {
+            String sus = suscripcion.getTipo();
+            return nombre + "con" + edad + "años." + "Suscripcion de tipo: " + sus;
+        }
+		return nombre + "con" + edad + "años.";
 	}
     
 
@@ -50,6 +53,10 @@ public class Cliente extends Persona {
     	this.setEdad(18);
     }
 
+    /**
+     * Método que identifica si el cliente es mayor de edad
+     * @return boolean
+     */
     public boolean mayorDeEdad() {
         return this.getEdad() >= 18;
     }

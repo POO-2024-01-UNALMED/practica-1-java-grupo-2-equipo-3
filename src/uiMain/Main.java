@@ -587,7 +587,7 @@ public class Main {
 										ArrayList<Actividad> actividadesDisponibles = reservaCreada.escogerPlan(tipoEscogido);
 										planCreado = reservaCreada.getPlan();
 										ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(actividadesDisponibles);
-										ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaEncontrada.getFechas().size(), opcionesActividades);
+										ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaCreada.getFechas().size(), opcionesActividades);
 										ArrayList<Actividad> seleccionInicial = planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
 
 										//Método de verificación de actividades por día
@@ -627,414 +627,442 @@ public class Main {
 											planCreado.escogerActividadesDiaPaquete(planCreado.getActividades(), actividadEscogida, fecha);
 										}
 								}
+								System.out.println(reservaCreada);
 							}
 							break;
-							System.out.println(reservaCreada);
+
 					}
 					System.out.println("Se ha creado su reserva y actividades con éxito");
 					terminarReservaActividades = terminarCicloFuncionalidad();
 				}
 			break;
-			
-			case "2": // FUNCIONALIDAD: Reservar un hospedaje
 
-			    boolean terminarCicloHospedaje = true;
-			    while (terminarCicloHospedaje) {
-			        String D_opcionMenuHospedaje = ingresarOpcion("¿Qué desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
-			        switch (D_opcionMenuHospedaje) {
-			            case "1":
-			                // Crear una nueva reserva
-			                System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
-			                ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
+			case"2"://FUNCIONALIDAD: Reservar un hospedaje
+				boolean terminarCicloHospedaje = true;
+				while (terminarCicloHospedaje) {
+					String D_opcionMenuHospedaje = ingresarOpcion("¿Qué desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
+					switch (D_opcionMenuHospedaje) {
+						case "1":
+							ArrayList<String> opcionesReserva = new ArrayList<>(Arrays.asList(
+								"Realizar una nueva reserva",
+								"Buscar reserva existente para agregar las actividades"));
+							String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?", 0, opcionesReserva);
 
-			                int edad = IngresoEdadTitular();
-			                String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
-			                // Verificar si el cliente tiene una suscripción activa
+							if (opcionCicloEscogida.equals("1")) {
+								// Crear una nueva reserva
+								System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
+								ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
 
-			                Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
-			                if (titular == null) {
-			                    titular = new Cliente(nombre, edad);
-			                    ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList("Sí", "No"));
-			                    String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros, ¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
-			                    Suscripcion nuevaSuscripcion = null;
-			                    switch (opcionCicloComprarSuscripcion) {
-			                        case "1":
-			                            ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
-			                            String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
-			                            switch (tipo) {
-			                                case "1":
-			                                    // Básica
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
-			                                    break;
-			                                case "2":
-			                                    // General
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
-			                                    break;
-			                                case "3":
-			                                    // Premium
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
-			                                    break;
-			                                case "4":
-			                                    // VIP
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
-			                                    break;
-			                            }
-			                            System.out.println("La suscripción se ha ingresado correctamente");
-			                            break;
-			                        case "2":
-			                            System.out.println("No se ha ingresado ninguna suscripción");
-			                            break;
-			                    }
-			                }
-			                // Crear la reserva a partir de los datos ingresados
-			                Reserva reservaCreada = new Reserva(titular, listaFechas);
-			                ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList("Agregar otro cliente", "No agregar más clientes"));
-			                String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
-			                while (opcionCicloAgregarCliente.equals("1")) {
-			                    Cliente cliente = ingresarCliente();
-			                    reservaCreada.getClientes().add(cliente);
-			                    opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
-			                }
-			                reservaCreada.asignarClasificacion();
-			                reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
+								int edad = IngresoEdadTitular();
+								String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
+								// Verificar si el cliente tiene una suscripción activa
 
-			                // INGRESAR DESTINO
-			                reservaCreada.setDestino(ingresarDestino());
-
-			                // Asignar hospedaje
-			                ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
-			                Hotel hotelEscogido = Hotel.asignarHotel(reservaCreada, hoteles);
-
-			                if (hotelEscogido != null) {
-			                    Hotel.asignarHabitacion(reservaCreada, hotelEscogido);
-			                    Restaurante restaurante = Restaurante.asignarRestaurante(reservaCreada);
-			                    Restaurante.asignarMesaRestaurante(reservaCreada, restaurante);
-			                } else {
-			                    System.out.println("No se pudo asignar un hotel.");
-			                }
-			        }
-			    }
-			        break;
-			case"3"://FUNCIONALIDAD: Planear tu viaje
-				boolean terminarCicloPlan=true;
-				while(terminarCicloPlan) {
-					Reserva reservaFicticia=new Reserva();
-					
-					//ESCOGER DESTINO=D
-					String D_opcionMenuDestino=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar destino","Buscar las mejores opciones de destinos")));
-					
-					Destino D_destino=null;
-					switch(D_opcionMenuDestino) {
-					case "1"://Ingresar destino
-						String D_opcDestino=ingresarOpcion("Elija el destino",0,ListaDestinos);
-						D_destino=Destino.buscarNombre(ListaDestinos.get(Integer.parseInt(D_opcDestino)));
-						reservaFicticia.setDestino(D_destino);
-					break;
-					
-					case "2"://Escoger destino
-						ArrayList<Object> D_filtros=escogerOpcionBusqueda("Destino",reservaFicticia);
-						
-						boolean terminarCicloEscogerDestino=true;
-						while(terminarCicloEscogerDestino) {
-							imprimirTablaPlanearDestino((String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4));
-							D_filtros=elegirFiltros("Destino",(String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4),(Destino)D_filtros.get(5));
-							
-							//Verificar si se termina el ciclo
-							if((Boolean)D_filtros.get(6)==true) {
-								reservaFicticia.setDestino((Destino)D_filtros.get(5));//Escoger destino final
-								terminarCicloEscogerDestino=false;
-							}
-							//Verificar si se borraron los filtros
-							if((Boolean)D_filtros.get(0)==true) {
-								D_filtros=escogerOpcionBusqueda("Destino",reservaFicticia);
-							}		
-						}
-					break;
-					}
-					//ESCOGER FECHA=F
-					String F_opcionMenuFecha=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar fecha","Buscar las mejores fechas para viajar")));
-					
-					ArrayList<ArrayList<Integer>> F_fecha=null;
-					switch(F_opcionMenuFecha) {
-					case "1"://Ingresar fecha
-						F_fecha=ingresarPeriodoFechas();
-						reservaFicticia.setFechas(F_fecha);
-					break;
-					
-					case "2"://Escoger fecha
-						ArrayList<Object> F_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
-						
-						boolean terminarCicloEscogerFecha=true;
-						while(terminarCicloEscogerFecha) {
-							imprimirTablaPlanearFecha((String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
-							F_filtros=elegirFiltros("Fecha",(String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
-							
-							//Verificar si se termina el ciclo
-							if((Boolean)F_filtros.get(6)==true) {
-								F_fecha=Reserva.convertirListaFechas(F_filtros.get(3));
-								
-								//Verificar si se cambio el destino
-								verificarCambioDestino(reservaFicticia,(Destino)F_filtros.get(5),false);
-								
-								//Verificar si la fecha escogida es valida
-								boolean F_terminarCicloFecha=true;
-								while(F_terminarCicloFecha) {
-									if(F_fecha.get(0).get(0)!=100) {
-										if(Reserva.comprobarEsMes(F_fecha)) {System.out.println("Actualmente estan seleccionados todos los dias del mes de "+Reserva.mostrarMes(F_fecha.get(0).get(1)));} 
-										else {Main.imprimirListaFechas("Estas son las fechas actualmente seleccionadas: ",F_fecha);}
-										
-										String F_opcMes=ingresarOpcion("¿Que desea hacer'", 0, new ArrayList<>(Arrays.asList("Continuar","Volver a ingresar la fecha")));
-										if(F_opcMes.equals("1")) {F_terminarCicloFecha=false;}
-										F_fecha=Main.ingresarPeriodoFechas();
-									}
-									else {System.out.println("Actualmente solo tiene seleccionado un año, vuelva a ingresar una fecha valida");}
-									F_fecha=Main.ingresarPeriodoFechas();
-								}
-								reservaFicticia.setFechas(F_fecha);//Escoger fecha final
-								terminarCicloEscogerFecha=false;	
-							}
-							//Verificar si se borraron los filtros
-							if((Boolean)F_filtros.get(0)==true) {
-								F_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
-							}
-						}
-						
-					break;
-					}	
-					//ESCOGER IDIOMA=I
-					String I_opcionMenuIdioma=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar idioma","Buscar los idiomas con mayor disponibilidad")));
-					
-					Idiomas I_idioma=null;
-					switch(I_opcionMenuIdioma) {
-					case "1"://Ingresar idioma
-						String I_opcIdioma=ingresarOpcion("Elija el idioma",0,ListaIdiomas);
-						I_idioma=Idiomas.buscarNombre(ListaIdiomas.get(Integer.parseInt(I_opcIdioma)));
-						ArrayList<Idiomas> I_listaIdioma=new ArrayList<>(Arrays.asList(I_idioma));
-						reservaFicticia.setIdiomas(I_listaIdioma);
-					break;
-					
-					case "2"://Escoger idioma
-						ArrayList<Object> I_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
-						
-						boolean terminarCicloEscogerIdioma=true;
-						while(terminarCicloEscogerIdioma) {
-							imprimirTablaPlanearIdioma((String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Destino)I_filtros.get(5));
-							I_filtros=elegirFiltros("Idioma",(String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4),(Destino)I_filtros.get(5));
-							
-							//Verificar si se termina el ciclo
-							if((Boolean)I_filtros.get(6)==true) {
-								
-								//Verificar si se cambio el destino
-								verificarCambioDestino(reservaFicticia,(Destino)I_filtros.get(5),false);
-								
-								//Verificar si se cambio la fecha
-								verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(I_filtros.get(3)),false);
-								
-								I_listaIdioma=new ArrayList<>(Arrays.asList((Idiomas)I_filtros.get(4)));
-								reservaFicticia.setIdiomas(I_listaIdioma);//Escoger idioma final
-								terminarCicloEscogerIdioma=false;
-							}
-							//Verificar si se borraron los filtros
-							if((Boolean)I_filtros.get(0)==true) {
-								I_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
-							}
-						}
-					break;
-					}
-					
-					int cantidadPersonas=ingresarEntero("Ingrese la cantidad de personas: ");
-					ArrayList<Cliente> listaClientes=new ArrayList<>();
-	    			for(int i=0;i<cantidadPersonas;i++) {listaClientes.add(new Cliente());}
-	    			reservaFicticia.setClientes(listaClientes);
-					
-					boolean ciclo_planHotel=true;
-					while(ciclo_planHotel)	{
-						//PLANEAR PLAN TURISTICO=P
-						String P_opcionMenuPlan=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Escoger un plan personalizado","Escoger un paquete turistico")));
-						
-						Plan P_plan=new Plan();
-						boolean P_terminarCicloPlanTuristico=true;
-						while(P_terminarCicloPlanTuristico) {
-							switch(P_opcionMenuPlan) {
-							case "1"://Paquete turistico
-								String P_opcionMenuPaquete=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar paquete","Buscar las mejores opciones de paquetes disponibles")));
-								
-								//Advertencia fecha
-								imprimirListaFechas("Le recordamos que actualmente tiene estas fechas elegidas: ", reservaFicticia.getFechas());
-								System.out.println("Tenga en cuenta que un paquete turistico tiene una cantidad de dias predeterminada,\n al definir una fecha fija en la busqueda puede retringir mucho la cantidad de paquetes disponibles.");
-								String P_opcPaqueteFecha=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Continuar con las fechas escogidas","Ver la informacion de cualquier cantidad de dias respetando la fecha de inicio")));
-										
-								switch(P_opcionMenuPaquete) {
-								case "1"://Ingresar paquete
-									ArrayList<Plan> P_paquetesDisponibles=null;//Llamar al metodo que muestre las opciones de paquetes segun los parametros
-									ArrayList<String> P_listaPaquetes=null;//LLamar al metodo que devuelve el to string de los paquetes
-									String P_opcPaquete=ingresarOpcion("¿Cual paquete desea?",0,P_listaPaquetes);
-									reservaFicticia.setPlan(P_paquetesDisponibles.get((Integer.parseInt(P_opcPaquete))-1));
-									
-								break;
-								case "2"://Planear paquete
-									ArrayList<Object> P_filtrosPaquete=escogerOpcionBusqueda("Paquete",reservaFicticia);
-									
-									boolean terminarCicloPlanearPaquete=true;
-									while(terminarCicloPlanearPaquete) {  
-										imprimirTablaPlanearPlan("Paquete",null,(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
-										P_filtrosPaquete=elegirFiltros("Paquete",(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
-										
-										//Verificar si se cambio de plan
-										if((Boolean)P_filtrosPaquete.get(7)==true) {
-											P_opcionMenuPlan="2";
-											terminarCicloPlanearPaquete=false;
-										}
-										
-										//Verificar si se termina el ciclo
-										if((Boolean)P_filtrosPaquete.get(6)==true) {
-											
-											//Verificar si se cambio el destino
-											verificarCambioDestino(reservaFicticia,(Destino)P_filtrosPaquete.get(5),false);
-											
-											//Verificar si se cambio la fecha
-											verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),false);
-											
-											//Verificar si se cambio de idioma
-											verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPaquete.get(4),false);
-											
-											//Elegir paquete
-											P_paquetesDisponibles=null;//Llamar al metodo que muestre las opciones de paquetes segun los parametros
-											P_listaPaquetes=null;//LLamar al metodo que devuelve el to string de los paquetes
-											P_opcPaquete=ingresarOpcion("¿Cual paquete desea?",0,P_listaPaquetes);
-											reservaFicticia.setPlan(P_paquetesDisponibles.get((Integer.parseInt(P_opcPaquete))-1));
-											
-											
-											P_terminarCicloPlanTuristico=false;
-										}
-										//Verificar si se borraron los filtros
-										if((Boolean)P_filtrosPaquete.get(0)==true) {
-											P_filtrosPaquete=escogerOpcionBusqueda("Paquete",reservaFicticia);
-										}
-									}
-								break;
-								}
-						    break;
-							
-							case "2"://Plan personalizado
-								ArrayList<Object> P_filtrosPlan=escogerOpcionBusqueda("Plan",reservaFicticia);
-								
-								boolean P_terminarCicloElegirActividad=true;
-								boolean P_terminarCicloPlanearPlan=true;
-								boolean P_terminarCicloFor=true;
-								while(P_terminarCicloPlanearPlan) {
-									while(P_terminarCicloFor) {
-										for(ArrayList<Integer> fecha:reservaFicticia.getFechas()) {
-											while(P_terminarCicloElegirActividad) {  
-												ArrayList<Actividad> actividades=imprimirTablaPlanearPlan("Plan",fecha,(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
-												P_filtrosPlan=elegirFiltros("Plan",(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
-												
-												//Verificar si se cambio de plan
-												if((Boolean)P_filtrosPlan.get(7)==true) {
-													P_opcionMenuPlan="1";
-													P_terminarCicloElegirActividad=false;
-												}
-												//Verificar si se va a ingresar una actividad
-												if((Boolean)P_filtrosPlan.get(6)==true) {
-													//Verificar si se cambio el destino
-													if(verificarCambioDestino(reservaFicticia,(Destino)P_filtrosPlan.get(5),true)) {P_terminarCicloFor=false;}
-													
-													//Verificar si se cambio la fecha
-													if(verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(P_filtrosPlan.get(3)),true)) {P_terminarCicloFor=false;}
-													
-													//Verificar si se cambio de idioma
-													if(verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPlan.get(4),true)) {P_terminarCicloFor=false;}
-													
-													//Ingresar actividad al plan
-													ArrayList<String> P_actividadesNombre=Actividad.mostrarNombres(actividades);
-													for(Actividad actividad:actividades) {P_actividadesNombre.add(actividad.getNombre());}
-													String P_opcActividad=ingresarOpcion("Elija una actividad: ", 0, P_actividadesNombre);
-													P_plan.añadirActividad(actividades.get(Integer.parseInt(P_opcActividad)-1));
-													P_terminarCicloElegirActividad=false;
-												}	
-												//Verificar si se borraron los filtros
-												if((Boolean)P_filtrosPlan.get(0)==true) {
-													P_filtrosPlan=escogerOpcionBusqueda("Plan",reservaFicticia);
-												}
+								Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
+								if (titular == null) {
+									titular = new Cliente(nombre, edad);
+									ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList("Sí", "No"));
+									String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros, ¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
+									Suscripcion nuevaSuscripcion = null;
+									switch (opcionCicloComprarSuscripcion) {
+										case "1":
+											ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
+											String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
+											switch (tipo) {
+												case "1":
+													// Básica
+													nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
+													break;
+												case "2":
+													// General
+													nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
+													break;
+												case "3":
+													// Premium
+													nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
+													break;
+												case "4":
+													// VIP
+													nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
+													break;
 											}
-										}
-										//Mostrar plan final
-										System.out.println(Plan.stringPaqueteTuristico(P_plan));
-										String P_verificarPlanFinal=ingresarOpcion("Desea quedarse con ese plan o volver a empezar?", 0, new ArrayList<String>(Arrays.asList("Continuar con este plan","Elegir otro plan")));
-										if(P_verificarPlanFinal.equals("1")) {
-											reservaFicticia.setPlan(P_plan);
-											P_terminarCicloPlanearPlan=false;}
+											System.out.println("La suscripción se ha ingresado correctamente");
+											break;
+										case "2":
+											System.out.println("No se ha ingresado ninguna suscripción");
+											break;
 									}
-									
 								}
-								
-							break;
+								// Crear la reserva a partir de los datos ingresados
+								Reserva reservaCreada = new Reserva(titular, listaFechas);
+								ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList("Agregar otro cliente", "No agregar más clientes"));
+								String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+								while (opcionCicloAgregarCliente.equals("1")) {
+									Cliente cliente = ingresarCliente();
+									reservaCreada.getClientes().add(cliente);
+									opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+								}
+								reservaCreada.asignarClasificacion();
+								reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
+
+								// INGRESAR DESTINO
+								reservaCreada.setDestino(ingresarDestino());
+
+								// Asignar hospedaje
+								ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
+								Hotel hotelEscogido = Hotel.asignarHotel(reservaCreada, hoteles);
+
+								if (hotelEscogido != null) {
+									Hotel.asignarHabitacion(reservaCreada, hotelEscogido);
+									Restaurante restaurante = Restaurante.asignarRestaurante(reservaCreada);
+									Restaurante.asignarMesaRestaurante(reservaCreada, restaurante);
+
+									// Mostart como quedo el Hospedaje de la reserva
+
+									System.out.println("El hospedaje de su reserva: ");
+
+									System.out.println("Hotel: " + reservaCreada.getClientes().get(0).getHotel().getNombre());
+									System.out.println("Habitación: " + Hotel.desplegarHabitacionesReserva(reservaCreada));
+									System.out.println("Restaurante: " + reservaCreada.getClientes().get(0).getRestaurantes().get(0).getNombre());
+									System.out.println("Precio total del hospedaje: " + reservaCreada.getClientes().get(0).getHotel().getPrecioFinalHospedaje());
+
+								} else {
+									System.out.println("No se pudo asignar un hotel.");
+								}
+
+								terminarCicloHospedaje = false;
+							} else if (opcionCicloEscogida.equals("2")) {
+								// Buscar reserva existente para agregar las actividades
+								// Implementar lógica para buscar y agregar actividades a una reserva existente
 							}
-						}
-						//PLANEAR HOTEL
-						String H_opcionMenuHotel=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar hotel","Buscar las mejores opciones de hoteles")));
-						
-						switch(H_opcionMenuHotel) {
-						case "1"://Ingresar hotel
-							ArrayList<String>H_hotelesDisponibles=Hotel.mostrarHotelesDisponibles(reservaFicticia);
-							String H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
-							Hotel H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
-							for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
-							
+							break;
+						case "2":
+							terminarCicloHospedaje = false;
+							break;
+						default:
+							System.out.println("Opción no válida. Intente de nuevo.");
+							break;
+					}
+				}
+				case"3"://FUNCIONALIDAD: Planear tu viaje
+					boolean terminarCicloPlan=true;
+					while(terminarCicloPlan) {
+						Reserva reservaFicticia=new Reserva();
+
+						//ESCOGER DESTINO=D
+						String D_opcionMenuDestino=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar destino","Buscar las mejores opciones de destinos")));
+
+						Destino D_destino=null;
+						switch(D_opcionMenuDestino) {
+						case "1"://Ingresar destino
+							String D_opcDestino=ingresarOpcion("Elija el destino",0,ListaDestinos);
+							D_destino=Destino.buscarNombre(ListaDestinos.get(Integer.parseInt(D_opcDestino)));
+							reservaFicticia.setDestino(D_destino);
 						break;
-						
-						case "2"://Escoger hotel
-							ArrayList<Object> H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
-							
-							boolean terminarCicloEscogerHotel=true;
-							while(terminarCicloEscogerHotel) {
-								imprimirTablaPlanearHotel((String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5));
-								H_filtros=elegirFiltros("Idioma",(String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5));
-								
-								//Verificar si se termino el ciclo
-								if((Boolean)H_filtros.get(6)==true) {
-									//Verificar si se cambio el destino
-									if(verificarCambioDestino(reservaFicticia,(Destino)H_filtros.get(5),true)) {terminarCicloEscogerHotel=false;}
-									
-									//Verificar si se cambio la fecha
-									if(verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(H_filtros.get(3)),true)) {terminarCicloEscogerHotel=false;}
-									
-									//Verificar si se cambio de idioma
-									if(verificarCambioIdioma(reservaFicticia, (Idiomas)H_filtros.get(4),true)) {terminarCicloEscogerHotel=false;}
-									
-									//Verificar si se cambio la cantidad de personas
-									verificarCantidadPersonas(reservaFicticia, (int)H_filtros.get(1));
-									
-									//Ingresar hotel
-									H_hotelesDisponibles=Hotel.mostrarHotelesDisponibles(reservaFicticia);
-									H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
-									H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
-									for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
-									ciclo_planHotel=false;
-								}	
-									
+
+						case "2"://Escoger destino
+							ArrayList<Object> D_filtros=escogerOpcionBusqueda("Destino",reservaFicticia);
+
+							boolean terminarCicloEscogerDestino=true;
+							while(terminarCicloEscogerDestino) {
+								imprimirTablaPlanearDestino((String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4));
+								D_filtros=elegirFiltros("Destino",(String)D_filtros.get(8),(int)D_filtros.get(1),(TiposActividad)D_filtros.get(2),Reserva.convertirListaFechas(D_filtros.get(3)),(Idiomas)D_filtros.get(4),(Destino)D_filtros.get(5));
+
+								//Verificar si se termina el ciclo
+								if((Boolean)D_filtros.get(6)==true) {
+									reservaFicticia.setDestino((Destino)D_filtros.get(5));//Escoger destino final
+									terminarCicloEscogerDestino=false;
 								}
 								//Verificar si se borraron los filtros
-								if((Boolean)H_filtros.get(0)==true) {
-									H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+								if((Boolean)D_filtros.get(0)==true) {
+									D_filtros=escogerOpcionBusqueda("Destino",reservaFicticia);
 								}
 							}
 						break;
 						}
-					System.out.println("______________________RESUMEN DE LA PLANEACION__________________");
-					System.out.println("El precio de tu plan es:"+reservaFicticia.getPlan().getPrecio()*reservaFicticia.getClientes().size());
-					System.out.println("El precio de tu hotel es:"+reservaFicticia.getClientes().get(0).getHotel().getPrecio()*reservaFicticia.getClientes().size());
-					System.out.println(reservaFicticia.toString());
-					String opcGuardarReserva=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<String>(Arrays.asList("Guardar plan:","Borrar plan")));
-					if(opcGuardarReserva.equals("1")) {
-						reservaFicticia.añadirResereva();
-						System.out.println("Su plan se ha guardado exitosamente,debe guardar el codigo para realizar su reserva con la informacion del plan ");
-					}
-					System.out.println("");
-					System.out.println("Gracias por planear su viaje con nosotros :)");
-					terminarCicloPlan=terminarCicloFuncionalidad();
-	
-				}//Fin ciclo plan
+						//ESCOGER FECHA=F
+						String F_opcionMenuFecha=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar fecha","Buscar las mejores fechas para viajar")));
+
+						ArrayList<ArrayList<Integer>> F_fecha=null;
+						switch(F_opcionMenuFecha) {
+						case "1"://Ingresar fecha
+							F_fecha=ingresarPeriodoFechas();
+							reservaFicticia.setFechas(F_fecha);
+						break;
+
+						case "2"://Escoger fecha
+							ArrayList<Object> F_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+
+							boolean terminarCicloEscogerFecha=true;
+							while(terminarCicloEscogerFecha) {
+								imprimirTablaPlanearFecha((String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
+								F_filtros=elegirFiltros("Fecha",(String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
+
+								//Verificar si se termina el ciclo
+								if((Boolean)F_filtros.get(6)==true) {
+									F_fecha=Reserva.convertirListaFechas(F_filtros.get(3));
+
+									//Verificar si se cambio el destino
+									verificarCambioDestino(reservaFicticia,(Destino)F_filtros.get(5),false);
+
+									//Verificar si la fecha escogida es valida
+									boolean F_terminarCicloFecha=true;
+									while(F_terminarCicloFecha) {
+										if(F_fecha.get(0).get(0)!=100) {
+											if(Reserva.comprobarEsMes(F_fecha)) {System.out.println("Actualmente estan seleccionados todos los dias del mes de "+Reserva.mostrarMes(F_fecha.get(0).get(1)));}
+											else {Main.imprimirListaFechas("Estas son las fechas actualmente seleccionadas: ",F_fecha);}
+
+											String F_opcMes=ingresarOpcion("¿Que desea hacer'", 0, new ArrayList<>(Arrays.asList("Continuar","Volver a ingresar la fecha")));
+											if(F_opcMes.equals("1")) {F_terminarCicloFecha=false;}
+											F_fecha=Main.ingresarPeriodoFechas();
+										}
+										else {System.out.println("Actualmente solo tiene seleccionado un año, vuelva a ingresar una fecha valida");}
+										F_fecha=Main.ingresarPeriodoFechas();
+									}
+									reservaFicticia.setFechas(F_fecha);//Escoger fecha final
+									terminarCicloEscogerFecha=false;
+								}
+								//Verificar si se borraron los filtros
+								if((Boolean)F_filtros.get(0)==true) {
+									F_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+								}
+							}
+
+						break;
+						}
+						//ESCOGER IDIOMA=I
+						String I_opcionMenuIdioma=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar idioma","Buscar los idiomas con mayor disponibilidad")));
+
+						Idiomas I_idioma=null;
+						switch(I_opcionMenuIdioma) {
+						case "1"://Ingresar idioma
+							String I_opcIdioma=ingresarOpcion("Elija el idioma",0,ListaIdiomas);
+							I_idioma=Idiomas.buscarNombre(ListaIdiomas.get(Integer.parseInt(I_opcIdioma)));
+							ArrayList<Idiomas> I_listaIdioma=new ArrayList<>(Arrays.asList(I_idioma));
+							reservaFicticia.setIdiomas(I_listaIdioma);
+						break;
+
+						case "2"://Escoger idioma
+							ArrayList<Object> I_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+
+							boolean terminarCicloEscogerIdioma=true;
+							while(terminarCicloEscogerIdioma) {
+								imprimirTablaPlanearIdioma((String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Destino)I_filtros.get(5));
+								I_filtros=elegirFiltros("Idioma",(String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4),(Destino)I_filtros.get(5));
+
+								//Verificar si se termina el ciclo
+								if((Boolean)I_filtros.get(6)==true) {
+
+									//Verificar si se cambio el destino
+									verificarCambioDestino(reservaFicticia,(Destino)I_filtros.get(5),false);
+
+									//Verificar si se cambio la fecha
+									verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(I_filtros.get(3)),false);
+
+									I_listaIdioma=new ArrayList<>(Arrays.asList((Idiomas)I_filtros.get(4)));
+									reservaFicticia.setIdiomas(I_listaIdioma);//Escoger idioma final
+									terminarCicloEscogerIdioma=false;
+								}
+								//Verificar si se borraron los filtros
+								if((Boolean)I_filtros.get(0)==true) {
+									I_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+								}
+							}
+						break;
+						}
+
+						int cantidadPersonas=ingresarEntero("Ingrese la cantidad de personas: ");
+						ArrayList<Cliente> listaClientes=new ArrayList<>();
+						for(int i=0;i<cantidadPersonas;i++) {listaClientes.add(new Cliente());}
+						reservaFicticia.setClientes(listaClientes);
+
+						boolean ciclo_planHotel=true;
+						while(ciclo_planHotel)	{
+							//PLANEAR PLAN TURISTICO=P
+							String P_opcionMenuPlan=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Escoger un plan personalizado","Escoger un paquete turistico")));
+
+							Plan P_plan=new Plan();
+							boolean P_terminarCicloPlanTuristico=true;
+							while(P_terminarCicloPlanTuristico) {
+								switch(P_opcionMenuPlan) {
+								case "1"://Paquete turistico
+									String P_opcionMenuPaquete=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar paquete","Buscar las mejores opciones de paquetes disponibles")));
+
+									//Advertencia fecha
+									imprimirListaFechas("Le recordamos que actualmente tiene estas fechas elegidas: ", reservaFicticia.getFechas());
+									System.out.println("Tenga en cuenta que un paquete turistico tiene una cantidad de dias predeterminada,\n al definir una fecha fija en la busqueda puede retringir mucho la cantidad de paquetes disponibles.");
+									String P_opcPaqueteFecha=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Continuar con las fechas escogidas","Ver la informacion de cualquier cantidad de dias respetando la fecha de inicio")));
+
+									switch(P_opcionMenuPaquete) {
+									case "1"://Ingresar paquete
+										ArrayList<Plan> P_paquetesDisponibles=null;//Llamar al metodo que muestre las opciones de paquetes segun los parametros
+										ArrayList<String> P_listaPaquetes=null;//LLamar al metodo que devuelve el to string de los paquetes
+										String P_opcPaquete=ingresarOpcion("¿Cual paquete desea?",0,P_listaPaquetes);
+										reservaFicticia.setPlan(P_paquetesDisponibles.get((Integer.parseInt(P_opcPaquete))-1));
+
+									break;
+									case "2"://Planear paquete
+										ArrayList<Object> P_filtrosPaquete=escogerOpcionBusqueda("Paquete",reservaFicticia);
+
+										boolean terminarCicloPlanearPaquete=true;
+										while(terminarCicloPlanearPaquete) {
+											imprimirTablaPlanearPlan("Paquete",null,(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
+											P_filtrosPaquete=elegirFiltros("Paquete",(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
+
+											//Verificar si se cambio de plan
+											if((Boolean)P_filtrosPaquete.get(7)==true) {
+												P_opcionMenuPlan="2";
+												terminarCicloPlanearPaquete=false;
+											}
+
+											//Verificar si se termina el ciclo
+											if((Boolean)P_filtrosPaquete.get(6)==true) {
+
+												//Verificar si se cambio el destino
+												verificarCambioDestino(reservaFicticia,(Destino)P_filtrosPaquete.get(5),false);
+
+												//Verificar si se cambio la fecha
+												verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),false);
+
+												//Verificar si se cambio de idioma
+												verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPaquete.get(4),false);
+
+												//Elegir paquete
+												P_paquetesDisponibles=null;//Llamar al metodo que muestre las opciones de paquetes segun los parametros
+												P_listaPaquetes=null;//LLamar al metodo que devuelve el to string de los paquetes
+												P_opcPaquete=ingresarOpcion("¿Cual paquete desea?",0,P_listaPaquetes);
+												reservaFicticia.setPlan(P_paquetesDisponibles.get((Integer.parseInt(P_opcPaquete))-1));
+
+
+												P_terminarCicloPlanTuristico=false;
+											}
+											//Verificar si se borraron los filtros
+											if((Boolean)P_filtrosPaquete.get(0)==true) {
+												P_filtrosPaquete=escogerOpcionBusqueda("Paquete",reservaFicticia);
+											}
+										}
+									break;
+									}
+								break;
+
+								case "2"://Plan personalizado
+									ArrayList<Object> P_filtrosPlan=escogerOpcionBusqueda("Plan",reservaFicticia);
+
+									boolean P_terminarCicloElegirActividad=true;
+									boolean P_terminarCicloPlanearPlan=true;
+									boolean P_terminarCicloFor=true;
+									while(P_terminarCicloPlanearPlan) {
+										while(P_terminarCicloFor) {
+											for(ArrayList<Integer> fecha:reservaFicticia.getFechas()) {
+												while(P_terminarCicloElegirActividad) {
+													ArrayList<Actividad> actividades=imprimirTablaPlanearPlan("Plan",fecha,(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
+													P_filtrosPlan=elegirFiltros("Plan",(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
+
+													//Verificar si se cambio de plan
+													if((Boolean)P_filtrosPlan.get(7)==true) {
+														P_opcionMenuPlan="1";
+														P_terminarCicloElegirActividad=false;
+													}
+													//Verificar si se va a ingresar una actividad
+													if((Boolean)P_filtrosPlan.get(6)==true) {
+														//Verificar si se cambio el destino
+														if(verificarCambioDestino(reservaFicticia,(Destino)P_filtrosPlan.get(5),true)) {P_terminarCicloFor=false;}
+
+														//Verificar si se cambio la fecha
+														if(verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(P_filtrosPlan.get(3)),true)) {P_terminarCicloFor=false;}
+
+														//Verificar si se cambio de idioma
+														if(verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPlan.get(4),true)) {P_terminarCicloFor=false;}
+
+														//Ingresar actividad al plan
+														ArrayList<String> P_actividadesNombre=Actividad.mostrarNombres(actividades);
+														for(Actividad actividad:actividades) {P_actividadesNombre.add(actividad.getNombre());}
+														String P_opcActividad=ingresarOpcion("Elija una actividad: ", 0, P_actividadesNombre);
+														P_plan.añadirActividad(actividades.get(Integer.parseInt(P_opcActividad)-1));
+														P_terminarCicloElegirActividad=false;
+													}
+													//Verificar si se borraron los filtros
+													if((Boolean)P_filtrosPlan.get(0)==true) {
+														P_filtrosPlan=escogerOpcionBusqueda("Plan",reservaFicticia);
+													}
+												}
+											}
+											//Mostrar plan final
+											System.out.println(Plan.stringPaqueteTuristico(P_plan));
+											String P_verificarPlanFinal=ingresarOpcion("Desea quedarse con ese plan o volver a empezar?", 0, new ArrayList<String>(Arrays.asList("Continuar con este plan","Elegir otro plan")));
+											if(P_verificarPlanFinal.equals("1")) {
+												reservaFicticia.setPlan(P_plan);
+												P_terminarCicloPlanearPlan=false;}
+										}
+
+									}
+
+								break;
+								}
+							}
+							//PLANEAR HOTEL
+							String H_opcionMenuHotel=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Ingresar hotel","Buscar las mejores opciones de hoteles")));
+
+							switch(H_opcionMenuHotel) {
+							case "1"://Ingresar hotel
+								ArrayList<String>H_hotelesDisponibles=Hotel.mostrarHotelesDisponibles(reservaFicticia);
+								String H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
+								Hotel H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
+								for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
+
+							break;
+
+							case "2"://Escoger hotel
+								ArrayList<Object> H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+
+								boolean terminarCicloEscogerHotel=true;
+								while(terminarCicloEscogerHotel) {
+									imprimirTablaPlanearHotel((String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5));
+									H_filtros=elegirFiltros("Idioma",(String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5));
+
+									//Verificar si se termino el ciclo
+									if((Boolean)H_filtros.get(6)==true) {
+										//Verificar si se cambio el destino
+										if(verificarCambioDestino(reservaFicticia,(Destino)H_filtros.get(5),true)) {terminarCicloEscogerHotel=false;}
+
+										//Verificar si se cambio la fecha
+										if(verificarCambioFecha(reservaFicticia, Reserva.convertirListaFechas(H_filtros.get(3)),true)) {terminarCicloEscogerHotel=false;}
+
+										//Verificar si se cambio de idioma
+										if(verificarCambioIdioma(reservaFicticia, (Idiomas)H_filtros.get(4),true)) {terminarCicloEscogerHotel=false;}
+
+										//Verificar si se cambio la cantidad de personas
+										verificarCantidadPersonas(reservaFicticia, (int)H_filtros.get(1));
+
+										//Ingresar hotel
+										H_hotelesDisponibles=Hotel.mostrarHotelesDisponibles(reservaFicticia);
+										H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
+										H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
+										for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
+										ciclo_planHotel=false;
+									}
+
+									}
+									//Verificar si se borraron los filtros
+									if((Boolean)H_filtros.get(0)==true) {
+										H_filtros=escogerOpcionBusqueda("Fecha",reservaFicticia);
+									}
+								}
+							break;
+							}
+						System.out.println("______________________RESUMEN DE LA PLANEACION__________________");
+						System.out.println("El precio de tu plan es:"+reservaFicticia.getPlan().getPrecio()*reservaFicticia.getClientes().size());
+						System.out.println("El precio de tu hotel es:"+reservaFicticia.getClientes().get(0).getHotel().getPrecio()*reservaFicticia.getClientes().size());
+						System.out.println(reservaFicticia.toString());
+						String opcGuardarReserva=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<String>(Arrays.asList("Guardar plan:","Borrar plan")));
+						if(opcGuardarReserva.equals("1")) {
+							reservaFicticia.añadirResereva();
+							System.out.println("Su plan se ha guardado exitosamente,debe guardar el codigo para realizar su reserva con la informacion del plan ");
+						}
+						System.out.println("");
+						System.out.println("Gracias por planear su viaje con nosotros :)");
+						terminarCicloPlan=terminarCicloFuncionalidad();
+
+					}//Fin ciclo plan
 			break;
 			
 			case"4"://FUNCIONALIDAD: Modificar reserva

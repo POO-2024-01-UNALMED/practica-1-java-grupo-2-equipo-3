@@ -18,8 +18,7 @@ import gestorAplicacion.manejoReserva.Reserva;
  */
 public class Guia extends Persona implements Registrable, Serializable {
 
-    private static final long serialVersionUID = 6523686910756331040L;
-    
+    private static final long serialVersionUID = 3L;
     private ArrayList<TiposActividad> tipoActividades;
     private double precio;
     private ArrayList<ArrayList<Integer>> diasOcupados;
@@ -58,7 +57,14 @@ public class Guia extends Persona implements Registrable, Serializable {
                 + getDestino().getNombre();
     }
 
-   
+    @Override
+    public void ingresarIdiomas(String idiomas) {
+        String[] listaString = idiomas.split(" ");
+        for (String numero : listaString) {
+            int indice = Integer.parseInt(numero);
+            this.idiomas.add(Idiomas.values()[indice - 1]);
+        }
+    }
 
     /**
      * Ingresa los tipos de actividades que puede realizar el guía a partir de una cadena.
@@ -357,7 +363,4 @@ public class Guia extends Persona implements Registrable, Serializable {
     static void setGuias(ArrayList<Guia> guias) {
         Guia.guias = guias;
     }
-
-    
-
 }

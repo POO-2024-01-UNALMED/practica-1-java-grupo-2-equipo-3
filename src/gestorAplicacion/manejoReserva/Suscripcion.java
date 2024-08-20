@@ -7,7 +7,7 @@ import java.util.Arrays;
 import gestorAplicacion.gestionHum.Cliente;
 
 public class Suscripcion implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 10L;
     private static ArrayList<Cliente> listaClientes = new ArrayList<>();
     private static final ArrayList<String> LISTA_TIPOS = new ArrayList<>(Arrays.asList("Básica", "General", "Premium", "VIP"));
     private String tipo;
@@ -49,11 +49,22 @@ public class Suscripcion implements Serializable {
         titular.setSuscripcion(this);
     }
 
-
+    /**
+     * Retorna la ultima fecha de reserva
+     * @param fechas
+     * @return ArrayList<Integer>
+     */
     public static ArrayList<Integer> ultimaFechaReserva(ArrayList<ArrayList<Integer>> fechas) {
         return fechas.getLast();
     }
 
+    /**
+     * Verifica si el cliente ya tiene una suscripcion
+     * @param nombre
+     * @param edad
+     * @param listaFechas
+     * @return Cliente
+     */
     public static Cliente verificarSuscripcion(String nombre, int edad, ArrayList<ArrayList<Integer>> listaFechas) {
         for (int i = 0; i < listaClientes.size(); i++) {
             if (listaClientes.get(i).getNombre().equals(nombre)) {
@@ -76,23 +87,9 @@ public class Suscripcion implements Serializable {
         return null;
     }
 
-    public static void agregarCliente(Cliente cliente) {
-        listaClientes.add(cliente);
-    }
-
-    public static void eliminarCliente(Cliente cliente) {
-        listaClientes.remove(cliente);
-    }
-
-    public static void eliminarCliente(String nombre) {
-        for (Cliente cliente : listaClientes) {
-            if (cliente.getNombre().equals(nombre)) {
-                listaClientes.remove(cliente);
-                break;
-            }
-        }
-    }
-
+    /**
+     * Asigna el precio de la suscripcion dependiendo del tipo de suscripcion
+     */
     public void asignarPrecio() {
         //Metodo que asigna el precio de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -103,6 +100,11 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    /**
+     * Retorna el precio de la suscripcion dependiendo del tipo de suscripcion
+     * @param tipo
+     * @return
+     */
     public static double precioPorTipo(String tipo) {
         //Metodo que retorna el precio de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -124,6 +126,9 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    /**
+     * Asigna los descuentos de la suscripcion dependiendo del tipo de suscripcion
+     */
     public void asignarDescuentos() {
         //Metodo que asigna los descuentos de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -150,6 +155,11 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    /**
+     * Retorna los descuentos de la suscripcion dependiendo del tipo de suscripcion
+     * @param tipo
+     * @return
+     */
     public static ArrayList<Float> descuentosPorTipo(String tipo) {
         //Metodo que retorna los descuentos de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -171,6 +181,9 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    /**
+     * Asigna la capacidad de la suscripcion dependiendo del tipo de suscripcion
+     */
     public void asignarCapacidad() {
         //Metodo que asigna la capacidad de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -181,6 +194,11 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    /**
+     * Retorna la capacidad de la suscripcion dependiendo del tipo de suscripcion
+     * @param tipo
+     * @return
+     */
     public static int capacidadPorTipo(String tipo) {
         //Metodo que retorna la capacidad de la suscripcion dependiendo del tipo de suscripcion
         switch (tipo) {
@@ -202,12 +220,20 @@ public class Suscripcion implements Serializable {
         }
     }
 
+    /**
+     * Asigna la fecha de vencimiento de la suscripcion
+     * @param fechas
+     */
     public void asignarFechaVencimiento(ArrayList<ArrayList<Integer>> fechas) {
         //Metodo que asigna la fecha de vencimiento teniendo en cuenta la fecha actual
         ArrayList<Integer> ultimaFecha = ultimaFechaReserva(fechas);
         fechaVencimiento = new ArrayList<>(Arrays.asList(ultimaFecha.get(0), ultimaFecha.get(1), ultimaFecha.get(2) + 2));
     }
 
+    /**
+     * Muestra las posibles suscripciones que se pueden adquirir
+     * @return ArrayList<String>
+     */
     public static ArrayList<String> mostrarPosiblesSuscripciones() {
         ArrayList<String> posiblesSuscripciones = new ArrayList<>();
         for (String tipo : LISTA_TIPOS) {
@@ -220,6 +246,11 @@ public class Suscripcion implements Serializable {
         return posiblesSuscripciones;
     }
 
+    /**
+     * Verifica si la fecha de vencimiento de la suscripcion es valida
+     * @param ultimaFecha
+     * @return
+     */
     public boolean verificarFechaVencimiento(ArrayList<Integer> ultimaFecha) {
 
         //Metodo que toma una fecha de vencimiento y verifica si esta fecha es valida y vigente

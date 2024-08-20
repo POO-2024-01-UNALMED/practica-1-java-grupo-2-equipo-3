@@ -11,7 +11,7 @@ import gestorAplicacion.hospedaje.Hotel;
 import java.io.Serializable;
 
 public class Destino implements Serializable{
-	private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
+	private static final long serialVersionUID = 7L; // Agregado para la compatibilidad de serialización
     private ArrayList<Guia> guias;
     private ArrayList<Actividad> actividades;
     private String nombre;
@@ -106,7 +106,7 @@ public class Destino implements Serializable{
     /**
      * Muestra las actividades que un guía puede realizar en este destino.
      *
-     * @param guia El guía para el cual se muestran las actividades.
+     * @param lista El guía para el cual se muestran las actividades.
      * @return Una lista de actividades que el guía puede realizar.
      */
     public ArrayList<Actividad> mostrarActividadesTipo(ArrayList<TiposActividad> lista) {
@@ -251,9 +251,6 @@ public class Destino implements Serializable{
         return porcentajeExtra;
     }
 
-
-
-    
      /**
       * Devuelve la lista de los nombres de todos los destinos existentes
       * 
@@ -264,6 +261,7 @@ public class Destino implements Serializable{
 		 for(Destino destino:destinos) {ListaDestinos.add(destino.getNombre());}
 		 return ListaDestinos;
 	 }
+
      /**
       * Busca un destino por su nombre.
       *
@@ -278,6 +276,7 @@ public class Destino implements Serializable{
          }
          return null;
      }
+
      /**
       * Genera una tabla con información de planificación basada en filtros como clasificación, tipo de actividad, fechas y idioma.
       * El contenido de la tabla depende de la opción de búsqueda proporcionada.
@@ -340,6 +339,7 @@ public class Destino implements Serializable{
              tabla.add(5, posicion5); // 5."1"&&"2"=oferta;"3"&&"4"cantidad de personas
         	return tabla; 
         }
+
      /**
       * Genera una tabla de planificación basada en un destino y varios filtros de búsqueda.
       * La tabla contiene diversas estadísticas y datos sobre el destino dependiendo de la opción de búsqueda seleccionada.
@@ -499,6 +499,7 @@ public class Destino implements Serializable{
     	 }
     	 return idiomaComun;
      }
+
      /**
       * Define el nivel de oferta basado en el tamaño de una lista de actividades en comparación con el total de actividades disponibles.
       * 
@@ -512,6 +513,7 @@ public class Destino implements Serializable{
     	 else {oferta="Baja";}
     	 return oferta;
      }
+
      /**
       * Cuenta la cantidad de actividades que corresponden a un tipo específico.
       * 
@@ -525,10 +527,7 @@ public class Destino implements Serializable{
     	 }
     	 return cantidad;
      }
-     
-     
-     
-     
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

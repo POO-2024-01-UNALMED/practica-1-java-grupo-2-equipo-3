@@ -13,7 +13,6 @@ import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
-import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
@@ -21,7 +20,7 @@ import gestorAplicacion.gestionHum.Cliente;
 import uiMain.Main;
 
 public class Hotel implements  Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4L;
     private boolean permiteSuscripcion = false;
     private String nombre;
     private Destino destino;
@@ -101,6 +100,7 @@ public class Hotel implements  Serializable{
    	 else {oferta="Baja";}
    	 return oferta;
     }
+
     /**
      * Muestra una lista de hoteles disponibles según una reserva específica.
      *
@@ -124,28 +124,6 @@ public class Hotel implements  Serializable{
         }
         return hotelesADesplegar;
     }
-    /**
-     * Filtra y devuelve una lista de hoteles disponibles en un destino específico para una fecha dada.
-     *
-     * @param destino  El destino donde se buscan los hoteles disponibles.
-     * @param fecha    La fecha para la cual se busca disponibilidad. Se espera que sea una lista de enteros que representa la fecha.
-     *
-     * @return         Una lista de hoteles que están disponibles en el destino dado para la fecha especificada.
-     */
-    public static ArrayList<Hotel> mostrarHotelesFiltrados(Destino destino,ArrayList<Integer> fecha){
-    	 ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
-    	for(Hotel hotel:cargarHoteles()) {
-    		if(hotel.getDestino().equals(destino)&&hotel.getDisponibilidadHabitaciones().get(fecha)!=null) {hotelesDisponibles.add(hotel);}
-    	}
-    	return hotelesDisponibles;
-    }
-    public static ArrayList<Hotel> mostrarHotelesFiltrados(Destino destino){
-   	 ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
-   	for(Hotel hotel:cargarHoteles()) {
-   		if(hotel.getDestino().equals(destino)) {hotelesDisponibles.add(hotel);}
-   	}
-   	return hotelesDisponibles;
-   }
     /**
      * Busca el hotel elegido de la ista de hoteles disponibles según una reserva específica.
      *
@@ -181,7 +159,7 @@ public class Hotel implements  Serializable{
      * @param destino  El destino para el cual se calculará el promedio de los precios de hoteles.
      * @return         El promedio de los precios de los hoteles en el destino especificado.
      */
-    public static long promedioPreciosHoteles(Destino destino) {
+    public static long promedioPreciosActividades(Destino destino) {
         long promedio = 0;
         int cantidad = cantidadHotelesDestino(destino);
         
@@ -190,16 +168,6 @@ public class Hotel implements  Serializable{
             if (hotel.getDestino().equals(destino)) {promedio += hotel.precio;}
         }
 
-        return promedio / cantidad;
-    }
-    public static long promedioPreciosHoteles(ArrayList<Hotel> hoteles) {
-        long promedio = 0;
-        int cantidad = hoteles.size();
-        
-        if (cantidad == 0) {return 0;}
-        for (Hotel hotel : hoteles) {
-            promedio += hotel.precio;
-        }
         return promedio / cantidad;
     }
     //Veriifcar si hay disponilibilas habitaciones
@@ -537,9 +505,12 @@ public class Hotel implements  Serializable{
             }
         }
     
+        hotel.precioFinalHospedaje = calcularPrecio(reserva);
+    
         // Actualizar la lista de hoteles
         listaHoteles.removeIf(h -> h.getNombre().equals(hotel.getNombre()));
         listaHoteles.add(hotel);
+    
     
         ///////////// SobreEscribir el serializable de la lista de hoteles con los cambios realizados ////////////////
     
@@ -571,6 +542,26 @@ public class Hotel implements  Serializable{
         hotel.precioFinalHospedaje = precioTotal;
         
         return precioTotal;
+    }
+
+    public static String desplegarHabitacionesReserva(Reserva reserva) {
+        Hotel hotel = reserva.getClientes().get(0).getHotel();
+        List<Grupo> grupos = hotel.getGrupos();
+    
+        StringBuilder resultado = new StringBuilder();
+        resultado.append("Habitaciones asignadas para la reserva:\n");
+        for (Grupo grupo : grupos) {
+            ArrayList<Cliente> clientes = grupo.getClientes();
+            if (clientes.containsAll(reserva.getClientes())) {
+                resultado.append("Tipo de habitacion: ").append(grupo.getTipoHabitacion()).append("\n");
+                resultado.append("Clientes en esta habitacion:\n");
+                for (Cliente cliente : clientes) {
+                    resultado.append(" - ").append(cliente.getNombre()).append(" (Edad: ").append(cliente.getEdad()).append(")\n");
+                }
+                resultado.append("Capacidad de la habitacion: ").append(grupo.getCapacidad()).append("\n\n");
+            }
+        }
+        return resultado.toString();
     }
     
 
@@ -648,6 +639,15 @@ public class Hotel implements  Serializable{
 
     public ArrayList<Restaurante> getRestaurantes() {
         return restaurantes;
+    }
+
+    public double getPrecioFinalHospedaje(){
+        return precioFinalHospedaje;
+    }
+
+    public void setPrecioFinalHospedaje(double precio){
+        this.precioFinalHospedaje = precio;
+
     }
 
     
