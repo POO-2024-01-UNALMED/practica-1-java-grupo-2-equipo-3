@@ -138,6 +138,7 @@ public class Hotel implements  Serializable{
         }
         return promedio / cantidad;
     }
+    
     /**
      * Muestra una lista de hoteles disponibles según una reserva específica.
      *
@@ -196,7 +197,7 @@ public class Hotel implements  Serializable{
      * @param destino  El destino para el cual se calculará el promedio de los precios de hoteles.
      * @return         El promedio de los precios de los hoteles en el destino especificado.
      */
-    public static long promedioPreciosActividades(Destino destino) {
+    public static long promedioPreciosHoteles(Destino destino) {
         long promedio = 0;
         int cantidad = cantidadHotelesDestino(destino);
         
