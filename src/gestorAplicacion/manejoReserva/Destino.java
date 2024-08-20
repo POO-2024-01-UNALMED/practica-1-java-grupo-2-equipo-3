@@ -415,6 +415,19 @@ public class Destino implements Serializable{
        
     	return tabla; 
     }
+     /**
+      * Muestra una planificación de actividades según el idioma y otras opciones de búsqueda.
+      *
+      * @param opcBusqueda Una opción de búsqueda que define el formato de los datos devueltos. 
+      *                    "1" para mostrar cantidades y precios por tipo de actividad, 
+      *                    cualquier otro valor para mostrar resumen general.
+      * @param clasificacion La clasificación de las actividades a filtrar.
+      * @param tipo El tipo de actividad a filtrar.
+      * @param fecha Una lista de fechas para filtrar las actividades.
+      * @param idioma El idioma para el cual se desea obtener la planificación.
+      * @return Un ArrayList de objetos que contiene el nombre del idioma y listas con datos
+      *         sobre actividades según la opción de búsqueda.
+      */
      public ArrayList<Object> mostrarPlaneacionIdioma(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
     	 ArrayList<Object> tabla=new ArrayList<Object>();
     	 

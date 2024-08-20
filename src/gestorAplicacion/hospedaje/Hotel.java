@@ -38,6 +38,19 @@ public class Hotel implements  Serializable{
         this.grupos = new ArrayList<>(); // Inicializar la lista de grupos
         this.restaurantes = new ArrayList<>();
     }
+    /**
+     * Muestra una planificación de hoteles según el idioma y otras opciones de búsqueda.
+     *
+     * @param opcBusqueda Una opción de búsqueda que define el formato de los datos devueltos. 
+     *                    "1" para mostrar detalles específicos de restaurantes y hoteles, 
+     *                    cualquier otro valor para mostrar un resumen general.
+     * @param clasificacion La clasificación de los hoteles a filtrar.
+     * @param tipo El tipo de actividad a filtrar.
+     * @param fechas Una lista de fechas para filtrar los hoteles.
+     * @param idioma El idioma para el cual se desea obtener la planificación.
+     * @return Un ArrayList de objetos que contiene el nombre del hotel y listas con datos
+     *         sobre hoteles y restaurantes según la opción de búsqueda.
+     */
     public ArrayList<Object> mostrarPlaneacionHotel(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fechas,Idiomas idioma){
    	 ArrayList<Object> tabla=new ArrayList<Object>();
    	 
