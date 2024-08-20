@@ -125,7 +125,7 @@ public class Plan implements Serializable {
         }
         return actividadesDisponibles;
     }
-
+    
     /**
      * Escoge las actividades del día
      *

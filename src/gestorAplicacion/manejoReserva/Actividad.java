@@ -182,21 +182,16 @@ public class Actividad implements Registrable, Serializable {
    	 boolean isClasificacionMatch = (clasificacionFiltro==0) || clasificacion==clasificacionFiltro;
    	 boolean isTipoMatch=(tipoFiltro==null)||verificarTipoActividad(tipoFiltro);
    	 boolean isIdiomaMatch=(idiomaFiltro==null)||buscarGuia(idiomaFiltro).size()!=0;
-   	 boolean isFechaMatch=(fechaFiltro==null)||true;
+   	 boolean isFechaDisponible=false;
+   	 for(ArrayList<Integer> fecha:fechaFiltro) {
+   		 if(this.verificaActividadDisponible(fecha)) {isFechaDisponible=true;}
+   	 }
+   	 boolean isFechaMatch=(fechaFiltro==null)||isFechaDisponible;
    	 
    	 if(isClasificacionMatch&&isTipoMatch&&isIdiomaMatch&&isFechaMatch) {return true;}
    	 return false;
     }
 
-    public boolean buscarIdiomaEnActividad(Idiomas idioma) {
-    	for(Guia guia:this.guias) {
-    		for(Idiomas idiomaFor:guia.getIdiomas()) {
-    			if(idiomaFor.equals(idioma)) {
-                }
-    		}
-    	}
-        return true;
-    }
     /**
      * Verifica si la actividad es de cierto tipo
      *
@@ -207,6 +202,25 @@ public class Actividad implements Registrable, Serializable {
       	 for(TiposActividad tipoFor:tipo) {
       		 if(tipoFiltro.equals(tipoFor)) {return true;}
       	}return false;
+    }
+    /**
+     * Muestra si la actividad esta disponible en ese dia
+     *
+     * @param fecha fecha a verificar
+     * @return true si esta disponible
+     */
+    public boolean verificaActividadDisponible(ArrayList<Integer> fecha) {
+            ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha,this);
+            if (existenGrupos.size() > 0) {
+                return true;
+            } else if (existenGrupos.isEmpty()) {
+                ArrayList<Guia> guiasCapacitados = destino.getGuias();
+                ArrayList<Guia> guiasConDisponibilidad = Guia.buscarDisponibilidad(guiasCapacitados, fecha);
+                if (guiasConDisponibilidad.size() > 0) {
+                    return true;
+                }
+            }
+        return false;
     }
     /**
      * Calcula el promedio de los precios de una lista de actividades.

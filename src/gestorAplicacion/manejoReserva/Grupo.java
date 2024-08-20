@@ -163,6 +163,15 @@ public class Grupo implements Serializable {
         }
         return gruposEncontrados;
     }
+    public static ArrayList<Grupo> buscarGrupo(ArrayList<Integer> fecha, Actividad actividad) {
+        ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
+        for (Grupo grupo : grupos) {
+            if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad)) {
+                gruposEncontrados.add(grupo);
+            }
+        }
+        return gruposEncontrados;
+    }
 
     /**
      * Busca grupos que coincidan con la fecha, actividad e idioma especificados y que tengan capacidad para las personas a agregar.

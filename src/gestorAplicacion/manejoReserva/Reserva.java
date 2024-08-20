@@ -403,6 +403,20 @@ public class Reserva {
     	return cantidad;
     }
     /**
+     * Calcula la cantidad total de personas que han reservado en un destino y fecha específica.
+     * 
+     * @param destino  El destino para el cual se desea calcular la cantidad total de personas.
+     * @param fecha    La fecha para la cual se desea calcular la cantidad total de personas.
+     * @return         La cantidad total de personas (clientes) que han reservado en el destino especificado.
+     */
+    public static int mostrarCantidadPersonasDestino(Destino destino, ArrayList<Integer> fecha) {
+    	int cantidad=0;
+    	for(Reserva reserva:reservasExistentes) {
+    		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)) {cantidad+=reserva.clientes.size();}
+    	}
+    	return cantidad;
+    }
+    /**
      * Determina la actividad más popular en un destino específico, basada en la cantidad de personas que han reservado esa actividad.
      * 
      * @param destino  El destino para el cual se desea encontrar la actividad más popular.

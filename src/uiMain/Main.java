@@ -1211,6 +1211,7 @@ public class Main {
 * @param destino       El destino para buscar guías.
 * @param idioma        El idioma para buscar guías.
 */
+	
     public static void imprimirTablaDisponibilidadGuias(ArrayList<ArrayList<Integer>> listaFechas, String opcFiltro, String opcBusqueda, String opcFecha, Guia guia, Destino destino, Idiomas idioma) {
 		String D_lineaTabla="|---------------------------------------------------------------------------------------------------------|";
 		String D_lineaTablaI=" --------------------------------------------------------------------------------------------------------- ";
@@ -1394,7 +1395,7 @@ public class Main {
 ////////////////////////////METODOS FUNCIONALIDAD PLANEAR VIAJE///////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
     
-    public static void imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    public static void imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
     	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
     	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
 
@@ -1420,15 +1421,26 @@ public class Main {
 			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-17s|%-15s|%-15s|%-10s|%n","Destino:","actividades:","actividades:","disponibles:","precios hoteles:","personas:","actividades:","Temporada:");	
 		}
 		System.out.println(D_lineaTabla);
-		System.out.println(D_lineaTabla);
+		if(opcBusqueda.equals("2")) {
+			System.out.printf("|%-47s%-50s%-30s|%n","C= cantidad de actividades disponibles","","P= promedio del precio de las actividades");
+		}
 		
 		//IMPRIMIR CUERPO
-		if(opcBusqueda.equals("1")) {
-			
+		for(Destino destino:Destino.getDestinos()) {
+			ArrayList<Object> tabla=destino.mostrarPlaneacionDestino(opcBusqueda, clasificacion, tipo, fecha, idioma);
+			if(!opcBusqueda.equals("2")) {
+				System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5),tabla.get(6),tabla.get(7));	
+			}else {
+				for(int i=0;i<2;i++) {
+					System.out.println(D_lineaTabla);
+					
+					String segundaLinea1=Reserva.convertirTipo(tabla.get(0)).get(i)==null?"":Reserva.convertirTipo(tabla.get(0)).get(i);
+					String segundaLinea2=Reserva.convertirTipo(tabla.get(7)).get(i)==null?"":Reserva.convertirTipo(tabla.get(7)).get(i);
+					System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",segundaLinea1,Reserva.convertirTipo(tabla.get(1)).get(i),Reserva.convertirTipo(tabla.get(2)).get(i),Reserva.convertirTipo(tabla.get(3)).get(i),Reserva.convertirTipo(tabla.get(4)).get(i),Reserva.convertirTipo(tabla.get(5)).get(i),Reserva.convertirTipo(tabla.get(6)).get(i),segundaLinea2);	
+				}
+			}
 		}
-
-		
-		
+		System.out.println(D_lineaTablaI);
 	}
     
     public static void imprimirTablaPlanearFecha(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
@@ -1452,7 +1464,7 @@ public class Main {
 			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","Mes:","de actividades:","de hoteles:","solicitado:","personas:","Oferta:");
 		}else if(opcBusqueda.equals("2")) {
 			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","","Tipo de actividades","Disponibilidad","Promedio de","Cantidad ","");
-			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","Mes:","mas solicitado:","de guias:","precios:","de precios:","Oferta");
+			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n","Mes:","mas solicitado:","de guias:","precios:","de actividades:","Oferta");
 		}else {
 			String TerceraLinea1=opcBusqueda.equals("3")?"Cantidad de":"";
 			String CuartaLinea1=opcBusqueda.equals("3")?"Dia:":"Mes:";
