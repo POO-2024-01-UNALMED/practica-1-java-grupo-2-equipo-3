@@ -623,9 +623,13 @@ public class Main {
 				String D_opcionMenuHospedaje=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Aginar Hospedaje","volver")));
 				switch (D_opcionMenuHospedaje) {
 					case "1":
-						
-						Hotel.asignarHabitacion(reservaFicticia, null);
-						Restaurante.asignarRestaurante(reservaFicticia);
+
+										
+						ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
+						Hotel hotelEscogido = Hotel.asignarHotel(reserva, hoteles);
+
+						Hotel.asignarHabitacion(reserva, hotelEscogido);
+						Restaurante.asignarRestaurante(reserva);
 						terminarCicloHospedaje = false;
 						break;
 
@@ -641,9 +645,6 @@ public class Main {
 						break;
 				}
 				
-
-				
-
 
 			}
 			break;

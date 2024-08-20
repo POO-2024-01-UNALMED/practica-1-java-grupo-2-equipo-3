@@ -34,10 +34,14 @@ public class Cliente extends Persona {
 
     public Cliente(String nombre, Destino destino, int edad) {
         super(nombre, destino, edad);
+        this.restaurantes = new ArrayList<>(); // Inicializar la lista de restaurantes
+
     }
     public Cliente(String nombre, int edad) {
         super(nombre, edad);
         this.grupos = new ArrayList<>();
+        this.restaurantes = new ArrayList<>(); // Inicializar la lista de restaurantes
+
     }
 
     //porfis dejenlo asi lo necesito para mi funcionalidad:(
