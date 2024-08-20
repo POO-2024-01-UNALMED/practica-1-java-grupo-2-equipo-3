@@ -1,4 +1,5 @@
 package uiMain;
+import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.manejoReserva.Reserva;
@@ -294,7 +295,8 @@ public class Funcionalidad4 {
     public static boolean verificarCapacidadActividad(Reserva reserva){
 
 
-        for (String tipo: reserva.getActividades.getCapacidad){
+        Plan plan = reserva.getPlan();
+        for (String tipo: plan.getActividades.getCapacidad){
 
             if(Actividad.verificarCapacidadActividad(reserva)){
                 return true;

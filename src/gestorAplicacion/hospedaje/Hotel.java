@@ -26,6 +26,8 @@ public class Hotel implements  Serializable{
     private Destino destino;
     private int numeroHabitaciones;
     private double precio;                              //[tipo,disponibles,capacidad]    
+    private Boolean cuentaConSuscripcion = false; // Boleeano si el cliente seleccion un hotel con suscripcion y todas las condiciones se cumplen
+    double precioFinalHospedaje = 0;
       
     private ArrayList<Grupo> grupos;
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
@@ -205,6 +207,8 @@ public class Hotel implements  Serializable{
 
         String indiceHotelEscogido = Main.ingresarOpcion("Seleccione el hotel en el cual se desea hospedar", 0, hotelesADesplegar);
         int indiceHotelEscogidoInt = Integer.parseInt(indiceHotelEscogido) - 1;
+
+        if
         
         for (Cliente cliente : reserva.getClientes()) {
             cliente.setHotel(hotelesDisponibles.get(indiceHotelEscogidoInt));
@@ -231,6 +235,10 @@ public class Hotel implements  Serializable{
 
 
     public static ArrayList<Grupo> asignarHabitacion(Reserva reserva, Hotel hotel) {
+        if (hotel.permiteSuscripcion && reserva.getExisteSuscripcion()) {
+            hotel.cuentaConSuscripcion = true;
+            
+        }
         ArrayList<Hotel> listaHoteles = cargarHoteles();
         hotel = asignarHotel(reserva, listaHoteles);
         ArrayList<String> listaString = new ArrayList<>();
@@ -394,6 +402,24 @@ public class Hotel implements  Serializable{
         
         
         
+    }
+
+    public static double calcularPrecio(Reserva reserva) {
+        Hotel hotel = reserva.getClientes().get(0).getHotel();
+        Cliente cliente = reserva.getClientes().get(0);
+        int cantidadClientes = reserva.getClientes().size();
+        double precioBase = hotel.getPrecio();
+        double precioTotal = cantidadClientes * precioBase;
+        
+
+        if (hotel.cuentaConSuscripcion) {
+            precioTotal *= cliente.getSuscripcion().getDescHotel();
+        }
+        precioTotal = precioTotal * reserva.getFechas().size();
+
+        hotel.precioFinalHospedaje = precioTotal;
+        
+        return precioTotal;
     }
     
 
