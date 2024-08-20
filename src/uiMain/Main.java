@@ -407,6 +407,7 @@ public class Main {
 //////////////////////////////////////////////////////////////////////////////////////////////    
 	
 	public static void main(String[] args) {
+
 		Scanner entrada = new Scanner(System.in);
 		//LISTAS DE NOMBRES DE LAS CONSTANTES 
 		ArrayList<String> ListaIdiomas=Idiomas.listaNombres();
