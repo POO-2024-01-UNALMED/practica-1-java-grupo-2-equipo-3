@@ -636,85 +636,111 @@ public class Main {
 				}
 			break;
 			
-			case "2": // FUNCIONALIDAD: Reservar un hospedaje
-
-			    boolean terminarCicloHospedaje = true;
-			    while (terminarCicloHospedaje) {
-			        String D_opcionMenuHospedaje = ingresarOpcion("¿Qué desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
-			        switch (D_opcionMenuHospedaje) {
-			            case "1":
-			                // Crear una nueva reserva
-			                System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
-			                ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
-
-			                int edad = IngresoEdadTitular();
-			                String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
-			                // Verificar si el cliente tiene una suscripción activa
-
-			                Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
-			                if (titular == null) {
-			                    titular = new Cliente(nombre, edad);
-			                    ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList("Sí", "No"));
-			                    String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros, ¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
-			                    Suscripcion nuevaSuscripcion = null;
-			                    switch (opcionCicloComprarSuscripcion) {
-			                        case "1":
-			                            ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
-			                            String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
-			                            switch (tipo) {
-			                                case "1":
-			                                    // Básica
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
-			                                    break;
-			                                case "2":
-			                                    // General
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
-			                                    break;
-			                                case "3":
-			                                    // Premium
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
-			                                    break;
-			                                case "4":
-			                                    // VIP
-			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
-			                                    break;
-			                            }
-			                            System.out.println("La suscripción se ha ingresado correctamente");
-			                            break;
-			                        case "2":
-			                            System.out.println("No se ha ingresado ninguna suscripción");
-			                            break;
-			                    }
-			                }
-			                // Crear la reserva a partir de los datos ingresados
-			                Reserva reservaCreada = new Reserva(titular, listaFechas);
-			                ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList("Agregar otro cliente", "No agregar más clientes"));
-			                String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
-			                while (opcionCicloAgregarCliente.equals("1")) {
-			                    Cliente cliente = ingresarCliente();
-			                    reservaCreada.getClientes().add(cliente);
-			                    opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
-			                }
-			                reservaCreada.asignarClasificacion();
-			                reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
-
-			                // INGRESAR DESTINO
-			                reservaCreada.setDestino(ingresarDestino());
-
-			                // Asignar hospedaje
-			                ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
-			                Hotel hotelEscogido = Hotel.asignarHotel(reservaCreada, hoteles);
-
-			                if (hotelEscogido != null) {
-			                    Hotel.asignarHabitacion(reservaCreada, hotelEscogido);
-			                    Restaurante restaurante = Restaurante.asignarRestaurante(reservaCreada);
-			                    Restaurante.asignarMesaRestaurante(reservaCreada, restaurante);
-			                } else {
-			                    System.out.println("No se pudo asignar un hotel.");
-			                }
-			        }
-			    }
-			        break;
+			boolean terminarCicloHospedaje = true;
+			while (terminarCicloHospedaje) {
+				String D_opcionMenuHospedaje = ingresarOpcion("¿Qué desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
+				switch (D_opcionMenuHospedaje) {
+					case "1":
+						ArrayList<String> opcionesReserva = new ArrayList<>(Arrays.asList(
+							"Realizar una nueva reserva",
+							"Buscar reserva existente para agregar las actividades"));
+						String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?", 0, opcionesReserva);
+			
+						if (opcionCicloEscogida.equals("1")) {
+							// Crear una nueva reserva
+							System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
+							ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
+			
+							int edad = IngresoEdadTitular();
+							String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
+							// Verificar si el cliente tiene una suscripción activa
+			
+							Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
+							if (titular == null) {
+								titular = new Cliente(nombre, edad);
+								ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList("Sí", "No"));
+								String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros, ¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
+								Suscripcion nuevaSuscripcion = null;
+								switch (opcionCicloComprarSuscripcion) {
+									case "1":
+										ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
+										String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
+										switch (tipo) {
+											case "1":
+												// Básica
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
+												break;
+											case "2":
+												// General
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
+												break;
+											case "3":
+												// Premium
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
+												break;
+											case "4":
+												// VIP
+												nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
+												break;
+										}
+										System.out.println("La suscripción se ha ingresado correctamente");
+										break;
+									case "2":
+										System.out.println("No se ha ingresado ninguna suscripción");
+										break;
+								}
+							}
+							// Crear la reserva a partir de los datos ingresados
+							Reserva reservaCreada = new Reserva(titular, listaFechas);
+							ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList("Agregar otro cliente", "No agregar más clientes"));
+							String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+							while (opcionCicloAgregarCliente.equals("1")) {
+								Cliente cliente = ingresarCliente();
+								reservaCreada.getClientes().add(cliente);
+								opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+							}
+							reservaCreada.asignarClasificacion();
+							reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
+			
+							// INGRESAR DESTINO
+							reservaCreada.setDestino(ingresarDestino());
+			
+							// Asignar hospedaje
+							ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
+							Hotel hotelEscogido = Hotel.asignarHotel(reservaCreada, hoteles);
+			
+							if (hotelEscogido != null) {
+								Hotel.asignarHabitacion(reservaCreada, hotelEscogido);
+								Restaurante restaurante = Restaurante.asignarRestaurante(reservaCreada);
+								Restaurante.asignarMesaRestaurante(reservaCreada, restaurante);
+		
+								// Mostart como quedo el Hospedaje de la reserva
+		
+								System.out.println("El hospedaje de su reserva: ");
+		
+								System.out.println("Hotel: " + reservaCreada.getClientes().get(0).getHotel().getNombre());
+								System.out.println("Habitación: " + Hotel.desplegarHabitacionesReserva(reservaCreada));
+								System.out.println("Restaurante: " + reservaCreada.getClientes().get(0).getRestaurantes().get(0).getNombre());
+								System.out.println("Precio total del hospedaje: " + reservaCreada.getClientes().get(0).getHotel().getPrecioFinalHospedaje());
+		
+							} else {
+								System.out.println("No se pudo asignar un hotel.");
+							}
+			
+							terminarCicloHospedaje = false;
+						} else if (opcionCicloEscogida.equals("2")) {
+							// Buscar reserva existente para agregar las actividades
+							// Implementar lógica para buscar y agregar actividades a una reserva existente
+						}
+						break;
+					case "2":
+						terminarCicloHospedaje = false;
+						break;
+					default:
+						System.out.println("Opción no válida. Intente de nuevo.");
+						break;
+				}
+			}
 			case"3"://FUNCIONALIDAD: Planear tu viaje
 				boolean terminarCicloPlan=true;
 				while(terminarCicloPlan) {
