@@ -1278,8 +1278,8 @@ public class Main {
 		
 		//SEGUNDA PARTE
 		if(opcBusqueda.equals("1")) {
-			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","","Cantidad de","Promedio de precios","Guias","Hoteles","Idioma mas","Clasificacion mas","");
-			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","Destino:","actividades:","actividades:","disponibles:","disponible:","disponible:","solicitada:","Oferta:");
+			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","","Cantidad de","Promedio de precios","Guias","Hoteles","Idioma mas","Clasificacion","");
+			System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","Destino:","actividades:","actividades:","disponibles:","disponible:","disponible:","mas solicitada:","Oferta:");
 		}else if(opcBusqueda.equals("2")) {
 			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
 			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","Destino:","culturales:","familiares:","ecologicas:","extremas:","acuaticas:","deportivas:","actividades:");
@@ -1291,7 +1291,9 @@ public class Main {
 		System.out.println(D_lineaTabla);
 		
 		//IMPRIMIR CUERPO
-		
+		if(opcBusqueda.equals("1")) {
+			
+		}
 
 		
 		
@@ -1439,7 +1441,7 @@ public class Main {
 	}
 
 	public static ArrayList<Object> elegirFiltros(String busqueda,String opcPrimerFiltro,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
-		ArrayList<String> opcionesFiltro = new ArrayList<>(7);
+		ArrayList<String> opcionesFiltro = new ArrayList<>(8);
 
 		//CREAR MENU DE OPCIONES DE FILTRO SEGUN LOS PARAMETROS INGRESADOS
 		opcionesFiltro.add(0,"Borrar Filtros");//1.borrar filtros
@@ -1454,7 +1456,7 @@ public class Main {
 		if(busqueda.equals("Plan")||busqueda.equals("Paquete")) {opcionesFiltro.add(7,busqueda.equals("Plan")?"Cambiar a planear paquete turistico":"Cambiar a planear plan personalizado");}//8.Cambiar opcion plan turistico
 				
 		String filtro=ingresarOpcion("¿Que desea hacer?",0,opcionesFiltro);
-		ArrayList<Object> parametrosFiltrados=new ArrayList<>(7);
+		ArrayList<Object> parametrosFiltrados=new ArrayList<>(9);
 		
 		//ACTUALIZAR LOS PARAMETROS SEGUN LA OPCION INGRESADA
 		boolean parametro0=filtro.equals("1")?true:false;

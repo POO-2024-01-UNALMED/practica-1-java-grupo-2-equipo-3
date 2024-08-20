@@ -319,6 +319,29 @@ public class Destino implements Serializable{
          }
          return null;
      }
+     public static ArrayLIst<Object> mostrarPlaneacionDestino(String opcBusqueda,Destino destino,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
+    	 ArrayList<Object> tabla=new ArrayList<Object>();
+    	 Actividad actividad=null;
+    	 boolean isClasificacionMatch = (clasificacion==0) || actividad.getClasificacion()==clasificacion;
+    	 
+    	 boolean isTipoIn=false;
+    	 for(TiposActividad tipoFor:actividad.getTipo()) {
+    		 if(tipo.equals(tipoFor)) {isTipoIn=true;}
+    		 }
+    	 boolean isTipoMatch=(tipo==null)||isTipoIn;
+         
+    	 int cantidadActividades=0;
+    	 int promedioPreciosActividad=0;
+    	 int guiasDisponibles=0;
+    	 int hotelesDisponibles=0;
+    	 Idiomas idiomaDisponible=null;
+    	 int clasificacionSolicitada=0;
+    	 String oferta=null;
+    	 
+    	 if(opcBusqueda.equals("1")) {
+    		 
+    	 }
+     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
