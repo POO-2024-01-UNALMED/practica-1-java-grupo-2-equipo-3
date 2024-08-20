@@ -65,7 +65,7 @@ public class Main {
             System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
 
         }
-        entrada.close();
+        ////entrada.close;
         return opcionEscogida;
     }
 
@@ -109,7 +109,7 @@ public class Main {
 				}
 			System.out.println("La opcion ingresada es incorrecta, por favor lea bien las instrucciones e intentelo de nuevo");
 		}
-		entrada.close();
+		//entrada.close;
 		return nombresEscogidos;
 	}
 
@@ -159,7 +159,7 @@ public class Main {
             System.out.println("Se ingreso incorrectamente la fecha, por favor lea bien las instrucciones e intentelo de nuevo");
         }
         
-        entrada.close();
+        //entrada.close;
         return listaFechas;
     }
 
@@ -168,37 +168,33 @@ public class Main {
      * 
      * @return  Lista de fechas representando el periodo ingresado.
      */
-    public static ArrayList<ArrayList<Integer>> ingresarPeriodoFechas() {
-        Scanner entrada = new Scanner(System.in);
-        ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
-
-        while (true) {
-            try {
-                System.out.println("Ingrese la cantidad de dias: (Solo ingrese números enteros)");
-                int cdias = entrada.nextInt();
-                entrada.nextLine(); // Limpiar el buffer del scanner
-
-                System.out.println("Ingrese la fecha de inicio: \nDigite el número del día, mes y año, sin ceros adelante y separando cada número por '/' (dia/mes/año)");
-                String fechaInicio = entrada.nextLine();
-
-                if (!Reserva.verificarFecha(fechaInicio)) {
-                    ArrayList<Integer> fecha = Reserva.listaFecha(fechaInicio);
-                    listaFechas = Reserva.mostrarDias(cdias, fecha);
-                    break;
-                }
-
-                System.out.println("Se ingresó incorrectamente un dato, por favor lea bien las instrucciones e inténtelo de nuevo.");
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Ingresó un número no válido. Por favor, intente nuevamente.");
-                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
-            } catch (Exception e) {
-                System.out.println("Ocurrió un error: " + e.getMessage());
-                entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
-            }
-        }
-        entrada.close();
-        return listaFechas;
-    }
+	public static ArrayList<ArrayList<Integer>> ingresarPeriodoFechas() {
+		Scanner entrada = new Scanner(System.in);
+		ArrayList<ArrayList<Integer>> listaFechas = new ArrayList<>();
+	
+		while (true) {
+			try {
+				System.out.println("Ingrese la cantidad de dias: (Solo ingrese números enteros)");
+				int cdias = entrada.nextInt();
+				entrada.nextLine(); // Limpiar el buffer del scanner
+	
+				System.out.println("Ingrese la fecha de inicio: \nDigite el número del día, mes y año, sin ceros adelante y separando cada número por '/' (dia/mes/año)");
+				String fechaInicio = entrada.nextLine();
+	
+				ArrayList<Integer> fecha = Reserva.listaFecha(fechaInicio);
+				listaFechas = Reserva.mostrarDias(cdias, fecha);
+				break;
+			} catch (NumberFormatException e) {
+				System.out.println("Error: Ingresó un número no válido. Por favor, intente nuevamente.");
+				entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
+			} catch (Exception e) {
+				System.out.println("Ocurrió un error: " + e.getMessage());
+				entrada.nextLine(); // Limpiar el buffer del scanner en caso de error
+			}
+		}
+		////entrada.close;
+		return listaFechas;
+	}
 
 	/**
 	 * Verifica si la edad del usuario ingresada es mayor a 18 años
@@ -226,7 +222,7 @@ public class Main {
 			}
 		}
 		while (edad < 18);
-		entrada.close();
+		//entrada.close;
 		return edad;
 	}
 
@@ -278,7 +274,7 @@ public class Main {
 			}
 		}
 		while (texto.isEmpty());
-		entrada.close();
+		//entrada.close;
 		return texto;
 	}
 
@@ -301,7 +297,7 @@ public class Main {
 			}
 			System.out.println("Se ingreso incorrectamente el dato, intentelo de nuevo y asegurese de ingresar un número entero");
 		}
-		entrada.close();
+		//entrada.close;
         return numero;
 	}
     /**
@@ -314,7 +310,7 @@ public class Main {
         ArrayList<String> ListaIdiomas = Idiomas.listaNombres();
         int opcIdiomas = Integer.parseInt(ingresarOpcion("Elija el idioma: ", 0, ListaIdiomas));
         Idiomas idioma = Idiomas.buscarNombre(ListaIdiomas.get(opcIdiomas - 1));
-        entrada.close();
+        //entrada.close;
         return idioma;
     }
 
@@ -328,7 +324,7 @@ public class Main {
         ArrayList<String> ListaTipos = TiposActividad.listaNombres();
         int opcTipo = Integer.parseInt(ingresarOpcion("Elija el tipo de actividad: ", 0, ListaTipos));
         TiposActividad tipo = TiposActividad.buscarNombre(ListaTipos.get(opcTipo - 1));
-        entrada.close();
+        //entrada.close;
         return tipo;
     }
 
@@ -342,7 +338,7 @@ public class Main {
         ArrayList<String> ListaDestinos = Destino.listaNombres();
         int opcDestinos = Integer.parseInt(ingresarOpcion("Elija el destino: ", 0, ListaDestinos));
         Destino destino = Destino.buscarNombre(ListaDestinos.get(opcDestinos - 1));
-        entrada.close();
+        //entrada.close;
         return destino;
     }
     /**
@@ -355,7 +351,7 @@ public class Main {
     	ArrayList<String> opcionesClasificacion=new ArrayList<>(Arrays.asList(
 				"Menores de 7 años","Entre 7 y 15 años","Entre 15 y 18","Mayores de 18 años"));
 		String clasificacion=ingresarOpcion("Elija una clasificación(tenga en cuenta la edad de la menor persona del grupo)",0,opcionesClasificacion);
-		entrada.close();
+		//entrada.close;
 		return Integer.parseInt(clasificacion);
     }
     /**
@@ -1288,7 +1284,7 @@ public class Main {
 			}
 			
 		}
-		entrada.close();
+		//entrada.close;
 		ArrayList<Actividad> actividades = new ArrayList<Actividad>();
 		for (Destino destino : Destino.getDestinos()) {
 			for (Actividad actividad: destino.getActividades()){
@@ -1472,7 +1468,7 @@ public class Main {
             if (guia != null) break;
             System.out.println("Se ingreso incorrectamente el nombre, intentelo de nuevo y asegurese de ingresar el nombre de un guia activo");
         }
-        entrada.close();
+        //entrada.close;
         return guia;
     }
 
@@ -1495,7 +1491,7 @@ public class Main {
             if (actividad != null) break;
             System.out.println("Se ingreso incorrectamente el nombre o el destino, intentelo de nuevo y asegurese de ingresar la informacion de una actividad activa");
         }
-        entrada.close();
+        //entrada.close;
         return actividad;
     }
     
