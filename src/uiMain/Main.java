@@ -11,6 +11,7 @@ import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.hospedaje.Hotel;
+import gestorAplicacion.hospedaje.Restaurante;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
@@ -614,6 +615,39 @@ public class Main {
 			break;
 			
 			case"2"://FUNCIONALIDAD: Reservar un hospedaje
+			boolean terminarCicloHospedaje=true;
+
+			while (terminarCicloHospedaje) {
+
+				
+				
+				Reserva reservaFicticia=new Reserva();
+				String D_opcionMenuHospedaje=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Aginar Hospedaje","volver")));
+				switch (D_opcionMenuHospedaje) {
+					case "1":
+						
+						Hotel.asignarHabitacion(reservaFicticia, null);
+						Restaurante.asignarRestaurante(reservaFicticia);
+						terminarCicloHospedaje = false;
+						break;
+
+						
+
+					case "2":
+						terminarCicloHospedaje=false;
+						break;
+
+		
+				
+					default:
+						break;
+				}
+				
+
+				
+
+
+			}
 			break;
 			
 			case"3"://FUNCIONALIDAD: Planear tu viaje
