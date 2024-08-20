@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.hospedaje.Hotel;
 
 import java.io.Serializable;
 
@@ -36,7 +37,7 @@ public class Destino implements Serializable{
         int mayorCantidad = 0;
         ArrayList<Destino> listaDestinos = new ArrayList<>();
         for (Destino destino : destinos) {
-            ArrayList<Actividad> listaActividades = destino.mostrarActividadesTipo(guia);
+            ArrayList<Actividad> listaActividades = destino. mostrarActividadesTipo(guia.getTipoActividades());
             if (listaActividades.size() == mayorCantidad) {
                 listaDestinos.add(destino);
             } else if (listaActividades.size() > mayorCantidad) {
@@ -90,6 +91,24 @@ public class Destino implements Serializable{
      */
     public ArrayList<Actividad> mostrarActividadesTipo(Guia guia) {
         ArrayList<TiposActividad> lista = guia.getTipoActividades();
+        ArrayList<Actividad> listaActividades = new ArrayList<>();
+        for (TiposActividad tipoGuia : lista) {
+            for (Actividad actividad : actividades) {
+                ArrayList<TiposActividad> tipoActividad = actividad.getTipo();
+                if (tipoActividad.contains(tipoGuia) && !listaActividades.contains(actividad)) {
+                    listaActividades.add(actividad);
+                }
+            }
+        }
+        return listaActividades;
+    }
+    /**
+     * Muestra las actividades que un guía puede realizar en este destino.
+     *
+     * @param guia El guía para el cual se muestran las actividades.
+     * @return Una lista de actividades que el guía puede realizar.
+     */
+    public ArrayList<Actividad> mostrarActividadesTipo(ArrayList<TiposActividad> lista) {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
         for (TiposActividad tipoGuia : lista) {
             for (Actividad actividad : actividades) {
@@ -231,69 +250,6 @@ public class Destino implements Serializable{
         return porcentajeExtra;
     }
 
-
-
-    /**
-     * Metodos para encontrar que detinos tiene cada idioma
-     *
-     * @param idioma El idioma para calcular el precio extra.
-     * @return El porcentaje de precio extra por idioma.
-     */
-
-     public static ArrayList<ArrayList<Destino>> destinosPorIdioma(ArrayList<Destino> destinos) {
-        // Crear una lista para cada idioma
-        ArrayList<Destino> destinosIngles = new ArrayList<>();
-        ArrayList<Destino> destinosPortugues = new ArrayList<>();
-        ArrayList<Destino> destinosEspanol = new ArrayList<>();
-        ArrayList<Destino> destinosFrances = new ArrayList<>();
-        ArrayList<Destino> destinosItaliano = new ArrayList<>();
-    
-        // Recorrer todos los destinos y verificar los idiomas disponibles en cada uno
-        for (Destino destino : destinos) {
-            for (Guia guia : destino.getGuias()) {
-                for (Idiomas idioma : guia.getIdiomas()) {
-                    switch (idioma) {
-                        case INGLES:
-                            if (!destinosIngles.contains(destino)) {
-                                destinosIngles.add(destino);
-                            }
-                            break;
-                        case PORTUGUES:
-                            if (!destinosPortugues.contains(destino)) {
-                                destinosPortugues.add(destino);
-                            }
-                            break;
-                        case ESPANOL:
-                            if (!destinosEspanol.contains(destino)) {
-                                destinosEspanol.add(destino);
-                            }
-                            break;
-                        case FRANCES:
-                            if (!destinosFrances.contains(destino)) {
-                                destinosFrances.add(destino);
-                            }
-                            break;
-                        case ITALIANO:
-                            if (!destinosItaliano.contains(destino)) {
-                                destinosItaliano.add(destino);
-                            }
-                            break;
-                    }
-                }
-            }
-        }
-    
-        // Crear una lista de listas para almacenar todas las listas de destinos
-        ArrayList<ArrayList<Destino>> destinosIdiomas = new ArrayList<>();
-        destinosIdiomas.add(destinosIngles);
-        destinosIdiomas.add(destinosPortugues);
-        destinosIdiomas.add(destinosEspanol);
-        destinosIdiomas.add(destinosFrances);
-        destinosIdiomas.add(destinosItaliano);
-    
-        return destinosIdiomas;
-    }
-
      /**
       * Devuelve la lista de los nombres de todos los destinos existentes
       * 
@@ -318,30 +274,98 @@ public class Destino implements Serializable{
          }
          return null;
      }
-     public static ArrayLIst<Object> mostrarPlaneacionDestino(String opcBusqueda,Destino destino,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
+     public ArrayList<Object> mostrarPlaneacionDestino(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
     	 ArrayList<Object> tabla=new ArrayList<Object>();
-    	 Actividad actividad=null;
-    	 boolean isClasificacionMatch = (clasificacion==0) || actividad.getClasificacion()==clasificacion;
     	 
-    	 boolean isTipoIn=false;
-    	 for(TiposActividad tipoFor:actividad.getTipo()) {
-    		 if(tipo.equals(tipoFor)) {isTipoIn=true;}
-    		 }
-    	 boolean isTipoMatch=(tipo==null)||isTipoIn;
-         
-    	 int cantidadActividades=0;
-    	 int promedioPreciosActividad=0;
-    	 int guiasDisponibles=0;
-    	 int hotelesDisponibles=0;
-    	 Idiomas idiomaDisponible=null;
-    	 int clasificacionSolicitada=0;
-    	 String oferta=null;
+    	 ArrayList<Object> posicion1=new ArrayList<>();//"1"&"3"=cantidad de actividades;"2"=actividades culturales;
+    	 ArrayList<Object> posicion2=new ArrayList<>();;//"1"&"3"=promedio precios actividades;"2"=actividades familiares;
+    	 ArrayList<Object> posicion3=new ArrayList<>();;//"1"=guias disponibles;"2"=actividades ecologicas;"3"hoteles disponibles
+    	 ArrayList<Object> posicion4=new ArrayList<>();;//"1"=hoteles disponibles;"2"=actividades extremas;"3"promedio de precios hoteles
+    	 ArrayList<Object> posicion5=new ArrayList<>();;//"1"=idioma mas comun;"2"=actividades acuaticas;"3" cantidad de personas
+    	 ArrayList<Object> posicion6=new ArrayList<>();;//"1"=clasificacion mas solicitada;"2"=actividades deportivas;"3"principales actividades
+    	 ArrayList<Object> posicion7=new ArrayList<>();;//"1"&"3"=oferta;"2"=total de actividades;
     	 
+    	 
+    	 ArrayList<Actividad> actividadesFiltradas=new ArrayList<>();
+    	 for(Actividad actividad:actividades) {
+ 			if(actividad.verificarFiltrosActividad(clasificacion, tipo, fecha, idioma)) {actividadesFiltradas.add(actividad);}
+ 		 }
     	 if(opcBusqueda.equals("1")) {
-    		 
+    		 posicion1.add(actividadesFiltradas.size());
+    		 posicion2.add(Actividad.promedioPreciosActividades(actividadesFiltradas));
+    		 posicion3.add(Actividad.cantidadGuiasDisponiblesLista(actividadesFiltradas));
+    		 posicion4.add(Hotel.cantidadHotelesDestino(this));
+    		 posicion5.add(buscarIdiomaComun());
+    		 posicion6.add(Reserva.mostrarClasificacionComun(this));
+    		 posicion7.add(definirOferta(actividadesFiltradas));
+    	 }else {
+    		 posicion1.add(actividadesFiltradas.size());
+    		 posicion2.add(Actividad.promedioPreciosActividades(actividadesFiltradas));
+    		 posicion3.add(Hotel.cantidadHotelesDestino(this));
+    		 posicion4.add(Hotel.promedioPreciosActividades(this));
+    		 posicion5.add(Reserva.mostrarCantidadPersonasDestino(this));
+    		 posicion6.add(Reserva.actividadPrincipalDestino(this));
+    		 posicion7.add(definirOferta(actividadesFiltradas));
     	 }
+    	 
+    	 tabla.add(0, nombre); //0.nombre del destino
+         tabla.add(1, posicion1); // 1."1"&"3"=promedio precios actividades;"2"=actividades familiares;
+         tabla.add(2, posicion2); // 2."1"=guias disponibles;"2"=actividades ecologicas;"3"hoteles disponibles
+         tabla.add(3, posicion3); // 3."1"=guias disponibles;"2"=actividades ecologicas;"3"hoteles disponibles
+         tabla.add(4, posicion4); // 4."1"=hoteles disponibles;"2"=actividades extremas;"3"promedio de precios hoteles
+         tabla.add(5, posicion5); // 5."1"=idioma mas comun;"2"=actividades acuaticas;"3" cantidad de personas
+         tabla.add(6, posicion6); // 6."1"=clasificacion mas solicitada;"2"=actividades deportivas;"3"principales actividades
+         tabla.add(7, posicion7); // 7."1"&"3"=oferta;"2"=total de actividades;
+       
+    	return tabla; 
      }
-    
+     /**
+      * Busca el idioma más común entre los guías disponibles.
+      * 
+      * @return  El idioma más común entre los guías.Si no hay guías o idiomas comunes, devolverá null.
+      */
+     public Idiomas buscarIdiomaComun() {
+    	 int cantidadMayor=0;
+    	 Idiomas idiomaComun=null;
+    	 for(Idiomas idioma:Idiomas.values()) {
+    		 int cantidadIdioma=0;
+    		 for(Guia guia:guias) {
+    			if(guia.getIdiomas().contains(idioma)) {cantidadIdioma++;}
+    		 }
+    		 if(cantidadIdioma>cantidadMayor) {
+    			 cantidadMayor=cantidadIdioma;
+    			 idiomaComun=idioma;
+    		 }
+    	 }
+    	 return idiomaComun;
+     }
+     /**
+      * Define el nivel de oferta basado en el tamaño de una lista de actividades en comparación con el total de actividades disponibles.
+      * 
+      * @param actividadesLista  Lista de actividades actuales para comparar.
+      * @return                 Una cadena que indica el nivel de oferta: "Alta", "Normal" o "Baja". Si la lista de actividades está vacía, devolverá "Baja".
+      */
+     public String definirOferta(ArrayList<Actividad> actividadesLista) {
+    	 String oferta=null;
+    	 if(actividadesLista.size()>actividades.size()*0.75) {oferta="Alta";}
+    	 else if(actividadesLista.size()>actividades.size()*0.45) {oferta="Normal";}
+    	 else {oferta="Baja";}
+    	 return oferta;
+     }
+     /**
+      * Cuenta la cantidad de actividades que corresponden a un tipo específico.
+      * 
+      * @param tipoFiltro  El tipo de actividad que se quiere filtrar.
+      * @return            La cantidad de actividades que coinciden con el tipo especificado.
+      */
+     public static int cantidadActividadesTipo(TiposActividad tipoFiltro,ArrayList<Actividad>actividadesFiltradas){
+    	 int cantidad=0;
+    	 for(Actividad actividad:actividadesFiltradas) {
+    		 if(actividad.getTipo().contains(tipoFiltro)) {cantidad++;}
+    	 }
+    	 return cantidad;
+     }
+     
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

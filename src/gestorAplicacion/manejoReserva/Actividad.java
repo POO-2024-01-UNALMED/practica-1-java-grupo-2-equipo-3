@@ -168,13 +168,87 @@ public class Actividad implements Registrable, Serializable {
 
         this.precio = Math.round(precio / 100) * 100;
     }
-    public boolean buscarIdiomaEnActividad(Idiomas idioma) {
-    	for(Guia guia:this.guias) {
-    		for(Idiomas idiomaFor:guia.getIdiomas()) {
-    			if(idiomaFor.equals(idioma)) {
-    		}
-    	}
+    /**
+     * Verifica si una actividad cumple con los filtros especificados.
+     * 
+     * @param clasificacionFiltro   Filtro de clasificación (0 = sin filtro).
+     * @param tipoFiltro            Filtro de tipo de actividad (null = sin filtro).
+     * @param fechaFiltro           Filtro de fecha (null = sin filtro).
+     * @param idiomaFiltro          Filtro de idioma (null = sin filtro).
+     * 
+     * @return                      true si la actividad cumple con todos los filtros aplicados, de lo contrario, false.
+     */
+    public boolean verificarFiltrosActividad(int clasificacionFiltro, TiposActividad tipoFiltro,ArrayList<ArrayList<Integer>> fechaFiltro,Idiomas idiomaFiltro) {
+   	 boolean isClasificacionMatch = (clasificacionFiltro==0) || clasificacion==clasificacionFiltro;
+   	 boolean isTipoMatch=(tipoFiltro==null)||verificarTipoActividad(tipoFiltro);
+   	 boolean isIdiomaMatch=(idiomaFiltro==null)||buscarGuia(idiomaFiltro).size()!=0;
+   	 boolean isFechaMatch=(fechaFiltro==null)||true;
+   	 
+   	 if(isClasificacionMatch&&isTipoMatch&&isIdiomaMatch&&isFechaMatch) {return true;}
+   	 return false;
+   	 
     }
+    /**
+     * Verifica si la actividad es de cierto tipo
+     *
+     * @param tipoFiltro el tipo a buscar.
+     * @return true si la actividad es de ese tipo.
+     */
+    public boolean verificarTipoActividad(TiposActividad tipoFiltro) {
+      	 for(TiposActividad tipoFor:tipo) {
+      		 if(tipoFiltro.equals(tipoFor)) {return true;}
+      	}return false;
+    }
+    /**
+     * Calcula el promedio de los precios de una lista de actividades.
+     * 
+     * @param actividadesLista  Lista de objetos Actividad para los que se calculará el promedio del precio.
+     * 
+     * @return                  El promedio de los precios de las actividades en la lista.
+     */
+    public static long promedioPreciosActividades(ArrayList<Actividad> actividadesLista) {
+    	if(actividadesLista == null || actividadesLista.isEmpty()) {return 0;}
+    	long promedio=0;
+    	for(Actividad actividad:actividadesLista) {
+    		promedio+=actividad.precio;
+    	}
+    	return promedio/actividadesLista.size();
+    }
+    /**
+     * Calcula el promedio de los precios de una lista de actividades.
+     * 
+     * @param actividadesLista  Lista de objetos Actividad para los que se calculará el promedio del precio.
+     * @param tipoFiltro        el tipo de actividad por el cual se quiere filtrar
+     * @return                  El promedio de los precios de las actividades en la lista.
+     */
+    public static long promedioPreciosActividades(ArrayList<Actividad> actividadesLista,TiposActividad tipoFiltro) {
+    	if(actividadesLista == null || actividadesLista.isEmpty()) {return 0;}
+    	long promedio=0;
+    	for(Actividad actividad:actividadesLista) {
+    		if(actividad.tipo.contains(tipoFiltro)){promedio+=actividad.precio;}
+    	}
+    	return promedio/actividadesLista.size();
+    }
+    
+    /**
+     * Calcula la cantidad de guías únicas disponibles en una lista de actividades.
+     * 
+     * @param actividadesLista  Lista de objetos Actividad que contienen guías.
+     * 
+     * @return                  El número de guías únicas disponibles en la lista de actividades.
+     */
+    public static int cantidadGuiasDisponiblesLista(ArrayList<Actividad> actividadesLista) {
+        if (actividadesLista == null) {return 0;}
+        ArrayList<Guia> guias = new ArrayList<>();
+        
+        for (Actividad actividad : actividadesLista) {
+            for (Guia guia : actividad.guias) {
+                if (!guias.contains(guia)) {guias.add(guia);}
+            }
+        }
+        return guias.size();
+    }
+
     /**
      * Busca en los guias capacitados para la actividad los guías que hablen un idioma específico.
      *
@@ -191,7 +265,6 @@ public class Actividad implements Registrable, Serializable {
         }
         return guiasCapacitados;
     }
-
     /**
      * Retira un guía de todas las actividades en su destino.
      *
