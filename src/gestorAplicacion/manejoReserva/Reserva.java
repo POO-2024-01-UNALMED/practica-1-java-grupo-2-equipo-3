@@ -409,19 +409,22 @@ public class Reserva {
      * @return         La actividad más popular en el destino especificado. 
      */
     public static Actividad actividadPrincipalDestino(Destino destino) {
-    	Actividad actividadComun=null;
-    	int cantidadMayor=0;
-    	for(Actividad actividad:destino.getActividades()) {
-    		int cantidadPersonas=0;
-    		for(Reserva reserva:reservasExistentes) {
-    			if(reserva.destino.equals(destino)&&reserva.plan.getActividades().contains(actividad)) {cantidadPersonas++;}
-    		}
-    		if(cantidadPersonas>cantidadMayor) {
-    			cantidadMayor=cantidadPersonas;
-    			actividadComun=actividad;
-    		}
-    	}
-    	return actividadComun;
+        Actividad actividadComun = null;
+        int cantidadMayor = 0;
+        for (Actividad actividad : destino.getActividades()) {
+            int cantidadPersonas = 0;
+            for (Reserva reserva : reservasExistentes) {
+                if (reserva.destino.equals(destino) && reserva.plan.getActividades().contains(actividad)) {
+                    cantidadPersonas++;
+                }
+            }
+            if (cantidadPersonas > cantidadMayor) {
+                cantidadMayor = cantidadPersonas;
+                actividadComun = actividad;
+            }
+        }
+        return actividadComun;
+    }
 
     public boolean tieneSuscripcion() {
     	clientes.get(0).getSuscripcion();
