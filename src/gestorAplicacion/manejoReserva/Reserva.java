@@ -32,10 +32,13 @@ public class Reserva {
 		this.codigo = ++ultimoCodigo;
 		this.itsPlaneacion=true;
 	}
-    public Reserva(Cliente titular) {
+    public Reserva(Cliente titular, ArrayList<ArrayList<Integer>> fechasViaje) {
         this.codigo = ++ultimoCodigo;
         this.clientes = new ArrayList<Cliente>();
+        this.idiomas = new ArrayList<Idiomas>();
         this.clientes.add(titular);
+        this.fechas = fechasViaje;
+        this.existeSuscripcion = tieneSuscripcion();
         reservasExistentes.add(this);
     }
 
@@ -64,6 +67,18 @@ public class Reserva {
         reservasExistentes.add(this);
     }
 
+    @Override
+    public String toString() {
+        return  "Estos son los datos de su reserva: \n" +
+                "codigo=" + codigo +
+                "\n destino=" + destino +
+                "\n idiomas=" + idiomas +
+                "\n fechas=" + fechas +
+                "\n clasificacion=" + clasificacion +
+                "\n tipoPlan=" + tipoPlan +
+                "\n actividades" + plan.getActividades();
+    }
+
 
     /**
      * Busca una reserva en la lista de reservas existentes a partir de su código.
@@ -82,7 +97,12 @@ public class Reserva {
 
     //método escogerPlan de la clase Reserva. En este método buscamos todas las actividades posibles a realizar según la clasificación dada que se encuentren en el destino con el método actividadesDisponiblesDestino de la clase Destino, que se le entregará a escogerActividades de la clase Plan donde se seleccionará la misma cantidad de actividades que los días que se van a quedar sin importar el orden de selección y se asigna la lista de actividades de plan.
 
-
+    /**
+     * Escoge un plan de actividades para la reserva actual.
+     *
+     * @param tipoEscogido El tipo de plan a escoger.
+     * @return Una lista de actividades posibles para el plan, o null si no hay actividades disponibles.
+     */
     public ArrayList<Actividad> escogerPlan(String tipoEscogido) {
         ArrayList<Actividad> actividadesPosibles = destino.actividadesDisponiblesDestino(clasificacion, clientes.size());
         //Qué hacer si no hay actividades disponibles en un destino que cumpla con los criterios de clasificación y cantidad de personas
@@ -402,6 +422,17 @@ public class Reserva {
     		}
     	}
     	return actividadComun;
+
+    public boolean tieneSuscripcion() {
+    	clientes.get(0).getSuscripcion();
+        if(clientes.get(0).getSuscripcion()==null) {
+        	return false;
+        }
+        return true;
+    }
+
+    public void agregarIdioma(Idiomas idioma) {
+    	idiomas.add(idioma);
     }
 /////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
 
@@ -414,6 +445,43 @@ public class Reserva {
     public void añadirCliente(String nombre, int edad) {
     	Cliente cliente = new Cliente(nombre, edad);
     	clientes.add(cliente);
+    }
+
+    public String aplicarSuscripcion(boolean existeSuscripcion) {
+        Suscripcion suscripcion = clientes.getFirst().getSuscripcion();
+        int capacidadSuscripcion = suscripcion.getCapacidad();
+        for(int i=0; i<capacidadSuscripcion; i++) {
+            clientes.get(i).setSuscripcion(suscripcion);
+        }
+        if (clientes.size() > capacidadSuscripcion) {
+            return "La cantidad de personas excede la capacidad de la suscripción, por lo que el descuento se aplicará solo a las primeras " + capacidadSuscripcion + " personas.";
+        }
+        else {
+            return "La suscripción se registró de manera exitosa para todos los integrantes de la reserva.";
+        }
+    }
+
+    public int menorEdad() {
+        int menor = clientes.getFirst().getEdad();
+        for (Cliente cliente : clientes) {
+            if (cliente.getEdad() < menor) {
+                menor = cliente.getEdad();
+            }
+        }
+        return menor;
+    }
+
+    public void asignarClasificacion() {
+        int menorEdad = menorEdad();
+        if (menorEdad < 7) {
+            clasificacion = 1;
+        } else if (menorEdad < 15) {
+            clasificacion = 2;
+        } else if (menorEdad < 18) {
+            clasificacion = 3;
+        } else {
+            clasificacion = 4;
+        }
     }
 
 
@@ -494,6 +562,7 @@ public class Reserva {
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
+
 
 }
 

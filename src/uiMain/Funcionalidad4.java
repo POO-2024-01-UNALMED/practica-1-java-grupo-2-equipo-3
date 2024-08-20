@@ -1,8 +1,14 @@
 package uiMain;
+import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.hospedaje.Hotel;
-import gestorAplicacion.manejoReserva.*;
-import gestorAplicacion.gestionHum.*;
+import gestorAplicacion.manejoReserva.Reserva;
+import gestorAplicacion.manejoReserva.Actividad;
+import gestorAplicacion.manejoReserva.Destino;
+import gestorAplicacion.manejoReserva.Grupo;
+import gestorAplicacion.gestionHum.Cliente;
+import gestorAplicacion.gestionHum.Persona;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -288,10 +294,9 @@ public class Funcionalidad4 {
 
     public static boolean verificarCapacidadActividad(Reserva reserva){
 
-        
 
-
-        for (String tipo: reserva.getActividades.getCapacidad){
+        Plan plan = reserva.getPlan();
+        for (String tipo: plan.getActividades.getCapacidad){
 
             if(Actividad.verificarCapacidadActividad(reserva)){
                 return true;

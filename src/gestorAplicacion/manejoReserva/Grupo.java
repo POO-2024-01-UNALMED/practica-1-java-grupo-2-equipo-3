@@ -29,8 +29,21 @@ public class Grupo implements Serializable {
         this.actividad = actividad;
         this.idioma = idioma;
         this.listaReservas = listaReservas;
-        this.capacidad = actividad.getCapacidad();
-        this.clasificacion = actividad.getClasificacion();
+        asignarCapacidad();
+        modificarCapacidad();
+        this.clasificacion = this.actividad.getClasificacion();
+        grupos.add(this);
+    }
+
+    public  Grupo(Actividad actividad, ArrayList<Cliente> listaReservaExtra, ArrayList<Integer> fecha, Idiomas idioma) {
+        this.actividad = actividad;
+        this.fecha = fecha;
+        this.idioma = idioma;
+        this.listaReservas = new ArrayList<ArrayList<Cliente>>();
+        this.listaReservas.add(listaReservaExtra);
+        asignarCapacidad();
+        modificarCapacidad();
+        this.guia = elegirGuia();
         grupos.add(this);
     }
 
@@ -47,7 +60,7 @@ public class Grupo implements Serializable {
         this.capacidad=capacidad;
     }
 
-    
+
     /**
      * Retira un guía de un grupo en una fecha específica, primero busca si se puede reemplazar al guia 
      * si no se puede se busca si se puede reubicar a los clientes en otros grupos, si no se puede se le 
@@ -115,10 +128,16 @@ public class Grupo implements Serializable {
         return listaFinal;
     }
 
+    /**
+     * Asigna la capacidad del grupo a la capacidad de la actividad.
+     */
     public void asignarCapacidad() {
         this.capacidad = this.actividad.getCapacidad();
     }
 
+    /**
+     * Modifica la capacidad del grupo restando la cantidad de personas presentes.
+     */
     public void modificarCapacidad() {
         int personasPresentes = 0;
         for(ArrayList<Cliente> lista : this.listaReservas) {
@@ -145,10 +164,29 @@ public class Grupo implements Serializable {
         return gruposEncontrados;
     }
 
+    /**
+     * Busca grupos que coincidan con la fecha, actividad e idioma especificados y que tengan capacidad para las personas a agregar.
+     *
+     * @param fecha           La fecha del grupo.
+     * @param actividad       La actividad del grupo.
+     * @param idioma          El idioma del grupo.
+     * @param personasAAgregar Las personas a agregar al grupo.
+     * @return Una lista de grupos que coinciden con los criterios especificados.
+     */
     public static ArrayList<Grupo> buscarGrupo(ArrayList<Integer> fecha, Actividad actividad, Idiomas idioma, ArrayList<Cliente> personasAAgregar) {
         ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
         for (Grupo grupo : grupos) {
             if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad) && grupo.idioma.equals(idioma) && grupo.capacidad >= personasAAgregar.size()) {
+                gruposEncontrados.add(grupo);
+            }
+        }
+        return gruposEncontrados;
+    }
+
+    public static ArrayList<Grupo> buscarGrupo(ArrayList<Integer> fecha, Actividad actividad, Idiomas idioma, int cantidaPersonas) {
+        ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
+        for (Grupo grupo : grupos) {
+            if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad) && grupo.idioma.equals(idioma) && grupo.capacidad >= cantidaPersonas) {
                 gruposEncontrados.add(grupo);
             }
         }
@@ -373,14 +411,6 @@ public class Grupo implements Serializable {
 	
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
-	}
-	
-	public int getClasificacion() {
-		return clasificacion;
-	}
-	
-	public void setClasificacion(int clasificacion) {
-		this.clasificacion = clasificacion;
 	}
 
     public String getTipoHabitacion() {
