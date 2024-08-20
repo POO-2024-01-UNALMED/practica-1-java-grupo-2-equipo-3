@@ -297,7 +297,7 @@ public class Hotel implements  Serializable{
         boolean habitacionesAsignadas = false;
     
         while (!habitacionesAsignadas) {
-            String mensaje = "";
+            String mensaje = "Por favor seleccione las habitaciones que desea de cada tipo, de la siguiente forma [Num sencilla, Num Doble, Num suites]";
             String habitacionesEscogidas = Main.ingresarOpcion(mensaje, 3, listaString);
             habitacionesEscogidasArray = habitacionesEscogidas.split(" ");
             // [Número de sencillas, Número de dobles, Número de suites]
@@ -307,6 +307,24 @@ public class Hotel implements  Serializable{
             Integer capacidadHabitacionesSeleccionada = 2 * Integer.parseInt(habitacionesEscogidasArray[0]) +
                                                         4 * Integer.parseInt(habitacionesEscogidasArray[1]) +
                                                         8 * Integer.parseInt(habitacionesEscogidasArray[2]);
+    
+            // Verificar si hay suficiente capacidad para cada tipo de habitación
+            boolean capacidadSuficiente = true;
+            for (int i = 0; i < listaString.size(); i++) {
+                String[] partes = listaString.get(i).split(" - ");
+                String tipoHabitacion = partes[0];
+                int disponibles = Integer.parseInt(partes[1].split(": ")[1]);
+                int seleccionadas = Integer.parseInt(habitacionesEscogidasArray[i]);
+    
+                if (seleccionadas > disponibles) {
+                    capacidadSuficiente = false;
+                    break;
+                }
+            }
+    
+            if (!capacidadSuficiente) {
+                continue;
+            }
     
             if (totalHabitaciones > numeroDeAdultos(reserva.getClientes())) {
                 totalHabitaciones = 0;
@@ -423,7 +441,8 @@ public class Hotel implements  Serializable{
                 hotel.agregarGrupo(grupo);
             }
         }
-
+    
+        // Actualizar la lista de hoteles
         listaHoteles.removeIf(h -> h.getNombre().equals(hotel.getNombre()));
         listaHoteles.add(hotel);
     
