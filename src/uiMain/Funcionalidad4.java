@@ -1,8 +1,13 @@
 package uiMain;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.hospedaje.Hotel;
-import gestorAplicacion.manejoReserva.*;
-import gestorAplicacion.gestionHum.*;
+import gestorAplicacion.manejoReserva.Reserva;
+import gestorAplicacion.manejoReserva.Actividad;
+import gestorAplicacion.manejoReserva.Destino;
+import gestorAplicacion.manejoReserva.Grupo;
+import gestorAplicacion.gestionHum.Cliente;
+import gestorAplicacion.gestionHum.Persona;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;

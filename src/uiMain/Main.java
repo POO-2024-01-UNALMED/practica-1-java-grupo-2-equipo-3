@@ -114,11 +114,10 @@ public class Main {
 	/**
      * Imprime los valores [Fechas, idiomas, Clientes] de la reserva que se ingresa.
      * 
-     * @param Reserva   Reserva la cual se desea imprimir sus atributos.
+     * @param reserva   Reserva la cual se desea imprimir sus atributos.
      * @return              String con los valores de la reserva.
      */
 	public static String imprimirReserva(Reserva reserva) {
-
 		ArrayList<ArrayList<Integer>> fechas = reserva.getFechas();
         ArrayList<Idiomas> idiomas = reserva.getIdiomas();
         ArrayList<Cliente> clientes = reserva.getClientes();  
@@ -485,13 +484,23 @@ public class Main {
 										break;
 								}
 							}
-							//INGRESAR DESTINO
-							Destino destino = ingresarDestino();
-							//INGRESAR IDIOMAS
-							Idiomas idioma = ingresarIdioma();
 							//Crear la reserva a partir de los datos ingresados
-							Reserva reservaCreada = new Reserva(titular, listaFechas, idioma, destino);
+							Reserva reservaCreada = new Reserva(titular, listaFechas);
+							ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList(
+									"Agregar otro cliente", "No agregar más clientes"));
+							String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+							while (opcionCicloAgregarCliente.equals("1")) {
+								Cliente cliente = ingresarCliente();
+								reservaCreada.getClientes().add(cliente);
+								opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+							}
+							reservaCreada.asignarClasificacion();
+							reservaCreada.aplicarSuscripcion();
 
+							//INGRESAR DESTINO
+							reservaCreada.setDestino(ingresarDestino());
+							//INGRESAR IDIOMAS
+							reservaCreada.agregarIdioma(ingresarIdioma());
 							//Parte actividades
 							ArrayList<String> planesPosibles = new ArrayList<>(Arrays.asList(
 									"Plan personalizado\n" +

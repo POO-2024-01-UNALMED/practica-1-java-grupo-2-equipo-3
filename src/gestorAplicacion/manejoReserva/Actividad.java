@@ -261,12 +261,12 @@ public class Actividad implements Registrable, Serializable {
     /**
      * Verifica si la capacidad de la actividad es mayor o igual a la cantidad de clientes
      *
-     * @param Reserva o numero de la clasificacion
+     * @param reserva o numero de la clasificacion
      * @return Boolenam si la capacidad de la actividad es mayor o igual a la cantidad de clientes
      */
     public static boolean verificarCapacidadActividad(Reserva reserva){
 
-
+        //Reserva no tiene actividades
         if (reserva.getActividades().getCapacidad() >= reserva.getClientes().size()){
             return true;
         }
