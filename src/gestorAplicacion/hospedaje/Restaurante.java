@@ -139,6 +139,22 @@ public class Restaurante {
         asignarMesaRestaurante(reserva);
     }
 
+    public int numeroDeMesasDisponibles(Reserva reserva){
+        int numeroDeMesas = 0;
+        for (Grupo grupo: this.grupos){
+            if (grupo.getTipoMesa().equals("Sencilla")){
+                numeroDeMesas =+ 2;
+            }
+            else if (grupo.getTipoMesa().equals("Doble")){
+                numeroDeMesas =+ 4;
+            }
+            else if (grupo.getTipoMesa().equals("Gran mesa")){
+                numeroDeMesas =+ 12;
+            }
+        }
+        return numeroDeMesas;
+    }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -190,6 +206,8 @@ public class Restaurante {
     public void setNumeroMesas(Map<Integer, Grupo> numeroMesas) {
         this.numeroMesas = numeroMesas;
     }
+
+
 
     
 
