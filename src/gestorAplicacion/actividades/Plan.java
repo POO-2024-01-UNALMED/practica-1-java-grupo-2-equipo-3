@@ -44,18 +44,17 @@ public class Plan implements Serializable {
         this.reserva.setTipoPlan(this.tipo);
 
     }
-    
+
     public Plan() {
-    	this.actividades=new ArrayList<>();
+        this.actividades = new ArrayList<>();
     }
 
     /**
      * Añade una actividad a la lista de actividades del plan
-     * 
      */
     public void añadirActividad(Actividad actividad) {
-		this.actividades.add(actividad);	
-	}
+        this.actividades.add(actividad);
+    }
 
     /**
      * muestra los nombres de las actividades ingresadas, para que el usuario pueda seleccionarlas
@@ -85,32 +84,55 @@ public class Plan implements Serializable {
     }
 
 
-    public void escogerActividadesIniciales(ArrayList<Actividad> actividadesDisponibles, ArrayList<String> seleccionadas) {
-        for(String nombre: seleccionadas) {
-            for(Actividad actividad: actividadesDisponibles) {
-                if(actividad.getNombre().equals(nombre)) {
-                    this.actividades.add(actividad);
+    public ArrayList<Actividad> escogerActividadesIniciales(ArrayList<Actividad> actividadesDisponibles, ArrayList<String> seleccionadas) {
+        ArrayList<Actividad> seleccionInicial = new ArrayList<>();
+        for (String nombre : seleccionadas) {
+            for (Actividad actividad : actividadesDisponibles) {
+                if (actividad.getNombre().equals(nombre)) {
+                    seleccionInicial.add(actividad);
                 }
             }
         }
+        return seleccionInicial;
     }
 
-    public ArrayList<Actividad> actividadesDisponiblesDia(ArrayList<Integer> fecha) {
+    public ArrayList<Actividad> actividadesDisponiblesDia(ArrayList<Integer> fecha, ArrayList<Actividad> seleccionInicial) {
         ArrayList<Actividad> actividadesDisponibles = new ArrayList<>();
-        for(Actividad actividad: this.actividades) {
+        for (Actividad actividad : seleccionInicial) {
             ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, this.reserva.getIdiomas().get(0), this.reserva.getClientes());
-            if(existenGrupos.size() > 0) {
-                    actividadesDisponibles.add(actividad);
-            }
-            else if(existenGrupos.isEmpty()) {
+            if (existenGrupos.size() > 0) {
+                actividadesDisponibles.add(actividad);
+            } else if (existenGrupos.isEmpty()) {
                 ArrayList<Guia> guiasCapacitados = actividad.buscarGuia(this.reserva.getIdiomas().get(0));
                 ArrayList<Guia> guiasConDisponibilidad = Guia.buscarDisponibilidad(guiasCapacitados, fecha);
-                if(guiasConDisponibilidad.size() > 0) {
+                if (guiasConDisponibilidad.size() > 0) {
                     actividadesDisponibles.add(actividad);
                 }
             }
         }
         return actividadesDisponibles;
+    }
+
+    public void escogerActividadesDia(ArrayList<Actividad> actividadesPosibles, ArrayList<String> actividadEscogidas, ArrayList<Integer> fecha) {
+        for (String nombre : actividadEscogidas) {
+            for (Actividad actividad : actividadesPosibles) {
+                if (actividad.getNombre().equals(nombre)) {
+                    this.actividades.add(actividad);
+                    ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, this.reserva.getIdiomas().get(0), this.reserva.getClientes());
+                    if (existenGrupos.size() > 0) {
+                        existenGrupos.get(0).addCliente(this.reserva.getClientes().get(0));
+                    } else {
+                        ArrayList<Guia> guiasCapacitados = actividad.buscarGuia(this.reserva.getIdiomas().get(0));
+                        ArrayList<Guia> guiasConDisponibilidad = Guia.buscarDisponibilidad(guiasCapacitados, fecha);
+                        if (guiasConDisponibilidad.size() > 0) {
+                            Grupo grupo = new Grupo(fecha, actividad, guiasConDisponibilidad.get(0), this.reserva.getClientes());
+                            this.grupos.add(grupo);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
 
@@ -125,8 +147,8 @@ public class Plan implements Serializable {
      */
     public static ArrayList<Plan> paquetesDisponibles(int cantidadPersonas, Destino destino, int clasificacion, int dias) {
         ArrayList<Plan> paquetesDisponibles = new ArrayList<>();
-        for(Plan plan: paquetes) {
-            if(plan.getDestino().equals(destino) && plan.getClasificacion() == clasificacion && plan.getActividades().size() >= dias && plan.getClasificacion() <= clasificacion) {
+        for (Plan plan : paquetes) {
+            if (plan.getDestino().equals(destino) && plan.getClasificacion() == clasificacion && plan.getActividades().size() >= dias && plan.getClasificacion() <= clasificacion) {
                 paquetesDisponibles.add(plan);
             }
         }
@@ -148,20 +170,20 @@ public class Plan implements Serializable {
         return "";
     }
 
-    public void asignarPrecio(){
-        for(Actividad actividad: getActividades()){
+    public void asignarPrecio() {
+        for (Actividad actividad : getActividades()) {
             this.precio += actividad.getPrecio();
         }
     }
 
     public static String stringPaqueteTuristico(Plan plan) {
-    	String paquete = "Destino: " + plan.getDestino().getNombre() + "\n";
-    	paquete += "Actividades: ";
-    	for(Actividad actividad: plan.getActividades()) {
-    		paquete += actividad.getNombre() + ", ";
-    	}
-    	paquete += "\nPrecio por persona: " + plan.getPrecio() + "\n";
-    	return paquete;
+        String paquete = "Destino: " + plan.getDestino().getNombre() + "\n";
+        paquete += "Actividades: ";
+        for (Actividad actividad : plan.getActividades()) {
+            paquete += actividad.getNombre() + ", ";
+        }
+        paquete += "\nPrecio por persona: " + plan.getPrecio() + "\n";
+        return paquete;
     }
 
 
@@ -231,6 +253,5 @@ public class Plan implements Serializable {
         this.reserva = reserva;
     }
 
-
-
 }
+
