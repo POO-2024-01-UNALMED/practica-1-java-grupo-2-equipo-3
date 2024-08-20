@@ -183,8 +183,9 @@ public class Actividad implements Registrable, Serializable {
    	 boolean isTipoMatch=(tipoFiltro==null)||verificarTipoActividad(tipoFiltro);
    	 boolean isIdiomaMatch=(idiomaFiltro==null)||buscarGuia(idiomaFiltro).size()!=0;
    	 boolean isFechaDisponible=false;
+   	 
    	 for(ArrayList<Integer> fecha:fechaFiltro) {
-   		 if(this.verificaActividadDisponible(fecha)) {isFechaDisponible=true;}
+   		 if(this.verificaActividadDisponible(fecha,idiomaFiltro)) {isFechaDisponible=true;}
    	 }
    	 boolean isFechaMatch=(fechaFiltro==null)||isFechaDisponible;
    	 
@@ -209,8 +210,10 @@ public class Actividad implements Registrable, Serializable {
      * @param fecha fecha a verificar
      * @return true si esta disponible
      */
-    public boolean verificaActividadDisponible(ArrayList<Integer> fecha) {
-            ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha,this);
+    public boolean verificaActividadDisponible(ArrayList<Integer> fecha,Idiomas idioma) {
+    	ArrayList<Grupo> existenGrupos =new ArrayList<>();
+    	if(idioma==null) {existenGrupos = Grupo.buscarGrupo(fecha,this);}
+    	else {existenGrupos = Grupo.buscarGrupo(fecha,this,idioma);}
             if (existenGrupos.size() > 0) {
                 return true;
             } else if (existenGrupos.isEmpty()) {

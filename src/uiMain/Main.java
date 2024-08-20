@@ -1541,7 +1541,7 @@ public class Main {
 		System.out.println(D_lineaTablaI);
 	}
 	
-    public static void imprimirTablaPlanearIdioma(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
+    public static void imprimirTablaPlanearIdioma(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Destino destino) {
     	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
     	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
    
@@ -1566,8 +1566,20 @@ public class Main {
 			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","Idioma:","de actividades:","Actividades:","personas:","guias:","mas solicitada","Oferta:");
 		}
 		System.out.println(D_lineaTabla);
-		System.out.println(D_lineaTabla);
-		
+		if(opcBusqueda.equals("1")) {
+			System.out.printf("|%-47s%-50s%-30s|%n","C= cantidad de actividades disponibles","","P= promedio del precio de las actividades");
+		}
+		//IMPRIMIR CUERPO
+		for(Idiomas idioma:Idiomas.values()) {
+			System.out.println(D_lineaTabla);
+			ArrayList<Object> tabla=destino.mostrarPlaneacionIdioma(opcBusqueda, clasificacion, tipo, fecha, idioma);
+			if(opcBusqueda.equals("1")) {
+				System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5),tabla.get(6),tabla.get(7));	
+			}else {
+				System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5),tabla.get(6));
+			}
+		}
+		System.out.println(D_lineaTablaI);
 	}
     
     public static void imprimirTablaPlanearHotel(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {

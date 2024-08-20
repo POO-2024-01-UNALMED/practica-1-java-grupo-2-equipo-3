@@ -278,6 +278,19 @@ public class Destino implements Serializable{
          }
          return null;
      }
+     /**
+      * Genera una tabla con información de planificación basada en filtros como clasificación, tipo de actividad, fechas y idioma.
+      * El contenido de la tabla depende de la opción de búsqueda proporcionada.
+      *
+      * @param opcBusqueda  Opción de búsqueda que define el contenido de la tabla. Valores posibles:
+      *                     "1", "2", "3", o "4".
+      * @param clasificacion  Clasificación a filtrar para las actividades.
+      * @param tipo           Tipo de actividad a filtrar.
+      * @param fechas         Lista de fechas para filtrar las actividades y hoteles.
+      * @param idioma         Idioma a filtrar.
+      *
+      * @return               Una tabla (lista de objetos) con la información solicitada según los filtros aplicados.
+      */
      public ArrayList<Object> mostrarPlaneacionFecha(String opcBusqueda,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fechas,Idiomas idioma){
         	 ArrayList<Object> tabla=new ArrayList<Object>();
         	 String posicion=opcBusqueda.equals("3")?Integer.toString(fechas.get(0).get(0)):Reserva.mostrarMes(fechas.get(0).get(1));
@@ -402,6 +415,56 @@ public class Destino implements Serializable{
        
     	return tabla; 
     }
+     public ArrayList<Object> mostrarPlaneacionIdioma(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
+    	 ArrayList<Object> tabla=new ArrayList<Object>();
+    	 
+    	 ArrayList<String> posicion1=new ArrayList<>();//"1"=actividades familiares;"2"=disponibilidad de actividades
+    	 ArrayList<String> posicion2=new ArrayList<>();;//"1"=actividades ecologicas;"2"=promedio de precios actividades
+    	 ArrayList<String> posicion3=new ArrayList<>();;//"1"=actividades ecologicas;"2"=cantidad de personas
+    	 ArrayList<String> posicion4=new ArrayList<>();;//"1"=actividades extremas;"2"=cantidad de guias
+    	 ArrayList<String> posicion5=new ArrayList<>();;//"1"=actividades acuaticas;"2"= clasificacion mas solicitada
+    	 ArrayList<String> posicion6=new ArrayList<>();;//"1"=actividades deportivas;"2"=oferta
+    	 ArrayList<String> posicion7=new ArrayList<>();;//"1"=total de actividades;"2"=[];
+    	 
+    	 
+    	 ArrayList<Actividad> actividadesFiltradas=new ArrayList<>();
+    	 for(Actividad actividad:actividades) {
+ 			if(actividad.verificarFiltrosActividad(clasificacion, tipo, fecha, idioma)) {actividadesFiltradas.add(actividad);}
+ 		 }
+    	 if(opcBusqueda.equals("1")) {
+    		 posicion1.add("C"+cantidadActividadesTipo(TiposActividad.CULTURALES,actividadesFiltradas));
+    		 posicion1.add("P"+Actividad.promedioPreciosActividades(actividadesFiltradas,TiposActividad.CULTURALES));
+    		 posicion2.add("C"+cantidadActividadesTipo(TiposActividad.FAMILIARES,actividadesFiltradas));
+    		 posicion2.add("P"+Actividad.promedioPreciosActividades(actividadesFiltradas,TiposActividad.FAMILIARES));
+    		 posicion3.add("C"+cantidadActividadesTipo(TiposActividad.ECOLOGICAS,actividadesFiltradas));
+    		 posicion3.add("P"+Actividad.promedioPreciosActividades(actividadesFiltradas,TiposActividad.ECOLOGICAS));
+    		 posicion4.add("C"+cantidadActividadesTipo(TiposActividad.EXTREMAS,actividadesFiltradas));
+    		 posicion4.add("P"+Actividad.promedioPreciosActividades(actividadesFiltradas,TiposActividad.EXTREMAS));
+    		 posicion5.add("C"+cantidadActividadesTipo(TiposActividad.ACUATICAS,actividadesFiltradas));
+    		 posicion5.add("P"+Actividad.promedioPreciosActividades(actividadesFiltradas,TiposActividad.ACUATICAS));
+    		 posicion6.add("C"+cantidadActividadesTipo(TiposActividad.DEPORTIVAS,actividadesFiltradas));
+    		 posicion6.add("P"+Actividad.promedioPreciosActividades(actividadesFiltradas,TiposActividad.DEPORTIVAS));
+    		 posicion7.add(Integer.toString(actividadesFiltradas.size()));
+    	 }else {
+    		 posicion1.add(Integer.toString(actividadesFiltradas.size()));
+    		 posicion2.add(Actividad.promedioPreciosActividades(actividadesFiltradas)+"");
+    		 posicion3.add(Integer.toString(Reserva.mostrarCantidadPersonasDestino(this,fecha,idioma)));
+    		 posicion4.add(Integer.toString(Actividad.cantidadGuiasDisponiblesLista(actividadesFiltradas)));
+    		 posicion5.add(Actividad.mostrarClasificacion(Reserva.mostrarClasificacionComun(this, fecha, idioma)));
+    		 posicion6.add(definirOferta(actividadesFiltradas));
+    	 }
+    	 
+    	 tabla.add(0, idioma.getNombre()); //0.nombre del idioma
+         tabla.add(1, posicion1); // 1."1"=actividades familiares;"2"=disponibilidad de actividades
+         tabla.add(2, posicion2); // 2."1"=actividades ecologicas;"2"=promedio de precios actividades
+         tabla.add(3, posicion3); // 3."1"=actividades ecologicas;"2"=cantidad de personas
+         tabla.add(4, posicion4); // 4."1"=actividades extremas;"2"=cantidad de guias
+         tabla.add(5, posicion5); // 5."1"=actividades acuaticas;"2"= clasificacion mas solicitada
+         tabla.add(6, posicion6); // 6."1"=actividades deportivas;"2"=oferta
+         tabla.add(7, posicion7); // 7."1"=total de actividades;"2"=[];
+       
+    	return tabla; 
+    }
      
      /**
       * Busca el idioma más común entre los guías disponibles.
@@ -449,6 +512,9 @@ public class Destino implements Serializable{
     	 }
     	 return cantidad;
      }
+     
+     
+     
      
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////

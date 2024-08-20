@@ -391,6 +391,23 @@ public class Reserva implements Serializable {
     	}
     	return clasificacionComun;
     }
+    public static int mostrarClasificacionComun(Destino destino,ArrayList<ArrayList<Integer>> fechas,Idiomas idioma) {
+    	int clasificacionComun=1;
+    	int cantidadMayor=0;
+    	for(int i=1;i<=4;i++) {
+    		int cantidadClasificacion=0;
+    		for(ArrayList<Integer>fecha:fechas) {
+    			for(Reserva reserva:reservasExistentes) {
+        			if(reserva.destino.equals(destino)&&reserva.clasificacion==i&&reserva.fechas.contains(fecha)) {cantidadClasificacion++;}
+        		}
+    		}
+    		if(cantidadClasificacion>cantidadMayor) {
+    			cantidadMayor=cantidadClasificacion;
+    			clasificacionComun=i;
+    		}
+    	}
+    	return clasificacionComun;
+    }
     /**
      * Calcula la cantidad total de personas que han reservado en un destino específico.
      * 
@@ -419,6 +436,23 @@ public class Reserva implements Serializable {
         	}
     	}
     	
+    	return cantidad;
+    }
+    /**
+     * Calcula la cantidad total de personas que han reservado en un destino, idioma y fecha específica.
+     * 
+     * @param destino  El destino para el cual se desea calcular la cantidad total de personas.
+     * @param fecha    La fecha para la cual se desea calcular la cantidad total de personas.
+     * @param idioma   el idioma para la cual se desea calcular la cantidad total de personas.
+     * @return         La cantidad total de personas (clientes) que han reservado en el destino especificado.
+     */
+    public static int mostrarCantidadPersonasDestino(Destino destino, ArrayList<ArrayList<Integer>> fechas,Idiomas idioma) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.idiomas.contains(idioma)) {cantidad+=reserva.clientes.size();}
+        	}
+    	}
     	return cantidad;
     }
     /**
