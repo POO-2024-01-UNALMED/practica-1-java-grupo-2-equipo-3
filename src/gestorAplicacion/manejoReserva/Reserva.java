@@ -409,11 +409,14 @@ public class Reserva {
      * @param fecha    La fecha para la cual se desea calcular la cantidad total de personas.
      * @return         La cantidad total de personas (clientes) que han reservado en el destino especificado.
      */
-    public static int mostrarCantidadPersonasDestino(Destino destino, ArrayList<Integer> fecha) {
+    public static int mostrarCantidadPersonasDestino(Destino destino, ArrayList<ArrayList<Integer>> fechas) {
     	int cantidad=0;
-    	for(Reserva reserva:reservasExistentes) {
-    		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)) {cantidad+=reserva.clientes.size();}
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)) {cantidad+=reserva.clientes.size();}
+        	}
     	}
+    	
     	return cantidad;
     }
     /**

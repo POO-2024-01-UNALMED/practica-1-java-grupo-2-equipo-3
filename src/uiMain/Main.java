@@ -637,93 +637,83 @@ public class Main {
 			
 			case "2": // FUNCIONALIDAD: Reservar un hospedaje
 
-    boolean terminarCicloHospedaje = true;
-    while (terminarCicloHospedaje) {
-        String D_opcionMenuHospedaje = ingresarOpcion("¿Qué desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
-        switch (D_opcionMenuHospedaje) {
-            case "1":
-                // Crear una nueva reserva
-                System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
-                ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
+			    boolean terminarCicloHospedaje = true;
+			    while (terminarCicloHospedaje) {
+			        String D_opcionMenuHospedaje = ingresarOpcion("¿Qué desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
+			        switch (D_opcionMenuHospedaje) {
+			            case "1":
+			                // Crear una nueva reserva
+			                System.out.println("Cuáles son los días en los cuales desea realizar la reserva?");
+			                ArrayList<ArrayList<Integer>> listaFechas = ingresarPeriodoFechas();
 
-                int edad = IngresoEdadTitular();
-                String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
-                // Verificar si el cliente tiene una suscripción activa
+			                int edad = IngresoEdadTitular();
+			                String nombre = ingresarString("Ingrese el nombre del titular de la reserva: ");
+			                // Verificar si el cliente tiene una suscripción activa
 
-                Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
-                if (titular == null) {
-                    titular = new Cliente(nombre, edad);
-                    ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList("Sí", "No"));
-                    String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros, ¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
-                    Suscripcion nuevaSuscripcion = null;
-                    switch (opcionCicloComprarSuscripcion) {
-                        case "1":
-                            ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
-                            String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
-                            switch (tipo) {
-                                case "1":
-                                    // Básica
-                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
-                                    break;
-                                case "2":
-                                    // General
-                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
-                                    break;
-                                case "3":
-                                    // Premium
-                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
-                                    break;
-                                case "4":
-                                    // VIP
-                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
-                                    break;
-                            }
-                            System.out.println("La suscripción se ha ingresado correctamente");
-                            break;
-                        case "2":
-                            System.out.println("No se ha ingresado ninguna suscripción");
-                            break;
-                    }
-                }
-                // Crear la reserva a partir de los datos ingresados
-                Reserva reservaCreada = new Reserva(titular, listaFechas);
-                ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList("Agregar otro cliente", "No agregar más clientes"));
-                String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
-                while (opcionCicloAgregarCliente.equals("1")) {
-                    Cliente cliente = ingresarCliente();
-                    reservaCreada.getClientes().add(cliente);
-                    opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
-                }
-                reservaCreada.asignarClasificacion();
-                reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
+			                Cliente titular = Suscripcion.verificarSuscripcion(nombre, edad, listaFechas);
+			                if (titular == null) {
+			                    titular = new Cliente(nombre, edad);
+			                    ArrayList<String> opcionesClienteNoExiste = new ArrayList<>(Arrays.asList("Sí", "No"));
+			                    String opcionCicloComprarSuscripcion = ingresarOpcion("No cuenta con una suscripción con nosotros, ¿desea comprar una para recibir descuentos impresionantes para su reserva?", 0, opcionesClienteNoExiste);
+			                    Suscripcion nuevaSuscripcion = null;
+			                    switch (opcionCicloComprarSuscripcion) {
+			                        case "1":
+			                            ArrayList<String> suscripcionesDisponibles = Suscripcion.mostrarPosiblesSuscripciones();
+			                            String tipo = ingresarOpcion("¿Qué tipo de suscripción desea adquirir?", 0, suscripcionesDisponibles);
+			                            switch (tipo) {
+			                                case "1":
+			                                    // Básica
+			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(0), listaFechas, titular);
+			                                    break;
+			                                case "2":
+			                                    // General
+			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(1), listaFechas, titular);
+			                                    break;
+			                                case "3":
+			                                    // Premium
+			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(2), listaFechas, titular);
+			                                    break;
+			                                case "4":
+			                                    // VIP
+			                                    nuevaSuscripcion = new Suscripcion(Suscripcion.getListaTipos().get(3), listaFechas, titular);
+			                                    break;
+			                            }
+			                            System.out.println("La suscripción se ha ingresado correctamente");
+			                            break;
+			                        case "2":
+			                            System.out.println("No se ha ingresado ninguna suscripción");
+			                            break;
+			                    }
+			                }
+			                // Crear la reserva a partir de los datos ingresados
+			                Reserva reservaCreada = new Reserva(titular, listaFechas);
+			                ArrayList<String> opcionesClientes = new ArrayList<>(Arrays.asList("Agregar otro cliente", "No agregar más clientes"));
+			                String opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+			                while (opcionCicloAgregarCliente.equals("1")) {
+			                    Cliente cliente = ingresarCliente();
+			                    reservaCreada.getClientes().add(cliente);
+			                    opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
+			                }
+			                reservaCreada.asignarClasificacion();
+			                reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
 
-                // INGRESAR DESTINO
-                reservaCreada.setDestino(ingresarDestino());
+			                // INGRESAR DESTINO
+			                reservaCreada.setDestino(ingresarDestino());
 
-                // Asignar hospedaje
-                ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
-                Hotel hotelEscogido = Hotel.asignarHotel(reservaCreada, hoteles);
+			                // Asignar hospedaje
+			                ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
+			                Hotel hotelEscogido = Hotel.asignarHotel(reservaCreada, hoteles);
 
-                if (hotelEscogido != null) {
-                    Hotel.asignarHabitacion(reservaCreada, hotelEscogido);
-                    Restaurante restaurante = Restaurante.asignarRestaurante(reservaCreada);
-                    Restaurante.asignarMesaRestaurante(reservaCreada, restaurante);
-                } else {
-                    System.out.println("No se pudo asignar un hotel.");
-                }
-
-                terminarCicloHospedaje = false;
-                break;
-            case "2":
-                terminarCicloHospedaje = false;
-                break;
-            default:
-                System.out.println("Opción no válida. Intente de nuevo.");
-                break;
-        }
-    }
-    break;
-			
+			                if (hotelEscogido != null) {
+			                    Hotel.asignarHabitacion(reservaCreada, hotelEscogido);
+			                    Restaurante restaurante = Restaurante.asignarRestaurante(reservaCreada);
+			                    Restaurante.asignarMesaRestaurante(reservaCreada, restaurante);
+			                } else {
+			                    System.out.println("No se pudo asignar un hotel.");
+			                }
+			        }
+			    }
+			        break;
 			case"3"://FUNCIONALIDAD: Planear tu viaje
 				boolean terminarCicloPlan=true;
 				while(terminarCicloPlan) {
@@ -1497,13 +1487,13 @@ public class Main {
 		System.out.println(D_lineaTablaI);
 	}
     
-    public static void imprimirTablaPlanearFecha(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
+    public static void imprimirTablaPlanearFecha(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fechas,Idiomas idioma,Destino destino) {
     	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------- ";
     	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------|";
     	
     	//PRIMERA PARTE
-    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Idioma: " +idioma.getNombre():opcBusqueda.equals("3")?"Mes: "+Reserva.mostrarMes(fecha.get(0).get(1)):"Año: "+fecha.get(0).get(2);
-        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("3")?"Año: "+fecha.get(0).get(2):"" ;
+    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Idioma: " +idioma.getNombre():opcBusqueda.equals("3")?"Mes: "+Reserva.mostrarMes(fechas.get(0).get(1)):"Año: "+fechas.get(0).get(2);
+        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("3")?"Año: "+fechas.get(0).get(2):"" ;
         System.out.println(D_lineaTablaI);
     	System.out.printf("|%-45s%-50s%-20s|%n","","Destino:"+destino.getNombre(),"");
 		System.out.printf("|%-45s%-50s%-20s|%n","","","");
@@ -1527,8 +1517,27 @@ public class Main {
 			System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",CuartaLinea1,"de actividades:","Actividades:","hoteles:","precios hoteles:",CuartaLinea2);
 		}
 		System.out.println(D_lineaTabla);
-		System.out.println(D_lineaTabla);
 		//IMPRIMIR CUERPO
+		if(opcBusqueda.equals("3")) {
+			for(ArrayList<Integer> fecha:fechas) {
+				System.out.println(D_lineaTabla);
+				
+				ArrayList<ArrayList<Integer>> fechasTabla=new ArrayList<>(Arrays.asList(fecha));
+				ArrayList<Object> tabla=destino.mostrarPlaneacionFecha(opcBusqueda, clasificacion, tipo, fechasTabla, idioma);
+				System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5));
+			}
+		}else {
+			for(int i=1;i<=12;i++) {
+				System.out.println(D_lineaTabla);
+				String año=i+"/"+fechas.get(0).get(2);
+				ArrayList<ArrayList<Integer>> fechasTabla=Reserva.mostrarListaFechas("1", año);
+				
+				ArrayList<Object> tabla=destino.mostrarPlaneacionFecha(opcBusqueda, clasificacion, tipo, fechasTabla, idioma);
+				System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5));
+			
+			}
+		}
+		System.out.println(D_lineaTablaI);
 	}
 	
     public static void imprimirTablaPlanearIdioma(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {

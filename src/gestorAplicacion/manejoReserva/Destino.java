@@ -253,67 +253,7 @@ public class Destino implements Serializable{
 
 
 
-    /**
-     * Metodos para encontrar que detinos tiene cada idioma
-     *
-     * @param destinos destinos existentes.
-     * @return El porcentaje de precio extra por idioma.
-     */
-
-     public static ArrayList<ArrayList<Destino>> destinosPorIdioma(ArrayList<Destino> destinos) {
-        // Crear una lista para cada idioma
-        ArrayList<Destino> destinosIngles = new ArrayList<>();
-        ArrayList<Destino> destinosPortugues = new ArrayList<>();
-        ArrayList<Destino> destinosEspanol = new ArrayList<>();
-        ArrayList<Destino> destinosFrances = new ArrayList<>();
-        ArrayList<Destino> destinosItaliano = new ArrayList<>();
     
-        // Recorrer todos los destinos y verificar los idiomas disponibles en cada uno
-        for (Destino destino : destinos) {
-            for (Guia guia : destino.getGuias()) {
-                for (Idiomas idioma : guia.getIdiomas()) {
-                    switch (idioma) {
-                        case INGLES:
-                            if (!destinosIngles.contains(destino)) {
-                                destinosIngles.add(destino);
-                            }
-                            break;
-                        case PORTUGUES:
-                            if (!destinosPortugues.contains(destino)) {
-                                destinosPortugues.add(destino);
-                            }
-                            break;
-                        case ESPANOL:
-                            if (!destinosEspanol.contains(destino)) {
-                                destinosEspanol.add(destino);
-                            }
-                            break;
-                        case FRANCES:
-                            if (!destinosFrances.contains(destino)) {
-                                destinosFrances.add(destino);
-                            }
-                            break;
-                        case ITALIANO:
-                            if (!destinosItaliano.contains(destino)) {
-                                destinosItaliano.add(destino);
-                            }
-                            break;
-                    }
-                }
-            }
-        }
-    
-        // Crear una lista de listas para almacenar todas las listas de destinos
-        ArrayList<ArrayList<Destino>> destinosIdiomas = new ArrayList<>();
-        destinosIdiomas.add(destinosIngles);
-        destinosIdiomas.add(destinosPortugues);
-        destinosIdiomas.add(destinosEspanol);
-        destinosIdiomas.add(destinosFrances);
-        destinosIdiomas.add(destinosItaliano);
-    
-        return destinosIdiomas;
-    }
-
      /**
       * Devuelve la lista de los nombres de todos los destinos existentes
       * 
@@ -338,30 +278,33 @@ public class Destino implements Serializable{
          }
          return null;
      }
-     public ArrayList<Object> mostrarPlaneacionFecha(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<Integer> fecha,Idiomas idioma){
+     public ArrayList<Object> mostrarPlaneacionFecha(String opcBusqueda,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fechas,Idiomas idioma){
         	 ArrayList<Object> tabla=new ArrayList<Object>();
+        	 String posicion=opcBusqueda.equals("3")?Integer.toString(fechas.get(0).get(0)):Reserva.mostrarMes(fechas.get(0).get(1));
         	 
-        	 ArrayList<String> posicion0=new ArrayList<>();//"1"&&"2"=mes;
-        	 ArrayList<String> posicion1=new ArrayList<>();//"1"=cantidad de actividades;"2"=tipo de actividad mas solicitado;
-        	 ArrayList<String> posicion2=new ArrayList<>();;//"1"=cantidad hoteles;"2"=disponibilidad de guias;
-        	 ArrayList<String> posicion3=new ArrayList<>();;//"1"=idioma mas solicitado;"2"=promedio de precios;"3"hoteles disponibles
-        	 ArrayList<String> posicion4=new ArrayList<>();;//"1"=cantidad de personas;"2"=cantidad de actividades;"3"promedio de precios hoteles
-        	 ArrayList<String> posicion5=new ArrayList<>();;//"1"&&"2"=oferta;"3" cantidad de personas
+        	 ArrayList<String> posicion0=new ArrayList<>(Arrays.asList(posicion));//"1"&&"2"&&"4"=mes;"3" dia;
+        	 ArrayList<String> posicion1=new ArrayList<>();//"1"&&"3"&&"4"=cantidad de actividades;"2"=tipo de actividad mas solicitado;
+        	 ArrayList<String> posicion2=new ArrayList<>();;//"1"=cantidad hoteles;"2"=disponibilidad de guias;"3"&&"4" promedio precio actividades
+        	 ArrayList<String> posicion3=new ArrayList<>();;//"1"=idioma mas solicitado;"2"=promedio de precios;"3"&&"4"hoteles disponibles
+        	 ArrayList<String> posicion4=new ArrayList<>();;//"1"=cantidad de personas;"2"=cantidad de actividades;"3"&&"4"promedio de precios hoteles
+        	 ArrayList<String> posicion5=new ArrayList<>();;//"1"&&"2"=oferta;"3"&&"4"cantidad de personas
         	
         	 
         	
         	 ArrayList<Actividad> actividadesFiltradas=new ArrayList<>();
-        	 ArrayList<ArrayList<Integer>> fechas=new ArrayList<>(Arrays.asList(fecha));
         	 for(Actividad actividad:actividades) {
      			if(actividad.verificarFiltrosActividad(clasificacion, tipo, fechas, idioma)) {actividadesFiltradas.add(actividad);}
      		 }
-        	 ArrayList<Hotel> hotelesFiltrados=Hotel.mostrarHotelesFiltrados(this, fecha);
+        	 ArrayList<Hotel> hotelesFiltrados=new ArrayList<>();
+        	 for (ArrayList<Integer> fecha:fechas) {
+        		 hotelesFiltrados.addAll(Hotel.mostrarHotelesFiltrados(this, fecha));
+        	 }
         	 
         	 if(opcBusqueda.equals("1")) {
         		 posicion1.add(Integer.toString(actividadesFiltradas.size()));
         		 posicion2.add(Integer.toString(hotelesFiltrados.size()));
         		 posicion3.add(buscarIdiomaComun().getNombre());
-        		 posicion4.add(Integer.toString(Reserva.mostrarCantidadPersonasDestino(this,fecha)));
+        		 posicion4.add(Integer.toString(Reserva.mostrarCantidadPersonasDestino(this,fechas)));
         		 posicion5.add(definirOferta(actividadesFiltradas));
         	 }else if(opcBusqueda.equals("2")) {
         		 posicion1.add(Reserva.actividadPrincipalDestino(this).getTipo().get(0).getNombre());
@@ -374,15 +317,14 @@ public class Destino implements Serializable{
         		 posicion2.add(+Actividad.promedioPreciosActividades(actividadesFiltradas)+"");
         		 posicion3.add(Integer.toString(hotelesFiltrados.size()));
         		 posicion4.add(Hotel.promedioPreciosHoteles(hotelesFiltrados)+"");
-        		 posicion5.add(Integer.toString(Reserva.mostrarCantidadPersonasDestino(this,fecha)));
+        		 posicion5.add(Integer.toString(Reserva.mostrarCantidadPersonasDestino(this,fechas)));
         	 }
-        	 
-        	 tabla.add(0, nombre); //0.nombre del destino
-             tabla.add(1, posicion1); // 1."1"&"3"=promedio precios actividades;"2"=actividades familiares;
-             tabla.add(2, posicion2); // 2."1"=guias disponibles;"2"=actividades ecologicas;"3"hoteles disponibles
-             tabla.add(3, posicion3); // 3."1"=guias disponibles;"2"=actividades ecologicas;"3"hoteles disponibles
-             tabla.add(4, posicion4); // 4."1"=hoteles disponibles;"2"=actividades extremas;"3"promedio de precios hoteles
-             tabla.add(5, posicion5); // 5."1"=idioma mas comun;"2"=actividades acuaticas;"3" cantidad de personas
+        	 tabla.add(0, posicion0); //0."1"&&"2"&&"4"=mes;"3" dia;
+             tabla.add(1, posicion1); // 1."1"&&"3"&&"4"=cantidad de actividades;"2"=tipo de actividad mas solicitado;
+             tabla.add(2, posicion2); // 2."1"=cantidad hoteles;"2"=disponibilidad de guias;"3"&&"4" promedio precio actividades
+             tabla.add(3, posicion3); // 3."1"=idioma mas solicitado;"2"=promedio de precios;"3"&&"4"hoteles disponibles
+             tabla.add(4, posicion4); // 4."1"=cantidad de personas;"2"=cantidad de actividades;"3"&&"4"promedio de precios hoteles
+             tabla.add(5, posicion5); // 5."1"&&"2"=oferta;"3"&&"4"cantidad de personas
         	return tabla; 
         }
      /**
