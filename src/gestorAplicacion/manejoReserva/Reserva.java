@@ -45,6 +45,16 @@ public class Reserva implements Serializable {
         reservasExistentes.add(this);
     }
 
+    public Reserva(Cliente titular){
+        this.codigo = ++ultimoCodigo;
+        this.clientes = new ArrayList<Cliente>();
+        this.clientes.add(titular);
+        this.idiomas = new ArrayList<Idiomas>();
+        this.fechas = new ArrayList<ArrayList<Integer>>();
+        this.existeSuscripcion = tieneSuscripcion();
+        reservasExistentes.add(this);
+    }
+
     public Reserva(Cliente titular, ArrayList<ArrayList<Integer>> fechasViaje, Idiomas idioma, Destino destino){
         this.codigo = ++ultimoCodigo;
         this.clientes = new ArrayList<Cliente>();
@@ -538,6 +548,7 @@ public class Reserva implements Serializable {
         }
         return actividadComun;
     }
+
 
     /**
      * Verifica si la reserva actual tiene una suscripción.
