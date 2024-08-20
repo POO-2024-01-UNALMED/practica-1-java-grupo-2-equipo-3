@@ -1,5 +1,6 @@
 package gestorAplicacion.manejoReserva;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +9,8 @@ import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.gestionHum.Cliente;
 
 
-public class Reserva {
+public class Reserva implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
     private ArrayList<Cliente> clientes;
     private int codigo;
@@ -510,6 +512,13 @@ public class Reserva {
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+    public static ArrayList<Reserva> getReservasExistentes() {
+        return reservasExistentes;
+    }
+
+    public static void setReservasExistentes(ArrayList<Reserva> reservasExistentes) {
+        Reserva.reservasExistentes = reservasExistentes;
+    }
 
     public long getCodigo() {
         return codigo;

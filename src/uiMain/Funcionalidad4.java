@@ -21,36 +21,57 @@ import javax.net.ssl.HostnameVerifier;
 public class Funcionalidad4 {
     public static void ModificarReserva() {
         boolean terminarModificarReserva = true;
-        while(terminarModificarReserva) {
-            Reserva reservaAModificar = Reserva.buscarReserva(Main.ingresarEntero("Ingrese el código de la reserva que desea modificar: \n"));
-
+        while (terminarModificarReserva) {
+            Reserva reservaAModificar = null;
+            do {
+                int codigoReserva = ingresarEntero("Ingrese el código de la reserva que desea buscar: ");
+                reservaAModificar = Reserva.buscarReserva(codigoReserva);
+                if (reservaAModificar == null) {
+                    System.out.println("No se encontró ninguna reserva con los datos ingresados, vuelva a intentarlo.");
+                }
+            } while (reservaAModificar == null);
+            mostrarReserva(reservaAModificar);
+            boolean realizarCambios = preguntaRealizarCambios();
+            if (realizarCambios) {
+                int opcion = preguntaReservaCambiar();
+                switch (opcion) {
+                    case 0:
+                        agregarFecha(reservaAModificar);
+                        break;
+                    case 1:
+                        agregarClientes(reservaAModificar);
+                        break;
+                    case 2:
+                        modificarIdiomas(reservaAModificar);
+                        break;
+                    case 3:
+                        modificarDestino(reservaAModificar);
+                        break;
+                    case 4:
+                        eliminarFecha(reservaAModificar);
+                        break;
+                    case 5:
+                        eliminarCliente(reservaAModificar);
+                        break;
+                    case 6:
+                        modificarPlan(reservaAModificar);
+                        break;
+                    case 7:
+                        modificarActividades(reservaAModificar);
+                        break;
+                    case 8:
+                        modificarTipoPlan(reservaAModificar);
+                        break;
+                    case 9:
+                        modificarHotel(reservaAModificar);
+                        break;
+                    default:
+                        System.out.println("Opción no válida.");
+                        break;
+                }
+            }
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -93,15 +114,15 @@ public class Funcionalidad4 {
         int entradaInt = Integer.parseInt(entrada);
 
         if(entradaInt == 2){
-            return true;
+            return false;
         }
-        return false;
+        return true;
         
     }
 
-    public static Integer preuntaReservaCambiar(){
+    public static Integer preguntaReservaCambiar(){
 
-        String entrada = Main.ingresarOpcion("Que desea modificar de la reserva", 0, new ArrayList<>(Arrays.asList("Fechas", "Idiomas", "Clientes")));
+        String entrada = Main.ingresarOpcion("Que desea modificar de la reserva", 0, new ArrayList<>(Arrays.asList("Destino", "Idiomas", "Clientes", "Fechas")));
 
         return Integer.parseInt(entrada) - 1;
 

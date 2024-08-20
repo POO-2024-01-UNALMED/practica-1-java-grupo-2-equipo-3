@@ -1,5 +1,6 @@
 package gestorAplicacion.gestionHum;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import gestorAplicacion.manejoReserva.Actividad;
