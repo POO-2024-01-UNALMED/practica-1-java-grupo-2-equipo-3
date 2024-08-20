@@ -367,6 +367,64 @@ public class Reserva {
     	String fechaString="["+fecha.get(0)+"/"+mostrarMes(fecha.get(1))+"/"+fecha.get(2)+"]";
     	return fechaString;
     }
+    /**
+     * Determina la clasificación más común para un destino específico basado en las reservas existentes.
+     * 
+     * @param destino  El destino para el cual se calculará la clasificación más común.
+     * 
+     * @return         La clasificación más común para el destino. Si no hay reservas para el destino, devolverá 1 por defecto.
+     */
+    public static int mostrarClasificacionComun(Destino destino) {
+    	int clasificacionComun=1;
+    	int cantidadMayor=0;
+    	for(int i=1;i<=4;i++) {
+    		int cantidadClasificacion=0;
+    		for(Reserva reserva:reservasExistentes) {
+    			if(reserva.destino.equals(destino)&&reserva.clasificacion==i) {cantidadClasificacion++;}
+    		}
+    		if(cantidadClasificacion>cantidadMayor) {
+    			cantidadMayor=cantidadClasificacion;
+    			clasificacionComun=i;
+    		}
+    	}
+    	return clasificacionComun;
+    }
+    /**
+     * Calcula la cantidad total de personas que han reservado en un destino específico.
+     * 
+     * @param destino  El destino para el cual se desea calcular la cantidad total de personas.
+     * @return         La cantidad total de personas (clientes) que han reservado en el destino especificado.
+     */
+    public static int mostrarCantidadPersonasDestino(Destino destino) {
+    	int cantidad=0;
+    	for(Reserva reserva:reservasExistentes) {
+    		if(reserva.destino.equals(destino)) {cantidad+=reserva.clientes.size();}
+    	}
+    	return cantidad;
+    }
+    /**
+     * Determina la actividad más popular en un destino específico, basada en la cantidad de personas que han reservado esa actividad.
+     * 
+     * @param destino  El destino para el cual se desea encontrar la actividad más popular.
+     * @return         La actividad más popular en el destino especificado. 
+     */
+    public static Actividad actividadPrincipalDestino(Destino destino) {
+        Actividad actividadComun = null;
+        int cantidadMayor = 0;
+        for (Actividad actividad : destino.getActividades()) {
+            int cantidadPersonas = 0;
+            for (Reserva reserva : reservasExistentes) {
+                if (reserva.destino.equals(destino) && reserva.plan.getActividades().contains(actividad)) {
+                    cantidadPersonas++;
+                }
+            }
+            if (cantidadPersonas > cantidadMayor) {
+                cantidadMayor = cantidadPersonas;
+                actividadComun = actividad;
+            }
+        }
+        return actividadComun;
+    }
 
     public boolean tieneSuscripcion() {
     	clientes.get(0).getSuscripcion();

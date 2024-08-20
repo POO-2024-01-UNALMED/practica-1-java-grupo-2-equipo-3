@@ -13,6 +13,7 @@ import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
@@ -75,7 +76,37 @@ public class Hotel implements  Serializable{
         Hotel hotel=hotelesDisponibles.get(Integer.parseInt(opcElegida)-1);
         return hotel;
     }
+    /**
+     * Busca la cantidad de hoteles en un destino
+   
+     * @param destino el destino que se dea buscar
+     * @return Hotel El objeto del hotel elegido
+     */
+    public static int cantidadHotelesDestino(Destino destino) {
+    	int cantidadHoteles=0;
+    	for(Hotel hotel:cargarHoteles()) {
+    		if(hotel.getDestino().equals(destino)) {cantidadHoteles++;}
+    	}
+    	return cantidadHoteles;
+    }
     
+    /**
+     * Calcula el promedio de los precios de hoteles para un destino específico.
+     * 
+     * @param destino  El destino para el cual se calculará el promedio de los precios de hoteles.
+     * @return         El promedio de los precios de los hoteles en el destino especificado.
+     */
+    public static long promedioPreciosActividades(Destino destino) {
+        long promedio = 0;
+        int cantidad = cantidadHotelesDestino(destino);
+        
+        if (cantidad == 0) {return 0;}
+        for (Hotel hotel : cargarHoteles()) {
+            if (hotel.getDestino().equals(destino)) {promedio += hotel.precio;}
+        }
+
+        return promedio / cantidad;
+    }
 
     //Veriifcar si hay disponilibilas habitaciones
     //revisar los grupos que estan asignaso al hotel, si un grupo tien la fecha que estamos buscando:
