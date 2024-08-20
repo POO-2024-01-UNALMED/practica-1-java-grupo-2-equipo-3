@@ -572,7 +572,7 @@ public class Hotel implements  Serializable{
         
 
         if (hotel.cuentaConSuscripcion) {
-            precioTotal *= cliente.getSuscripcion().getDescHotel();
+            precioTotal -= precioTotal*cliente.getSuscripcion().getDescHotel()*cliente.getSuscripcion().getCapacidad();
         }
         precioTotal = precioTotal * reserva.getFechas().size();
 

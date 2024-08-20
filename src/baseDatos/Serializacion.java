@@ -31,8 +31,11 @@ public class Serializacion {
 
         // Crear destinos
         Destino cartagena = new Destino("Cartagena");
+        destinos.add(cartagena);
         Destino bogota = new Destino("Bogotá");
+        destinos.add(bogota);
         Destino medellin = new Destino("Medellin");
+        destinos.add(medellin);
 
         // Crear actividades
         Actividad actividad1 = new Actividad("Tour por la ciudad", TiposActividad.CULTURALES);
@@ -56,11 +59,6 @@ public class Serializacion {
         medellin.getActividades().add(actividad6);
         medellin.getActividades().add(actividad7);
 
-        // Agregar destinos al contenedor
-        contenedor.addDestino(cartagena);
-        contenedor.addDestino(bogota);
-        contenedor.addDestino(medellin);
-
         // Crear guías y asignarles idiomas
         Guia guia1 = new Guia("Juan");
         guia1.addIdioma(Idiomas.ESPANOL);
@@ -79,3 +77,4 @@ public class Serializacion {
         cartagena.getGuias().add(guia2);
         bogota.getGuias().add(guia3);
     }
+}

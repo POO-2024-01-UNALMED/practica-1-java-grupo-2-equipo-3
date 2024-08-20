@@ -81,7 +81,8 @@ public class Reserva implements Serializable {
                 "\n Fechas=" + fechas +
                 "\n Clasificacion=" + clasificacion +
                 "\n TipoPlan=" + tipoPlan +
-                "\n Actividades" + plan.getActividades();
+                "\n Actividades" + plan.getActividades() +
+                "\n Precio=" + (plan.getPrecio()*clientes.size() - plan.getPrecio()*clientes.getFirst().getSuscripcion().getDescTour()*clientes.getFirst().getSuscripcion().getCapacidad()) + Hotel.calcularPrecio(this);
     }
 
 

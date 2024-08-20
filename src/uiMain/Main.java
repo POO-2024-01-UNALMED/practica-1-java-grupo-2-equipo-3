@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import baseDatos.Deserializador;
+import baseDatos.Serializador;
 import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
@@ -407,6 +409,13 @@ public class Main {
 //////////////////////////////////////////////////////////////////////////////////////////////    
 	
 	public static void main(String[] args) {
+		Deserializador.deserializarPlanes();
+		Deserializador.deserializarDestinos();
+		Deserializador.deserializarActividades();
+		Deserializador.deserializarReservas();
+		Deserializador.deserializarGrupos();
+		Deserializador.deserializarGuias();
+
 
 		Scanner entrada = new Scanner(System.in);
 		//LISTAS DE NOMBRES DE LAS CONSTANTES 
@@ -1280,6 +1289,19 @@ public class Main {
 			
 		}
 		entrada.close();
+		ArrayList<Actividad> actividades = new ArrayList<Actividad>();
+		for (Destino destino : Destino.getDestinos()) {
+			for (Actividad actividad: destino.getActividades()){
+				actividades.add(actividad);
+			}
+		}
+
+		Serializador.serializarDestinos(Destino.getDestinos());
+		Serializador.serializarActividades(actividades);
+		Serializador.serializarGuias(Guia.getGuias());
+		Serializador.serializarReservas(Reserva.getReservasExistentes());
+		Serializador.serializarGrupos(Grupo.getGrupos());
+		Serializador.serializarPlanes(Plan.getPaquetes());
 	}//Cierre del main
 
 
