@@ -25,14 +25,15 @@ public class Plan implements Serializable {
     private int cantidadDias;
     private Map<ArrayList<Integer>, ArrayList<ArrayList<Object>>> disponibilidadHabitaciones;
 
-    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, double precio, int clasificacion, ArrayList<Grupo> grupos, Reserva reserva) {
+    public Plan(String tipo, Destino destino, ArrayList<Actividad> actividades, int clasificacion, Reserva reserva) {
         this.tipo = tipo;
         this.destino = destino;
         this.actividades = actividades;
-        this.precio = precio;
         this.clasificacion = clasificacion;
-        this.grupos = grupos;
         this.reserva = reserva;
+        this.reserva.setPlan(this);
+        this.tipo = reserva.getTipoPlan();
+        this.grupos = new ArrayList<Grupo>();
     }
 
     public Plan(String tipo, Reserva reserva) {
@@ -145,6 +146,19 @@ public class Plan implements Serializable {
                         Grupo grupo = new Grupo(actividad, this.reserva.getClientes(), fecha, this.reserva.getIdiomas().get(0));
                         this.grupos.add(grupo);
                     }
+                }
+            }
+        }
+        asignarPrecio();
+    }
+
+    public void escogerActividadesDiaPaquete(ArrayList<Actividad> actividadesPosibles, ArrayList<String> actividadEscogida, ArrayList<Integer> fecha) {
+        for (String nombre : actividadEscogida) {
+            for (Actividad actividad : actividadesPosibles) {
+                if (actividad.getNombre().equals(nombre)) {
+                    ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, this.reserva.getIdiomas().get(0), this.reserva.getClientes());
+                    Grupo grupo = new Grupo(actividad, this.reserva.getClientes(), fecha, this.reserva.getIdiomas().get(0));
+                    this.grupos.add(grupo);
                 }
             }
         }
