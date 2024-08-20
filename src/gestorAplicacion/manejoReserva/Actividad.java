@@ -2,11 +2,8 @@ package gestorAplicacion.manejoReserva;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
 import java.util.Arrays;
->>>>>>> refs/remotes/origin/master
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
@@ -171,7 +168,13 @@ public class Actividad implements Registrable, Serializable {
 
         this.precio = Math.round(precio / 100) * 100;
     }
-
+    public boolean buscarIdiomaEnActividad(Idiomas idioma) {
+    	for(Guia guia:this.guias) {
+    		for(Idiomas idiomaFor:guia.getIdiomas()) {
+    			if(idiomaFor.equals(idioma)) {
+    		}
+    	}
+    }
     /**
      * Busca en los guias capacitados para la actividad los guías que hablen un idioma específico.
      *
