@@ -73,13 +73,15 @@ public class Reserva implements Serializable {
     @Override
     public String toString() {
         return  "Estos son los datos de su reserva: \n" +
+                "Guarde su código de reserva para poder buscarla después en el sistema. \n" +
                 "codigo=" + codigo +
-                "\n destino=" + destino +
-                "\n idiomas=" + idiomas +
-                "\n fechas=" + fechas +
-                "\n clasificacion=" + clasificacion +
-                "\n tipoPlan=" + tipoPlan +
-                "\n actividades" + plan.getActividades();
+                "\n Titular=" + this.getClientes().getFirst() +
+                "\n Destino=" + destino +
+                "\n Idiomas=" + idiomas +
+                "\n Fechas=" + fechas +
+                "\n Clasificacion=" + clasificacion +
+                "\n TipoPlan=" + tipoPlan +
+                "\n Actividades" + plan.getActividades();
     }
 
 
@@ -460,6 +462,14 @@ public class Reserva implements Serializable {
     	}
     	return cantidad;
     }
+
+    /**
+     * Calcula la cantidad total de personas que han reservado en un destino, hotel y fecha específica.
+     * @param destino
+     * @param fechas
+     * @param hotel
+     * @return
+     */
     public static int mostrarCantidadPersonasHotel(Destino destino, ArrayList<ArrayList<Integer>> fechas,Hotel hotel) {
     	int cantidad=0;
     	for(ArrayList<Integer> fecha:fechas) {
@@ -469,6 +479,14 @@ public class Reserva implements Serializable {
     	}
     	return cantidad;
     }
+
+    /**
+     * Calcula la cantidad total de personas que han reservado en un destino, hotel y fecha específica.
+     * @param destino
+     * @param fechas
+     * @param hotel
+     * @return
+     */
     public static int mostrarCantidadReservasHotel(Destino destino, ArrayList<ArrayList<Integer>> fechas,Hotel hotel) {
     	int cantidad=0;
     	for(ArrayList<Integer> fecha:fechas) {
@@ -478,6 +496,14 @@ public class Reserva implements Serializable {
     	}
     	return cantidad;
     }
+
+    /**
+     * Calcula la cantidad total de personas que han reservado en un destino, actvidad y fecha específica.
+     * @param destino
+     * @param fechas
+     * @param actividad
+     * @return
+     */
     public static int mostrarCantidadReservasActividad(Destino destino, ArrayList<ArrayList<Integer>> fechas,Actividad actividad) {
     	int cantidad=0;
     	for(ArrayList<Integer> fecha:fechas) {
@@ -487,6 +513,7 @@ public class Reserva implements Serializable {
     	}
     	return cantidad;
     }
+
     /**
      * Determina la actividad más popular en un destino específico, basada en la cantidad de personas que han reservado esa actividad.
      * 
@@ -511,6 +538,10 @@ public class Reserva implements Serializable {
         return actividadComun;
     }
 
+    /**
+     * Verifica si la reserva actual tiene una suscripción.
+     * @return
+     */
     public boolean tieneSuscripcion() {
     	clientes.get(0).getSuscripcion();
         if(clientes.get(0).getSuscripcion()==null) {
@@ -519,10 +550,14 @@ public class Reserva implements Serializable {
         return true;
     }
 
+    /**
+     * Añade un idioma a la lista de idiomas de la reserva.
+     *
+     * @param idioma El idioma a añadir.
+     */
     public void agregarIdioma(Idiomas idioma) {
     	idiomas.add(idioma);
     }
-/////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
 
     /**
     * Añade un cliente a la lista de clientes de la reserva.

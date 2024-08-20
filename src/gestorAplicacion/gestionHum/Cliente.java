@@ -27,8 +27,11 @@ public class Cliente extends Persona {
 	  
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+        if(this.suscripcion != null) {
+            String sus = suscripcion.getTipo();
+            return nombre + "con" + edad + "años." + "Suscripcion de tipo: " + sus;
+        }
+		return nombre + "con" + edad + "años.";
 	}
     
 

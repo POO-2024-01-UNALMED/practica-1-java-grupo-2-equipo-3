@@ -21,7 +21,7 @@ public class Grupo implements Serializable {
     private String tipoMesa;
     private String tipoHabitacion;
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
-    private ArrayList<Cliente> clientes; 
+    private ArrayList<Cliente> clientes;
 
 
     public Grupo(ArrayList<Integer> fecha, Guia guia, Actividad actividad, Idiomas idioma,
@@ -38,7 +38,7 @@ public class Grupo implements Serializable {
         grupos.add(this);
     }
 
-    public  Grupo(Actividad actividad, ArrayList<Cliente> listaReservaExtra, ArrayList<Integer> fecha, Idiomas idioma) {
+    public Grupo(Actividad actividad, ArrayList<Cliente> listaReservaExtra, ArrayList<Integer> fecha, Idiomas idioma) {
         this.actividad = actividad;
         this.fecha = fecha;
         this.idioma = idioma;
@@ -51,22 +51,22 @@ public class Grupo implements Serializable {
     }
 
     // Constructor para los grupos de hospedaje
-    public Grupo(String tipoHabitacion, Integer capacidad){
-        this.actividad= new Actividad("Hospedaje", TiposActividad.HOSPEDAJE);
+    public Grupo(String tipoHabitacion, Integer capacidad) {
+        this.actividad = new Actividad("Hospedaje", TiposActividad.HOSPEDAJE);
         this.tipoHabitacion = tipoHabitacion;
-        this.capacidad=capacidad;
+        this.capacidad = capacidad;
     }
 
-    public Grupo(Integer capacidad, String tipoMesa){
-        this.actividad= new Actividad("Restaurante", TiposActividad.RESTAURANTE);
+    public Grupo(Integer capacidad, String tipoMesa) {
+        this.actividad = new Actividad("Restaurante", TiposActividad.RESTAURANTE);
         this.tipoMesa = tipoMesa;
-        this.capacidad=capacidad;
+        this.capacidad = capacidad;
     }
 
 
     /**
-     * Retira un guía de un grupo en una fecha específica, primero busca si se puede reemplazar al guia 
-     * si no se puede se busca si se puede reubicar a los clientes en otros grupos, si no se puede se le 
+     * Retira un guía de un grupo en una fecha específica, primero busca si se puede reemplazar al guia
+     * si no se puede se busca si se puede reubicar a los clientes en otros grupos, si no se puede se le
      * da una cortesia al cliente y se elimina el grupo
      *
      * @param guia  El guía a retirar.
@@ -143,7 +143,7 @@ public class Grupo implements Serializable {
      */
     public void modificarCapacidad() {
         int personasPresentes = 0;
-        for(ArrayList<Cliente> lista : this.listaReservas) {
+        for (ArrayList<Cliente> lista : this.listaReservas) {
             personasPresentes += lista.size();
         }
         this.capacidad = capacidad - personasPresentes;
@@ -166,6 +166,7 @@ public class Grupo implements Serializable {
         }
         return gruposEncontrados;
     }
+
     public static ArrayList<Grupo> buscarGrupo(ArrayList<Integer> fecha, Actividad actividad) {
         ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
         for (Grupo grupo : grupos) {
@@ -179,9 +180,9 @@ public class Grupo implements Serializable {
     /**
      * Busca grupos que coincidan con la fecha, actividad e idioma especificados y que tengan capacidad para las personas a agregar.
      *
-     * @param fecha           La fecha del grupo.
-     * @param actividad       La actividad del grupo.
-     * @param idioma          El idioma del grupo.
+     * @param fecha            La fecha del grupo.
+     * @param actividad        La actividad del grupo.
+     * @param idioma           El idioma del grupo.
      * @param personasAAgregar Las personas a agregar al grupo.
      * @return Una lista de grupos que coinciden con los criterios especificados.
      */
@@ -354,15 +355,15 @@ public class Grupo implements Serializable {
      * Calcula la cantidad de clientes en grupos que reservaron actividades en un destino específico.
      *
      * @param destino El destino de las actividades de los grupos.
-     * @param fecha La fecha por la cual se quiere buscar(puede ser null)
+     * @param fecha   La fecha por la cual se quiere buscar(puede ser null)
      * @return La cantidad de clientes en los grupos que tienen actividades en el destino especificado.
      */
     public static int cantidadClientesDestino(Destino destino, ArrayList<Integer> fecha) {
         int cantidadClientes = 0;
-        
+
         for (Grupo grupo : grupos) {
-        	boolean istFecha=fecha==null?true:grupo.fecha.get(1)==fecha.get(1);
-            if (grupo.actividad.getDestino().equals(destino)&&istFecha) {
+            boolean istFecha = fecha == null ? true : grupo.fecha.get(1) == fecha.get(1);
+            if (grupo.actividad.getDestino().equals(destino) && istFecha) {
                 for (ArrayList<Cliente> reserva : grupo.listaReservas) {
                     cantidadClientes += reserva.size();
                 }
@@ -372,7 +373,7 @@ public class Grupo implements Serializable {
     }
 
     public void añadirFechaOcupada(ArrayList<Integer> fecha) {
-        fechaOcupadas.add(fecha);   
+        fechaOcupadas.add(fecha);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
@@ -386,53 +387,53 @@ public class Grupo implements Serializable {
         Grupo.grupos = grupos;
     }
 
-	public ArrayList<Integer> getFecha() {
-		return fecha;
-	}
-	
-	public void setFecha(ArrayList<Integer> fecha) {
-		this.fecha = fecha;
-	}
-	
-	public Guia getGuia() {
-		return guia;
-	}
-	
-	public void setGuia(Guia guia) {
-	this.guia = guia;
-	}
-	
-	public Actividad getActividad() {
-		return actividad;
-	}
-	
-	public void setActividad(Actividad actividad) {
-		this.actividad = actividad;
-	}
-	
-	public Idiomas getIdioma() {
-		return idioma;
-	}
-	
-	public void setIdioma(Idiomas idioma) {
-		this.idioma = idioma;
-	}
-	
-	public ArrayList<ArrayList<Cliente>> getListaReservas() {
-		return listaReservas;
-	}
-	
-	public void setListaReservas(ArrayList<ArrayList<Cliente>> listaReservas) {
-		this.listaReservas = listaReservas;
-	}
-	
-	public int getCapacidad() {
-		return capacidad;
-	}
-	
-	public void setCapacidad(int capacidad) {
-		this.capacidad = capacidad;
-	}
+    public ArrayList<Integer> getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(ArrayList<Integer> fecha) {
+        this.fecha = fecha;
+    }
+
+    public Guia getGuia() {
+        return guia;
+    }
+
+    public void setGuia(Guia guia) {
+        this.guia = guia;
+    }
+
+    public Actividad getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(Actividad actividad) {
+        this.actividad = actividad;
+    }
+
+    public Idiomas getIdioma() {
+        return idioma;
+    }
+
+    public void setIdioma(Idiomas idioma) {
+        this.idioma = idioma;
+    }
+
+    public ArrayList<ArrayList<Cliente>> getListaReservas() {
+        return listaReservas;
+    }
+
+    public void setListaReservas(ArrayList<ArrayList<Cliente>> listaReservas) {
+        this.listaReservas = listaReservas;
+    }
+
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
 
     public String getTipoHabitacion() {
         return tipoHabitacion;
@@ -462,15 +463,6 @@ public class Grupo implements Serializable {
         return clasificacion;
     }
 
-<<<<<<< HEAD
-    public static void setGrupos(ArrayList<Grupo> grupos) {
-        Grupo.grupos = grupos;
-    }
-
-    public int getClasificacion() {
-        return clasificacion;
-    }
-
     public void setClasificacion(int clasificacion) {
         this.clasificacion = clasificacion;
     }
@@ -482,18 +474,4 @@ public class Grupo implements Serializable {
     public void setClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
-
-    
-
-    
-
-    
-
-=======
-    public void setClasificacion(int clasificacion) {
-        this.clasificacion = clasificacion;
-    }
->>>>>>> 01c3b32ae90365029272556d73b06ab96a4839f5
 }
-
-

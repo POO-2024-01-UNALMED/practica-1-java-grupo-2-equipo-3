@@ -99,15 +99,7 @@ public class Deserializador {
 
             ArrayList<Grupo> grupos = (ArrayList<Grupo>) o.readObject();
 
-            for (Destino destino : Destino.getDestinos()) {
-                for (Actividad actividad : destino.getActividades()) {
-                    for (Grupo grupo : grupos) {
-                        if (actividad.getGrupos().equals(grupo)) {
-                            grupo.getActividad() = actividad;
-                        }
-                    }
-                }
-            }
+            Grupo.setGrupos(grupos);
 
                 f.close();
                 o.close();
@@ -121,5 +113,3 @@ public class Deserializador {
             }
         }
     }
-
-}

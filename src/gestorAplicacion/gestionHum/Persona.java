@@ -33,7 +33,9 @@ public abstract class Persona implements Serializable {
     }
 
     @Override
-    abstract public String toString();
+    public String toString() {
+        return "Nombre: " + nombre + "\nEdad: " + edad + "\nDestino: " + destino + "\nIdiomas: " + idiomas;
+    }
 
     /**
      * Ingresa los idiomas que domina la persona a partir de una cadena.
