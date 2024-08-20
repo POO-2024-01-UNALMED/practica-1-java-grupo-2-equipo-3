@@ -545,31 +545,67 @@ public class Main {
 										break;
 								}
 							}
+
 						case "2":
 							// 2.OPCION BUSCAR RESERVA EXISTENTE PARA AGREGAR LAS ACTIVIDADES
-							Reserva reserva = Reserva.buscarReserva();
-							if (reserva == null) {
-								System.out.println("No se encontró ninguna reserva con los datos ingresados.");
-								break;
-							}
-							ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(reserva.getPlan().getActividades());
-							ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reserva.getFechas().size(), opcionesActividades);
-							ArrayList<Actividad> actividadesDisponibles = reserva.escogerPlan(reserva.getPlan().getTipo());
-							ArrayList<Actividad> seleccionInicial = reserva.getPlan().escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
-
-							//Método de verificación de actividades por día
-							System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
-							for(ArrayList<Integer> fecha:reserva.getFechas()) {
-								ArrayList<Actividad> actividadesPosibles = reserva.getPlan().actividadesDisponiblesDia(fecha, seleccionInicial);
-								if (actividadesPosibles.isEmpty()) {
-									System.out.println("No hay actividades disponibles para el día " + fecha);
-
-									continue;
+							Reserva reservaEncontrada = null;
+							do {
+								int codigoReserva = ingresarEntero("Ingrese el código de la reserva que desea buscar: ");
+								reservaEncontrada = Reserva.buscarReserva(codigoReserva);
+								if (reservaEncontrada == null) {
+									System.out.println("No se encontró ninguna reserva con los datos ingresados, vuelva a intentarlo.");
 								}
-								ArrayList<String> actividadesDia = Plan.mostrarNombreActividad(actividadesPosibles);
-								ArrayList<String> actividadEscogida = ingresarOpcionActividad("Elija las actividades que desea realizar", 1, actividadesDia);
-								reserva.getPlan().escogerActividadesDia(actividadesPosibles, actividadEscogida, fecha);
+							} while (reservaEncontrada == null);
+							//INGRESAR IDIOMAS
+							reservaEncontrada.agregarIdioma(ingresarIdioma());
+							//Parte actividades
+							planesPosibles = new ArrayList<>(Arrays.asList(
+									"Plan personalizado\n" +
+											"(Se escogen las actividades desde 0 de manera manual)",
+									"Paquete turistico\n" +
+											"(Se escoge un plan turistico predefinido, con actividades generales ya establecidas)"));
+							tipoPlan = ingresarOpcion("¿Qué desea escoger?", 0, planesPosibles);
+							planCreado = null;
+							while (planCreado == null) {
+								switch (tipoPlan) {
+									case "1":
+										//Plan personalizado
+										String tipoEscogido = Plan.asignarTipo(Integer.parseInt(tipoPlan));
+										ArrayList<Actividad> actividadesDisponibles = reservaEncontrada.escogerPlan(tipoEscogido);
+										planCreado = reservaEncontrada.getPlan();
+										ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(actividadesDisponibles);
+										ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaEncontrada.getFechas().size(), opcionesActividades);
+										ArrayList<Actividad> seleccionInicial = planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
+
+										//Método de verificación de actividades por día
+										System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
+										for(ArrayList<Integer> fecha:reservaEncontrada.getFechas()) {
+											ArrayList<Actividad> actividadesPosibles = planCreado.actividadesDisponiblesDia(fecha, seleccionInicial);
+											if (actividadesPosibles.isEmpty()) {
+												System.out.println("No hay actividades disponibles para el día " + fecha);
+
+												continue;
+											}
+											ArrayList<String> actividadesDia = Plan.mostrarNombreActividad(actividadesPosibles);
+											ArrayList<String> actividadEscogida = ingresarOpcionActividad("Elija las actividades que desea realizar", 1, actividadesDia);
+											planCreado.escogerActividadesDia(actividadesPosibles, actividadEscogida, fecha);
+
+
+										}
+
+
+										break;
+									case "2":
+										//Paquete turistico
+										ArrayList<Plan> paquetesDisponiblesDestino = Plan.paquetesDisponibles(reservaEncontrada.getClientes().size(), reservaEncontrada.getDestino(), reservaEncontrada.getClasificacion(), reservaEncontrada.getFechas().size());
+										//Tomar datos de la lista de Plan pero crear copia del objeto.
+
+										String paquete = ingresarOpcion("¿Qué paquete turistico desea escoger?", 0, paquetes);
+										planCreado = new Plan(paquete);
+										break;
+								}
 							}
+
 							break;
 					}
 				}
