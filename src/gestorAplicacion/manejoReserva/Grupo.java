@@ -16,6 +16,7 @@ public class Grupo implements Serializable {
     private Idiomas idioma;
     private ArrayList<ArrayList<Cliente>> listaReservas;
     private int capacidad;
+    private int clasificacion;
     private String tipoMesa;
     private String tipoHabitacion;
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
@@ -30,11 +31,11 @@ public class Grupo implements Serializable {
         this.listaReservas = listaReservas;
         asignarCapacidad();
         modificarCapacidad();
-
+        this.clasificacion = this.actividad.getClasificacion();
         grupos.add(this);
     }
 
-    public Grupo(Actividad actividad, ArrayList<Cliente> listaReservaExtra, ArrayList<Integer> fecha, Idiomas idioma) {
+    public  Grupo(Actividad actividad, ArrayList<Cliente> listaReservaExtra, ArrayList<Integer> fecha, Idiomas idioma) {
         this.actividad = actividad;
         this.fecha = fecha;
         this.idioma = idioma;
@@ -176,6 +177,16 @@ public class Grupo implements Serializable {
         ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
         for (Grupo grupo : grupos) {
             if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad) && grupo.idioma.equals(idioma) && grupo.capacidad >= personasAAgregar.size()) {
+                gruposEncontrados.add(grupo);
+            }
+        }
+        return gruposEncontrados;
+    }
+
+    public static ArrayList<Grupo> buscarGrupo(ArrayList<Integer> fecha, Actividad actividad, Idiomas idioma, int cantidaPersonas) {
+        ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
+        for (Grupo grupo : grupos) {
+            if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad) && grupo.idioma.equals(idioma) && grupo.capacidad >= cantidaPersonas) {
                 gruposEncontrados.add(grupo);
             }
         }

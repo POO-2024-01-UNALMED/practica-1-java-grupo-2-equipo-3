@@ -148,6 +148,7 @@ public class Plan implements Serializable {
                 }
             }
         }
+        asignarPrecio();
     }
 
     /**
@@ -156,17 +157,31 @@ public class Plan implements Serializable {
      * @param cantidadPersonas
      * @param destino
      * @param clasificacion
-     * @param dias
+     * @param fechas
      * @return ArrayList<Plan> con los paquetes turísticos disponibles
      */
-    public static ArrayList<Plan> paquetesDisponibles(int cantidadPersonas, Destino destino, int clasificacion, int dias) {
-        ArrayList<Plan> paquetesDisponibles = new ArrayList<>();
+    public static ArrayList<Plan> paquetesDisponibles(int cantidadPersonas, Destino destino, int clasificacion, ArrayList<ArrayList<Integer>> fechas) {
+
+        ArrayList<Plan> paquetesPosibles = new ArrayList<>();
         for (Plan plan : paquetes) {
-            if (plan.getDestino().equals(destino) && plan.getClasificacion() == clasificacion && plan.getActividades().size() >= dias && plan.getClasificacion() <= clasificacion) {
-                paquetesDisponibles.add(plan);
+            ArrayList<ArrayList<Integer>> fechasDisponibles = new ArrayList<>();
+            for (ArrayList<Integer> fecha : fechas) {
+                if (plan.getDestino().equals(destino) &&
+                        plan.getClasificacion() <= clasificacion &&
+                        plan.getActividades().size() >= fechas.size()) {
+                    for (Actividad actividad : plan.getActividades()) {
+                        ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, plan.getReserva().getIdiomas().get(0), cantidadPersonas);
+                        if (!existenGrupos.isEmpty()) {
+                            fechasDisponibles.add(fecha);
+                        }
+                    }
+                }
+            }
+            if (fechasDisponibles.size() == fechas.size()) {
+                paquetesPosibles.add(plan);
             }
         }
-        return paquetesDisponibles;
+        return paquetesPosibles;
     }
 
     /**
