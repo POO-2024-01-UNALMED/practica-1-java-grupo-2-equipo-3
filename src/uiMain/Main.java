@@ -509,14 +509,19 @@ public class Main {
 										planCreado = reservaCreada.getPlan();
 										ArrayList<String> opcionesActividades = Plan.mostrarNombreActividad(actividadesDisponibles);
 										ArrayList<String> nombresActividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", reservaCreada.getFechas().size(), opcionesActividades);
-										planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
+										ArrayList<Actividad> seleccionInicial = planCreado.escogerActividadesIniciales(actividadesDisponibles, nombresActividadesEscogidas);
 
-										//Método de verificación de actividades
+										//Método de verificación de actividades por día
 										System.out.println("Seleccione cual de las actividades seleccionar desea realizar cada día de su estancia en el destino");
 										for(ArrayList<Integer> fecha:reservaCreada.getFechas()) {
-											ArrayList<Actividad> actividadesPosibles = planCreado.actividadesDisponiblesDia(fecha);
+											ArrayList<Actividad> actividadesPosibles = planCreado.actividadesDisponiblesDia(fecha, seleccionInicial);
+											if (actividadesPosibles.isEmpty()) {
+												System.out.println("No hay actividades disponibles para el día " + fecha);
+												continue;
+											}
 											ArrayList<String> actividadesDia = Plan.mostrarNombreActividad(actividadesPosibles);
-											ArrayList<String> actividadesEscogidas = ingresarOpcionActividad("Elija las actividades que desea realizar", 1, actividadesDia);
+											ArrayList<String> actividadEscogida = ingresarOpcionActividad("Elija las actividades que desea realizar", 1, actividadesDia);
+											planCreado.escogerActividadesDia(actividadesPosibles, actividadEscogida, fecha);
 
 
 										}
