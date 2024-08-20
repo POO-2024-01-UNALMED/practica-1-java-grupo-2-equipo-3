@@ -11,7 +11,7 @@ import gestorAplicacion.hospedaje.Hotel;
 
 
 public class Reserva implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 9L;
     private static ArrayList<Reserva> reservasExistentes = new ArrayList<>();
     private ArrayList<Cliente> clientes;
     private int codigo;
@@ -347,6 +347,7 @@ public class Reserva implements Serializable {
         };
         return meses[fecha - 1];
     }
+
     /**
      * Comprueba si la lista ingresada es la lista de todos los dias de un mes
      *
@@ -361,6 +362,7 @@ public class Reserva implements Serializable {
     	}
     	return false;
     }
+
     /**
      * Retorna la fecha en string
      *
@@ -371,6 +373,7 @@ public class Reserva implements Serializable {
     	String fechaString="["+fecha.get(0)+"/"+mostrarMes(fecha.get(1))+"/"+fecha.get(2)+"]";
     	return fechaString;
     }
+
     /**
      * Determina la clasificación más común para un destino específico basado en las reservas existentes.
      * 
@@ -427,7 +430,7 @@ public class Reserva implements Serializable {
      * Calcula la cantidad total de personas que han reservado en un destino y fecha específica.
      * 
      * @param destino  El destino para el cual se desea calcular la cantidad total de personas.
-     * @param fecha    La fecha para la cual se desea calcular la cantidad total de personas.
+     * @param fechas    La fecha para la cual se desea calcular la cantidad total de personas.
      * @return         La cantidad total de personas (clientes) que han reservado en el destino especificado.
      */
     public static int mostrarCantidadPersonasDestino(Destino destino, ArrayList<ArrayList<Integer>> fechas) {
@@ -444,7 +447,7 @@ public class Reserva implements Serializable {
      * Calcula la cantidad total de personas que han reservado en un destino, idioma y fecha específica.
      * 
      * @param destino  El destino para el cual se desea calcular la cantidad total de personas.
-     * @param fecha    La fecha para la cual se desea calcular la cantidad total de personas.
+     * @param fechas   La fecha para la cual se desea calcular la cantidad total de personas.
      * @param idioma   el idioma para la cual se desea calcular la cantidad total de personas.
      * @return         La cantidad total de personas (clientes) que han reservado en el destino especificado.
      */

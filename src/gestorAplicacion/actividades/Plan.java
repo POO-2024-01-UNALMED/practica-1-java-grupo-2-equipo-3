@@ -16,6 +16,7 @@ import gestorAplicacion.hospedaje.Hotel;
 
 import java.util.ArrayList;
 public class Plan implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static ArrayList<Plan> paquetes;
     private String tipo;
     private Destino destino;

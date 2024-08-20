@@ -13,7 +13,7 @@ import uiMain.*;
 
 public class Restaurante implements Serializable{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5L;
     private boolean permiteSuscripcion;
     private String nombre;
     private Destino hotel;
@@ -28,9 +28,13 @@ public class Restaurante implements Serializable{
 
         this.nombre = nombre;
         this.grupos = grupos;
-
-
     }
+
+    /**
+     * Muestra los restaurantes disponibles
+     * @param restaurantesLista
+     * @return
+     */
     public static ArrayList<String> mostrarNombres(ArrayList<Restaurante> restaurantesLista){
     	ArrayList<String> nombres=new ArrayList<>();
     	for(Restaurante restaurante:restaurantesLista) {
@@ -48,6 +52,11 @@ public class Restaurante implements Serializable{
     	return promedio/cantidad;
     }
 
+    /**
+     * Asigna el restaurante a los clientes de la reserva
+     * @param reserva
+     * @return
+     */
     public static Restaurante asignarRestaurante(Reserva reserva){
         Hotel hotel = reserva.getClientes().get(0).getHotel();
         ArrayList<Restaurante> restaurantes = hotel.getRestaurantes();
@@ -70,6 +79,11 @@ public class Restaurante implements Serializable{
 
     }
 
+    /**
+     * Asigna las mesas del restaurante a los clientes de la reserva
+     * @param reserva
+     * @param restaurante
+     */
     public static void asignarMesaRestaurante(Reserva reserva, Restaurante restaurante){ {
         ArrayList<Grupo> grupos = restaurante.getGrupos();
         ArrayList<String> listaOpciones = new ArrayList<String>();
@@ -114,46 +128,11 @@ public class Restaurante implements Serializable{
         //System.out.println("Mesas asignadas correctamente.");
     }
 
-
-
-    public static void main(String[] args) {
-        ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
-    
-        Reserva reserva = new Reserva();
-    
-        Cliente cliente1 = new Cliente("juan", 19);
-        Cliente cliente2 = new Cliente("pepe", 20);
-
-        cliente1.setHotel(hoteles.get(0));
-    
-        reserva.setClientes(new ArrayList<>(Arrays.asList(cliente1, cliente2)));
-    
-        System.out.println("Clientes: " + reserva.getClientes());
-        reserva.getClientes().get(0).setHotel(hoteles.get(0));
-    
-        Hotel hotel1 = reserva.getClientes().get(0).getHotel();
-    
-        Grupo mesa1 = new Grupo(2, "Sencilla");
-        Grupo mesa2 = new Grupo(4, "Doble");
-        Grupo mesa3 = new Grupo(12, "Gran mesa");
-    
-        ArrayList<Grupo> grupos1 = new ArrayList<>(Arrays.asList(mesa1, mesa2, mesa3));
-    
-        Restaurante restaurante = new Restaurante("Asiatico", grupos1);
-        restaurante.setGrupos(grupos1);
-        Restaurante restaurante2 = new Restaurante("Italiano", grupos1);
-        restaurante2.setGrupos(grupos1);
-
-
-    
-        hotel1.setRestaurantes(new ArrayList<>(Arrays.asList(restaurante,restaurante2)));
-
-        System.out.println(reserva.getClientes().get(0).getHotel().getNombre());
-        System.out.println("restaurantes: " + hotel1.getRestaurantes().get(0).getNombre());
-    
-        asignarMesaRestaurante(reserva);
-    }
-
+    /**
+     * Calcula el número de mesas disponibles en el restaurante
+     * @param reserva
+     * @return
+     */
     public int numeroDeMesasDisponibles(Reserva reserva){
         int numeroDeMesas = 0;
         for (Grupo grupo: this.grupos){
@@ -169,9 +148,6 @@ public class Restaurante implements Serializable{
         }
         return numeroDeMesas;
     }
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// METODOS DE ACCESO ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////

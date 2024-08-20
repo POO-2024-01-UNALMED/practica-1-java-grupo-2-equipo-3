@@ -15,7 +15,7 @@ import gestorAplicacion.actividades.Plan;
 
 
 public class Cliente extends Persona {
-    private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
+    private static final long serialVersionUID = 2L; // Agregado para la compatibilidad de serialización
 
     private ArrayList<Restaurante> restaurantes;
 	private ArrayList<Grupo> grupos;

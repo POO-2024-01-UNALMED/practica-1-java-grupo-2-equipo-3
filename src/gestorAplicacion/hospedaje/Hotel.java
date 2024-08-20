@@ -21,7 +21,7 @@ import gestorAplicacion.gestionHum.Cliente;
 import uiMain.Main;
 
 public class Hotel implements  Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4L;
     private boolean permiteSuscripcion = false;
     private String nombre;
     private Destino destino;

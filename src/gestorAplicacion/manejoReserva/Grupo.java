@@ -9,6 +9,7 @@ import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
 
 public class Grupo implements Serializable {
+    private static final long serialVersionUID = 8L;
     private static ArrayList<Grupo> grupos = new ArrayList<>();
     private ArrayList<Integer> fecha;
     private Guia guia;

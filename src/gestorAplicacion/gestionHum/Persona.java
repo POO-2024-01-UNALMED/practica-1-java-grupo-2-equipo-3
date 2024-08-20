@@ -8,8 +8,7 @@ import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 
 public abstract class Persona implements Serializable {
-    private static final long serialVersionUID = 1L; // Agregado para la compatibilidad de serialización
-
+    private static final long serialVersionUID = 4L; // Agregado para la compatibilidad de serialización
     protected int edad;
     protected String nombre;
     protected Destino destino;
@@ -42,11 +41,9 @@ public abstract class Persona implements Serializable {
      * @param idiomas Una cadena que representa los idiomas.
      */
     public void ingresarIdiomas(String idiomas) {
-    	 String[] listaString = idiomas.split(" ");
-    	    for (String numero : listaString) {
-    	        int indice = Integer.parseInt(numero);
-    	        this.idiomas.add(Idiomas.values()[indice - 1]);
-    	    }
+        for (String idioma : idiomas.split(",")) {
+            this.idiomas.add(Idiomas.valueOf(idioma.toUpperCase()));
+        }
     }
 
     // Métodos de acceso
