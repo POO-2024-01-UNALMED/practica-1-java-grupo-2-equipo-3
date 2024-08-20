@@ -16,7 +16,6 @@ import gestorAplicacion.actividades.Plan;
 
 public class Cliente extends Persona {
     private static final long serialVersionUID = 2L; // Agregado para la compatibilidad de serialización
-
     private ArrayList<Restaurante> restaurantes;
 	private ArrayList<Grupo> grupos;
 	private Suscripcion suscripcion;
@@ -34,7 +33,9 @@ public class Cliente extends Persona {
 		return nombre + "con" + edad + "años.";
 	}
     
-
+    public Cliente(String nombre){
+        this(nombre,18);
+    }
 
     public Cliente(String nombre, Destino destino, int edad) {
         super(nombre, destino, edad);
