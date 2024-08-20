@@ -7,6 +7,7 @@ import java.util.Arrays;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.gestionHum.Cliente;
+import gestorAplicacion.hospedaje.Hotel;
 
 
 public class Reserva implements Serializable {
@@ -451,6 +452,33 @@ public class Reserva implements Serializable {
     	for(ArrayList<Integer> fecha:fechas) {
     		for(Reserva reserva:reservasExistentes) {
         		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.idiomas.contains(idioma)) {cantidad+=reserva.clientes.size();}
+        	}
+    	}
+    	return cantidad;
+    }
+    public static int mostrarCantidadPersonasHotel(Destino destino, ArrayList<ArrayList<Integer>> fechas,Hotel hotel) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.clientes.get(0).getHotel().equals(hotel)) {cantidad+=reserva.clientes.size();}
+        	}
+    	}
+    	return cantidad;
+    }
+    public static int mostrarCantidadReservasHotel(Destino destino, ArrayList<ArrayList<Integer>> fechas,Hotel hotel) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.clientes.get(0).getHotel().equals(hotel)) {cantidad++;}
+        	}
+    	}
+    	return cantidad;
+    }
+    public static int mostrarCantidadReservasActividad(Destino destino, ArrayList<ArrayList<Integer>> fechas,Actividad actividad) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.plan.getActividades().contains(actividad)) {cantidad++;}
         	}
     	}
     	return cantidad;

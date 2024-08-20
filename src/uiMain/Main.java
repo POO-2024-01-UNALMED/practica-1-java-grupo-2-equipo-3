@@ -766,7 +766,7 @@ public class Main {
 						
 						boolean terminarCicloEscogerFecha=true;
 						while(terminarCicloEscogerFecha) {
-							imprimirTablaPlanearFecha((String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4));
+							imprimirTablaPlanearFecha((String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
 							F_filtros=elegirFiltros("Fecha",(String)F_filtros.get(8),(int)F_filtros.get(1),(TiposActividad)F_filtros.get(2),Reserva.convertirListaFechas(F_filtros.get(3)),(Idiomas)F_filtros.get(4),(Destino)F_filtros.get(5));
 							
 							//Verificar si se termina el ciclo
@@ -818,7 +818,7 @@ public class Main {
 						
 						boolean terminarCicloEscogerIdioma=true;
 						while(terminarCicloEscogerIdioma) {
-							imprimirTablaPlanearIdioma((String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4));
+							imprimirTablaPlanearIdioma((String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Destino)I_filtros.get(5));
 							I_filtros=elegirFiltros("Idioma",(String)I_filtros.get(8),(int)I_filtros.get(1),(TiposActividad)I_filtros.get(2),Reserva.convertirListaFechas(I_filtros.get(3)),(Idiomas)I_filtros.get(4),(Destino)I_filtros.get(5));
 							
 							//Verificar si se termina el ciclo
@@ -877,7 +877,7 @@ public class Main {
 									
 									boolean terminarCicloPlanearPaquete=true;
 									while(terminarCicloPlanearPaquete) {  
-										ArrayList<Object> P_listaPaquetesMostrados=imprimirTablaPlanearPlan((String)P_filtrosPaquete.get(8),P_opcPaqueteFecha,(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),false);
+										imprimirTablaPlanearPlan("Paquete",null,(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
 										P_filtrosPaquete=elegirFiltros("Paquete",(String)P_filtrosPaquete.get(8),(int)P_filtrosPaquete.get(1),(TiposActividad)P_filtrosPaquete.get(2),Reserva.convertirListaFechas(P_filtrosPaquete.get(3)),(Idiomas)P_filtrosPaquete.get(4),(Destino)P_filtrosPaquete.get(5));
 										
 										//Verificar si se cambio de plan
@@ -926,7 +926,7 @@ public class Main {
 									while(P_terminarCicloFor) {
 										for(ArrayList<Integer> fecha:reservaFicticia.getFechas()) {
 											while(P_terminarCicloElegirActividad) {  
-												imprimirTablaPlanearPlan((String)P_filtrosPlan.get(8),P_opcPaqueteFecha,(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),false);
+												ArrayList<Actividad> actividades=imprimirTablaPlanearPlan("Plan",fecha,(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
 												P_filtrosPlan=elegirFiltros("Plan",(String)P_filtrosPlan.get(8),(int)P_filtrosPlan.get(1),(TiposActividad)P_filtrosPlan.get(2),Reserva.convertirListaFechas(P_filtrosPlan.get(3)),(Idiomas)P_filtrosPlan.get(4),(Destino)P_filtrosPlan.get(5));
 												
 												//Verificar si se cambio de plan
@@ -946,11 +946,10 @@ public class Main {
 													if(verificarCambioIdioma(reservaFicticia, (Idiomas)P_filtrosPlan.get(4),true)) {P_terminarCicloFor=false;}
 													
 													//Ingresar actividad al plan
-													ArrayList<Actividad> P_listaActividades=null;
-													ArrayList<String> P_actividadesNombre=new ArrayList<>();
-													for(Actividad actividad:P_listaActividades) {P_actividadesNombre.add(actividad.getNombre());}
+													ArrayList<String> P_actividadesNombre=Actividad.mostrarNombres(actividades);
+													for(Actividad actividad:actividades) {P_actividadesNombre.add(actividad.getNombre());}
 													String P_opcActividad=ingresarOpcion("Elija una actividad: ", 0, P_actividadesNombre);
-													P_plan.añadirActividad(P_listaActividades.get(Integer.parseInt(P_opcActividad)-1));
+													P_plan.añadirActividad(actividades.get(Integer.parseInt(P_opcActividad)-1));
 													P_terminarCicloElegirActividad=false;
 												}	
 												//Verificar si se borraron los filtros
@@ -960,8 +959,11 @@ public class Main {
 											}
 										}
 										//Mostrar plan final
+										System.out.println(Plan.stringPaqueteTuristico(P_plan));
 										String P_verificarPlanFinal=ingresarOpcion("Desea quedarse con ese plan o volver a empezar?", 0, new ArrayList<String>(Arrays.asList("Continuar con este plan","Elegir otro plan")));
-										if(P_verificarPlanFinal.equals("1")) {P_terminarCicloPlanearPlan=false;}
+										if(P_verificarPlanFinal.equals("1")) {
+											reservaFicticia.setPlan(P_plan);
+											P_terminarCicloPlanearPlan=false;}
 									}
 									
 								}
@@ -986,7 +988,7 @@ public class Main {
 							
 							boolean terminarCicloEscogerHotel=true;
 							while(terminarCicloEscogerHotel) {
-								imprimirTablaPlanearHotel((String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4));
+								imprimirTablaPlanearHotel((String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5));
 								H_filtros=elegirFiltros("Idioma",(String)H_filtros.get(8),(int)H_filtros.get(1),(TiposActividad)H_filtros.get(2),Reserva.convertirListaFechas(H_filtros.get(3)),(Idiomas)H_filtros.get(4),(Destino)H_filtros.get(5));
 								
 								//Verificar si se termino el ciclo
@@ -1004,7 +1006,7 @@ public class Main {
 									verificarCantidadPersonas(reservaFicticia, (int)H_filtros.get(1));
 									
 									//Ingresar hotel
-									H_hotelesDisponibles=null;
+									H_hotelesDisponibles=Hotel.mostrarHotelesDisponibles(reservaFicticia);
 									H_opcHotel=ingresarOpcion("Elija un hotel: ",0,H_hotelesDisponibles);
 									H_hotel=Hotel.buscarHotelLista(reservaFicticia, H_opcHotel);
 									for(Cliente cliente:reservaFicticia.getClientes()) {cliente.setHotel(H_hotel);}
@@ -1472,13 +1474,12 @@ public class Main {
 		
 		//IMPRIMIR CUERPO
 		for(Destino destino:Destino.getDestinos()) {
+			System.out.println(D_lineaTabla);
 			ArrayList<Object> tabla=destino.mostrarPlaneacionDestino(opcBusqueda, clasificacion, tipo, fecha, idioma);
 			if(!opcBusqueda.equals("2")) {
-				System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5),tabla.get(6),tabla.get(7));	
+				System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",Reserva.convertirTipo(tabla.get(0)).get(0),Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0),Reserva.convertirTipo(tabla.get(6)).get(0),Reserva.convertirTipo(tabla.get(7)).get(0));	
 			}else {
 				for(int i=0;i<2;i++) {
-					System.out.println(D_lineaTabla);
-					
 					String segundaLinea1=Reserva.convertirTipo(tabla.get(0)).get(i)==null?"":Reserva.convertirTipo(tabla.get(0)).get(i);
 					String segundaLinea2=Reserva.convertirTipo(tabla.get(7)).get(i)==null?"":Reserva.convertirTipo(tabla.get(7)).get(i);
 					System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",segundaLinea1,Reserva.convertirTipo(tabla.get(1)).get(i),Reserva.convertirTipo(tabla.get(2)).get(i),Reserva.convertirTipo(tabla.get(3)).get(i),Reserva.convertirTipo(tabla.get(4)).get(i),Reserva.convertirTipo(tabla.get(5)).get(i),Reserva.convertirTipo(tabla.get(6)).get(i),segundaLinea2);	
@@ -1525,7 +1526,7 @@ public class Main {
 				
 				ArrayList<ArrayList<Integer>> fechasTabla=new ArrayList<>(Arrays.asList(fecha));
 				ArrayList<Object> tabla=destino.mostrarPlaneacionFecha(opcBusqueda, clasificacion, tipo, fechasTabla, idioma);
-				System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5));
+				System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",Reserva.convertirTipo(tabla.get(0)).get(0),Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0));
 			}
 		}else {
 			for(int i=1;i<=12;i++) {
@@ -1534,7 +1535,7 @@ public class Main {
 				ArrayList<ArrayList<Integer>> fechasTabla=Reserva.mostrarListaFechas("1", año);
 				
 				ArrayList<Object> tabla=destino.mostrarPlaneacionFecha(opcBusqueda, clasificacion, tipo, fechasTabla, idioma);
-				System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5));
+				System.out.printf("|%-15s|%-20s|%-20s|%-20s|%-20s|%-15s|%n",Reserva.convertirTipo(tabla.get(0)).get(0),Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0));
 			
 			}
 		}
@@ -1574,9 +1575,13 @@ public class Main {
 			System.out.println(D_lineaTabla);
 			ArrayList<Object> tabla=destino.mostrarPlaneacionIdioma(opcBusqueda, clasificacion, tipo, fecha, idioma);
 			if(opcBusqueda.equals("1")) {
-				System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5),tabla.get(6),tabla.get(7));	
+				for(int i=0;i<2;i++) {
+					String segundaLinea1=Reserva.convertirTipo(tabla.get(0)).get(i)==null?"":Reserva.convertirTipo(tabla.get(0)).get(i);
+					String segundaLinea2=Reserva.convertirTipo(tabla.get(7)).get(i)==null?"":Reserva.convertirTipo(tabla.get(7)).get(i);
+					System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n",segundaLinea1,Reserva.convertirTipo(tabla.get(1)).get(i),Reserva.convertirTipo(tabla.get(2)).get(i),Reserva.convertirTipo(tabla.get(3)).get(i),Reserva.convertirTipo(tabla.get(4)).get(i),Reserva.convertirTipo(tabla.get(5)).get(i),Reserva.convertirTipo(tabla.get(6)).get(i),segundaLinea2);	
+				}
 			}else {
-				System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n",tabla.get(0),tabla.get(1),tabla.get(2),tabla.get(3),tabla.get(4),tabla.get(5),tabla.get(6));
+				System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n",Reserva.convertirTipo(tabla.get(0)).get(0),Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0),Reserva.convertirTipo(tabla.get(6)).get(0));
 			}
 		}
 		System.out.println(D_lineaTablaI);
@@ -1589,7 +1594,7 @@ public class Main {
     	String PrimeraLinea1 = opcBusqueda.equals("1")? "Actividades disponibles":opcBusqueda.equals("2")?"Todas las opciones disponibles":"Restaurantes disponibles";
     	System.out.println(D_lineaTablaI);
     	System.out.printf("|%-43s%-49s%-35s|%n","","Destino:"+destino.getNombre(),"");
-    	System.out.printf("|%-43s%-49s%-33s|%n","Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0)),"","Cantidad de dias: "+fecha.size());
+    	System.out.printf("|%-43s%-49s%-35s|%n","Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0)),"","Cantidad de dias: "+fecha.size());
 		System.out.printf("|%-127s|%n","");
 		System.out.printf("|%-54s%-73s|%n","","HOTEL","");
 		System.out.printf("|%-43s%-49s%-35s|%n","",PrimeraLinea1,"");
@@ -1598,26 +1603,37 @@ public class Main {
 		
 		//SEGUNDA PARTE
 		if(opcBusqueda.equals("1")) {
-			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
-			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","Hotel:","culturales:","familiares:","ecologicas:","extremas:","acuaticas:","deportivas:","actividades:");
-		}else if(opcBusqueda.equals("2")){
-			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","","Disponibilidad:","Promedio de precios","Cantidad de","Cantidad de","Reservas en las","");
-			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","Hotel:","de habitaciones:","Habitaciones:","actividades:","restaurantes:","mismas fechas:","Temporada:");
-		}else {
 			System.out.printf("|%-15s|%-14s|%-25s|%-20s|%-17s|%-20s|%-10s|%n","","Cantidad de","Lista de","Promedio de precios","Disponibilidad","Promedio de precios","");
 			System.out.printf("|%-15s|%-14s|%-25s|%-20s|%-17s|%-20s|%-10s|%n","Hotel:","restaurantes:","restaurantes:","de restaurantes:","de habitaciones:","de habitaciones:","Temporada:");
+		}else {
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","","Disponibilidad:","Promedio de precios","Cantidad de","Cantidad de","Reservas en las","");
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","Hotel:","de habitaciones:","Habitaciones:","personas:","restaurantes:","mismas fechas:","Temporada:");
+	
 		}
 		System.out.println(D_lineaTabla);
-		System.out.println(D_lineaTabla);
+		//IMPRIMIR CUERPO
+		for(Hotel hotel:Hotel.mostrarHotelesFiltrados(destino)) {
+			System.out.println(D_lineaTabla);
+			ArrayList<Object> tabla=hotel.mostrarPlaneacionHotel(opcBusqueda, clasificacion, tipo, fecha, idioma);
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n",Reserva.convertirTipo(tabla.get(0)).get(0),Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0),Reserva.convertirTipo(tabla.get(6)).get(0));
+			
+			if(opcBusqueda.equals("1")) {
+				int Max=Reserva.convertirTipo(tabla.get(2)).size();
+				for(int i=1;i<=Max;i++) {
+					System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","","",Reserva.convertirTipo(tabla.get(2)).get(i),"","","","");	
+				}
+			}
+		}
+		System.out.println(D_lineaTablaI);
 	}
     
-    public static ArrayList<Object> imprimirTablaPlanearPlan(String opcPlan,ArrayList<Integer> dia,String opcBusqueda,String opcFecha,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
+    public static ArrayList<Actividad> imprimirTablaPlanearPlan(String opcPlan,ArrayList<Integer> dia,String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
     	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
     	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
     	
     	//PRIMERA PARTE
-    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Clasificacion: "+clasificacion:"Todas las opciones disponibles";
-        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("2")?"Rango de edad:"+Actividad.mostrarClasificacion(clasificacion):"" ;
+    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():"Todas las opciones disponibles";
+        String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():"" ;
         String Titulo1=opcPlan.equals("Paquete")?"ELEGIR PAQUETE":"PLAN PERSONALIZADO";
         System.out.println(D_lineaTablaI);
     	System.out.printf("|%-43s%-49s%-35s|%n","Destino:"+destino.getNombre(),"","Idioma: "+idioma.getNombre());
@@ -1634,30 +1650,45 @@ public class Main {
 			if(opcBusqueda.equals("1")) {
 				System.out.printf("|%-20s|%-18s|%-17s|%-32s|%-18s|%-17s|%n","","Cupos","Cantidad de","","","");
 				System.out.printf("|%-20s|%-18s|%-17s|%-32s|%-18s|%-17s|%n","Paquete:","restantes:","actividades:","Lista de actividades:","Clasificacion:","Precio:");	
-			}else if(opcBusqueda.equals("2")) {
-				System.out.printf("|%-20s|%-17s|%-32s|%-18s|%-18s|%-17s|%n","","Cupos","","Tipo de actividad","","");
-				System.out.printf("|%-20s|%-17s|%-32s|%-18s|%-18s|%-17s|%n","Paquete:","restantes:","Lista de actividades:","predominante:","Dificultad:","Precio:");
 			}else {
 				System.out.printf("|%-15s|%-15s|%-13s|%-15s|%-15s|%-17s|%-13s|%-17s|%n","","Cantidad de:","Cupos","","Cantidad de","Tipo de actividad","","Fechas de inicio");
 				System.out.printf("|%-15s|%-15s|%-13s|%-15s|%-15s|%-17s|%-13s|%-17s|%n","Paquete:","dias:","restantes:","Clasificacion:","Actividades:","predominante:","Dificultad:","disponibles:");
 			}
 		}else {
-			if(opcBusqueda.equals("1")) {
-				System.out.printf("|%-15s|%-13s|%-13s|%-21s|%-15s|%-15s|%-13s|%-15s|%n","","Capacidad","Guias","Cantidad de","","Idioma","Cupos","");
-				System.out.printf("|%-15s|%-13s|%-13s|%-21s|%-15s|%-15s|%-13s|%-15s|%n","Actividad:","del grupo:","disponibles:","reservas en ese dia:","Clasificacion:","predominante:","restantes:","Precio:");
-			}else if(opcBusqueda.equals("2")) {
-				System.out.printf("|%-17s|%-17s|%-19s|%-17s|%-17s|%-17s|%-17s|%n","","Capacidad","Tipo de","","Idioma","Cupos","");
-				System.out.printf("|%-17s|%-17s|%-19s|%-17s|%-17s|%-17s|%-17s|%n","Actividad:","del grupo:","actividad:","Dificultad:","predominante:","restantes:","Precio:");
-			}else {
-				System.out.printf("|%-15s|%-11s|%-15s|%-21s|%-15s|%-13s|%-15s|%-15s|%n","","Cupos","","Cantidad de","Tipo de","","Idioma","");
-				System.out.printf("|%-15s|%-11s|%-15s|%-21s|%-15s|%-13s|%-15s|%-15s|%n","Actividad:","restantes:","Clasificacion:","reservas en ese dia:","actividad:","Dificultad","predominante:","Precio:");
-			}
+			System.out.printf("|%-15s|%-11s|%-15s|%-21s|%-15s|%-13s|%-15s|%-15s|%n","","Capacidad","","Cantidad de","Tipo de","","Idioma","");
+			System.out.printf("|%-15s|%-11s|%-15s|%-21s|%-15s|%-13s|%-15s|%-15s|%n","Actividad:","del grupo:","Clasificacion:","reservas en ese dia:","actividad:","Dificultad:","predominante:","Precio:");
+			
 		}
 		System.out.println(D_lineaTabla);
-		System.out.println(D_lineaTabla);
 		
-	
-    	return null;
+		//IMPRIMIR CUERPO
+		ArrayList<Actividad> actividadesFiltradas=new ArrayList<>();
+		if(opcPlan.equals("Paquete")) {
+			int numero=1;
+			for(Plan paquete:Plan.mostrarPaquetesDestino(destino)) {
+				System.out.println(D_lineaTabla);
+				ArrayList<Object> tabla=paquete.mostrarPlaneacionPlan(opcBusqueda, clasificacion, tipo, fecha, idioma);
+				System.out.printf("|%-20s|%-18s|%-17s|%-32s|%-18s|%-17s|%n",numero++,Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0));
+				if(opcBusqueda.equals("1")) {
+					int Max=Reserva.convertirTipo(tabla.get(3)).size();
+					for(int i=1;i<=Max;i++) {
+						System.out.printf("|%-15s|%-15s|%-20s|%-13s|%-15s|%-15s|%-15s|%-12s|%n","","","",Reserva.convertirTipo(tabla.get(3)).get(i),"","","","");	
+					}
+				}
+			}
+			
+		}else {
+	    	 for(Actividad actividad:destino.getActividades()) {
+	 			if(actividad.verificarFiltrosActividad(clasificacion, tipo, fecha, idioma)) {actividadesFiltradas.add(actividad);}
+	 		 }
+			for(Actividad actividad:actividadesFiltradas) {
+				System.out.println(D_lineaTabla);
+				ArrayList<Object> tabla=actividad.mostrarPlaneacionActividades(opcBusqueda, clasificacion, tipo, fecha, idioma);
+				System.out.printf("|%-15s|%-11s|%-15s|%-21s|%-15s|%-13s|%-15s|%-15s|%n",Reserva.convertirTipo(tabla.get(0)).get(0),Reserva.convertirTipo(tabla.get(1)).get(0),Reserva.convertirTipo(tabla.get(2)).get(0),Reserva.convertirTipo(tabla.get(3)).get(0),Reserva.convertirTipo(tabla.get(4)).get(0),Reserva.convertirTipo(tabla.get(5)).get(0),Reserva.convertirTipo(tabla.get(6)).get(0),Reserva.convertirTipo(tabla.get(7)).get(0));
+				
+			}
+		}System.out.println(D_lineaTablaI);
+		return actividadesFiltradas;
 	}
 
 	public static ArrayList<Object> elegirFiltros(String busqueda,String opcPrimerFiltro,int clasificacion, TiposActividad tipo, ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
@@ -1806,16 +1837,16 @@ public class Main {
     	ArrayList<String> menu=new ArrayList<>();
     	
     	//CREAR MENU DE OPCIONES SEGUN LOS PARAMETROS INGRESADOS
-    	menu.add(0,busqueda.equals("Hotel")?"Segun sus actividades":"Segun un tipo de actividad");//Buscar segun tipo de actividad
-    	menu.add(1,busqueda.equals("Idioma")||busqueda.equals("Hotel")?"Segun disponibilidad":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Segun una clasificacion de edad":"Segun un idioma especifico");//Buscar segun idioma o disponibilidad en idioma o clasificacion en plan
-    	if(!busqueda.equals("Idioma")) {menu.add(2,busqueda.equals("Destino")?"Segun disponibilidad en una fecha":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Ver todas las opciones disponibles":busqueda.equals("Hotel")?"Segun sus restaurantes":"Segun un mes");}//Buscar segun fecha o mes en fecha o todas las opciones en plan o restaurantes en hotel
+    	menu.add(0,!busqueda.equals("Hotel")?"Segun Tipo de actividad":"Segun sus restaurantes");//Buscar segun tipo de actividad
+    	menu.add(1,busqueda.equals("Idioma")||busqueda.equals("Hotel")?"Segun disponibilidad":(busqueda.equals("Paquete")||busqueda.equals("Plan"))?"Ver todas las opciones disponibles":"Segun un idioma especifico");//Buscar segun idioma o disponibilidad en idioma o clasificacion en plan
+    	if(!busqueda.equals("Idioma")) {menu.add(2,busqueda.equals("Destino")?"Segun disponibilidad en una fecha":"Segun un mes");}//Buscar segun fecha o mes en fecha o todas las opciones en plan o restaurantes en hotel
     	if(busqueda.equals("Fecha")) {menu.add(3,"Segun un año");}//buscar segun año en fecha
     	
     	String pregunta=busqueda.equals("Paquete")?"¿Como desea buscar su paquete?":busqueda.equals("Plan")?"¿Como desea buscar sus actividades?":"¿Como desea buscar?";
     	String opcBusqueda=ingresarOpcion(pregunta,0,menu);
     	
     	//AÑADIR PARAMETROS AL FILTRO
-    	int clasificacion=(opcBusqueda.equals("2")&&(busqueda.equals("Paquete")||busqueda.equals("Plan")))?ingresarClasificacion():0;
+    	int clasificacion=0;
     	TiposActividad tipoActividad=opcBusqueda.equals("1")&&!busqueda.equals("Hotel")?ingresarTipoActividad():null;
     	Idiomas idioma=opcBusqueda.equals("2")&&(opcBusqueda.equals("Fecha")||opcBusqueda.equals("Destino"))?ingresarIdioma():opcBusqueda.equals("Idioma")?null:reserva.getIdiomas().get(0);
     	Destino destino=busqueda.equals("Destino")?null:reserva.getDestino();

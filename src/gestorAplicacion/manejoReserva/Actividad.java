@@ -205,6 +205,20 @@ public class Actividad implements Registrable, Serializable {
       	}return false;
     }
     /**
+     * Muestra un lista de los nombres de una lista de actividades dada
+     *
+     * @param actividadesLista la ll+ista de actividades dadas
+     * @return nombres un ArrayList<String> de los nombres
+     */
+    public static ArrayList<String> mostrarNombres(ArrayList<Actividad> actividadesLista){
+    	 ArrayList<String> nombres=new ArrayList<>();
+    	 if(actividadesLista==null||actividadesLista.isEmpty()) {return null;}
+    	 for(Actividad actividad:actividadesLista) {
+    		 nombres.add(actividad.nombre);
+    	 }
+    	 return nombres;
+    }
+    /**
      * Muestra si la actividad esta disponible en ese dia
      *
      * @param fecha fecha a verificar
@@ -224,6 +238,67 @@ public class Actividad implements Registrable, Serializable {
                 }
             }
         return false;
+    }
+    /**
+     * Genera una tabla con información de actividades basada en filtros como clasificación, tipo de actividad, fecha e idioma.
+     * El contenido de la tabla depende de la opción de búsqueda proporcionada.
+     *
+     * @param opcBusqueda  Opción de búsqueda que define el contenido de la tabla. Valores posibles: "1" o "2".
+     * @param clasificacion Clasificación a filtrar para las actividades.
+     * @param tipo          Tipo de actividad a filtrar.
+     * @param fecha         Lista de fechas para filtrar las actividades.
+     * @param idioma        Idioma a filtrar.
+     *
+     * @return              Una tabla (lista de objetos) con la información solicitada según los filtros aplicados.
+     */
+    public ArrayList<Object> mostrarPlaneacionActividades(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
+   	 ArrayList<Object> tabla=new ArrayList<Object>();
+   	 
+   	 ArrayList<String> posicion1=new ArrayList<>();//"1"=actividades familiares;"2"=disponibilidad de actividades
+   	 ArrayList<String> posicion2=new ArrayList<>();;//"1"=actividades ecologicas;"2"=promedio de precios actividades
+   	 ArrayList<String> posicion3=new ArrayList<>();;//"1"=actividades ecologicas;"2"=cantidad de personas
+   	 ArrayList<String> posicion4=new ArrayList<>();;//"1"=actividades extremas;"2"=cantidad de guias
+   	 ArrayList<String> posicion5=new ArrayList<>();;//"1"=actividades acuaticas;"2"= clasificacion mas solicitada
+   	 ArrayList<String> posicion6=new ArrayList<>();;//"1"=actividades deportivas;"2"=oferta
+   	 ArrayList<String> posicion7=new ArrayList<>();;//"1"=total de actividades;"2"=[];
+   	 
+   	 	 posicion1.add(Integer.toString(capacidad));
+		 posicion2.add(mostrarClasificacion(this.clasificacion));
+		 posicion3.add(Integer.toString(Reserva.mostrarCantidadReservasActividad(destino,fecha,this)));
+		 posicion4.add(this.tipo.get(0).getNombre());
+		 posicion5.add(this.tipo.get(0).getDificultad());
+		 posicion6.add(buscarIdiomaComun().getNombre());
+		 posicion7.add(precio+"$");
+		 
+   	    tabla.add(0, idioma.getNombre()); //0.nombre del idioma
+        tabla.add(1, posicion1); // 1."1"=actividades familiares;"2"=disponibilidad de actividades
+        tabla.add(2, posicion2); // 2."1"=actividades ecologicas;"2"=promedio de precios actividades
+        tabla.add(3, posicion3); // 3."1"=actividades ecologicas;"2"=cantidad de personas
+        tabla.add(4, posicion4); // 4."1"=actividades extremas;"2"=cantidad de guias
+        tabla.add(5, posicion5); // 5."1"=actividades acuaticas;"2"= clasificacion mas solicitada
+        tabla.add(6, posicion6); // 6."1"=actividades deportivas;"2"=oferta
+        tabla.add(7, posicion7); // 7."1"=total de actividades;"2"=[];
+      
+   	return tabla; 
+   }/**
+     * Busca el idioma más común entre los guías disponibles.
+     * 
+     * @return  El idioma más común entre los guías.Si no hay guías o idiomas comunes, devolverá null.
+     */
+    public Idiomas buscarIdiomaComun() {
+   	 int cantidadMayor=0;
+   	 Idiomas idiomaComun=null;
+   	 for(Idiomas idioma:Idiomas.values()) {
+   		 int cantidadIdioma=0;
+   		 for(Guia guia:guias) {
+   			if(guia.getIdiomas().contains(idioma)) {cantidadIdioma++;}
+   		 }
+   		 if(cantidadIdioma>cantidadMayor) {
+   			 cantidadMayor=cantidadIdioma;
+   			 idiomaComun=idioma;
+   		 }
+   	 }
+   	 return idiomaComun;
     }
     /**
      * Calcula el promedio de los precios de una lista de actividades.

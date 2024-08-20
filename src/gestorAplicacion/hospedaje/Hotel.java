@@ -13,6 +13,7 @@ import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
@@ -37,7 +38,56 @@ public class Hotel implements  Serializable{
         this.grupos = new ArrayList<>(); // Inicializar la lista de grupos
         this.restaurantes = new ArrayList<>();
     }
-
+    public ArrayList<Object> mostrarPlaneacionHotel(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fechas,Idiomas idioma){
+   	 ArrayList<Object> tabla=new ArrayList<Object>();
+   	 
+   	 ArrayList<String> posicion1=new ArrayList<>();//"1"=actividades familiares;"2"=disponibilidad de actividades
+   	 ArrayList<String> posicion2=new ArrayList<>();;//"1"=actividades ecologicas;"2"=promedio de precios actividades
+   	 ArrayList<String> posicion3=new ArrayList<>();;//"1"=actividades ecologicas;"2"=cantidad de personas
+   	 ArrayList<String> posicion4=new ArrayList<>();;//"1"=actividades extremas;"2"=cantidad de guias
+   	 ArrayList<String> posicion5=new ArrayList<>();;//"1"=actividades acuaticas;"2"= clasificacion mas solicitada
+   	 ArrayList<String> posicion6=new ArrayList<>();;//"1"=actividades deportivas;"2"=oferta
+   	 ArrayList<String> posicion7=new ArrayList<>();;//"1"=total de actividades;"2"=[];
+   	 
+   	 
+   	ArrayList<Hotel> hotelesFiltrados=new ArrayList<>();
+	 for (ArrayList<Integer> fecha:fechas) {
+		 hotelesFiltrados.addAll(Hotel.mostrarHotelesFiltrados(destino, fecha));
+	 }
+   	 if(opcBusqueda.equals("1")) {
+   		 posicion1.add(Integer.toString(restaurantes.size()));
+  		 posicion2.addAll(Restaurante.mostrarNombres(restaurantes));
+  		 posicion3.add(Restaurante.promedioPrecio(restaurantes)+"");
+  		 posicion4.add(Integer.toString(hotelesFiltrados.size()));
+  		 posicion5.add(promedioPreciosHoteles(hotelesFiltrados)+"");
+  		 posicion6.add(definirOferta(hotelesFiltrados));
+   	 }else {
+   		 posicion1.add(Integer.toString(hotelesFiltrados.size()));
+   		 posicion2.add(promedioPreciosHoteles(hotelesFiltrados)+"");
+   		 posicion3.add(Integer.toString(Reserva.mostrarCantidadPersonasHotel(destino, fechas, this)));
+   		 posicion4.add(Integer.toString(restaurantes.size()));
+   		 posicion5.add(Integer.toString(Reserva.mostrarCantidadReservasHotel(destino, fechas, this)));
+   		 posicion6.add(definirOferta(hotelesFiltrados));
+   	 }
+   	 
+   	 tabla.add(0, nombre); //0.nombre del hotel
+        tabla.add(1, posicion1); // 1."1"=actividades familiares;"2"=disponibilidad de actividades
+        tabla.add(2, posicion2); // 2."1"=actividades ecologicas;"2"=promedio de precios actividades
+        tabla.add(3, posicion3); // 3."1"=actividades ecologicas;"2"=cantidad de personas
+        tabla.add(4, posicion4); // 4."1"=actividades extremas;"2"=cantidad de guias
+        tabla.add(5, posicion5); // 5."1"=actividades acuaticas;"2"= clasificacion mas solicitada
+        tabla.add(6, posicion6); // 6."1"=actividades deportivas;"2"=oferta
+        tabla.add(7, posicion7); // 7."1"=total de actividades;"2"=[];
+      
+   	return tabla; 
+   }
+    public String definirOferta(ArrayList<Hotel> hotelesLista) {
+   	 String oferta=null;
+   	 if(hotelesLista.size()>cantidadHotelesDestino(destino)*0.75) {oferta="Alta";}
+   	 else if(hotelesLista.size()>cantidadHotelesDestino(destino)*0.45) {oferta="Normal";}
+   	 else {oferta="Baja";}
+   	 return oferta;
+    }
     /**
      * Muestra una lista de hoteles disponibles según una reserva específica.
      *
@@ -76,6 +126,13 @@ public class Hotel implements  Serializable{
     	}
     	return hotelesDisponibles;
     }
+    public static ArrayList<Hotel> mostrarHotelesFiltrados(Destino destino){
+   	 ArrayList<Hotel> hotelesDisponibles = new ArrayList<>();
+   	for(Hotel hotel:cargarHoteles()) {
+   		if(hotel.getDestino().equals(destino)) {hotelesDisponibles.add(hotel);}
+   	}
+   	return hotelesDisponibles;
+   }
     /**
      * Busca el hotel elegido de la ista de hoteles disponibles según una reserva específica.
      *
