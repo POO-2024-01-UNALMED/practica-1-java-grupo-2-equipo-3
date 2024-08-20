@@ -213,6 +213,13 @@ public class Plan implements Serializable {
         asignarPrecio();
     }
 
+    /**
+     * Escoge las actividades del día para un paquete
+     *
+     * @param actividadesPosibles obtenidas en actividadesDisponiblesDia
+     * @param actividadEscogida  obtenidas en mostrarNombreActividad después de que el usuario las selecciona
+     * @param fecha
+     */
     public void escogerActividadesDiaPaquete(ArrayList<Actividad> actividadesPosibles, ArrayList<String> actividadEscogida, ArrayList<Integer> fecha) {
         for (String nombre : actividadEscogida) {
             for (Actividad actividad : actividadesPosibles) {

@@ -50,6 +50,10 @@ public class Cliente extends Persona {
     	this.setEdad(18);
     }
 
+    /**
+     * Método que identifica si el cliente es mayor de edad
+     * @return boolean
+     */
     public boolean mayorDeEdad() {
         return this.getEdad() >= 18;
     }

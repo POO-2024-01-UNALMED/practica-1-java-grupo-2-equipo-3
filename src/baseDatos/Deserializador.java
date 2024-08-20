@@ -107,6 +107,7 @@ public class Deserializador {
                         }
                     }
                 }
+            }
 
                 f.close();
                 o.close();
@@ -119,5 +120,6 @@ public class Deserializador {
                 System.out.println("Clase no encontrada");
             }
         }
+    }
 
 }
