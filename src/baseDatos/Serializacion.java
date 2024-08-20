@@ -1,21 +1,33 @@
+package baseDatos;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
-import gestorAplicacion.manejoReserva.ContenedorDestinos;
+import gestorAplicacion.manejoReserva.Reserva;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Actividad;
+import gestorAplicacion.manejoReserva.Grupo;
+import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
+import gestorAplicacion.manejoReserva.Suscripcion;
 
 public class Serializacion {
 
     public static void main(String[] args) throws IOException {
 
-        // Crear contenedor de destinos
-        ContenedorDestinos contenedor = new ContenedorDestinos();
+        // Crear ArrayList de todo lo que quiero guardar
+        ArrayList<Destino> destinos = new ArrayList<>();
+        ArrayList<Actividad> actividades = new ArrayList<>();
+        ArrayList<Guia> guias = new ArrayList<>();
+        ArrayList<Reserva> reservas = new ArrayList<>();
+        ArrayList<Grupo> grupos = new ArrayList<>();
+        ArrayList<Plan> planes = new ArrayList<>();
+
 
         // Crear destinos
         Destino cartagena = new Destino("Cartagena");
@@ -66,14 +78,4 @@ public class Serializacion {
         cartagena.getGuias().add(guia1);
         cartagena.getGuias().add(guia2);
         bogota.getGuias().add(guia3);
-
-        // Serializar el contenedor de destinos
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("contenedorDestinos.txt"))) {
-            out.writeObject(contenedor);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-}

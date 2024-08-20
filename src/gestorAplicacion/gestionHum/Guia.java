@@ -326,7 +326,7 @@ public class Guia extends Persona implements Registrable, Serializable {
         return tipoActividades;
     }
 
-    void setTipoActividades(ArrayList<TiposActividad> tipoActividades) {
+    public void setTipoActividades(ArrayList<TiposActividad> tipoActividades) {
         this.tipoActividades = tipoActividades;
     }
 
@@ -335,11 +335,10 @@ public class Guia extends Persona implements Registrable, Serializable {
         return precio;
     }
 
-    void setPrecio(int precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 
-    
     public ArrayList<ArrayList<Integer>> getDiasOcupados() {
         return diasOcupados;
     }
@@ -352,7 +351,7 @@ public class Guia extends Persona implements Registrable, Serializable {
         return diasNoDisponibles;
     }
 
-    void setDiasNoDisponibles(ArrayList<ArrayList<Integer>> diasNoDisponibles) {
+    public void setDiasNoDisponibles(ArrayList<ArrayList<Integer>> diasNoDisponibles) {
         this.diasNoDisponibles = diasNoDisponibles;
     }
 
@@ -360,7 +359,7 @@ public class Guia extends Persona implements Registrable, Serializable {
         return guias;
     }
 
-    static void setGuias(ArrayList<Guia> guias) {
+    public static void setGuias(ArrayList<Guia> guias) {
         Guia.guias = guias;
     }
 }

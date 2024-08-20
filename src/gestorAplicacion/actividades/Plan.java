@@ -306,12 +306,12 @@ public class Plan implements Serializable {
 
     ////////////////////////////Métodos de acceso////////////////////////////
 
-    public ArrayList<Plan> getPaquetes() {
+    public static ArrayList<Plan> getPaquetes() {
         return paquetes;
     }
 
-    public void setPaquetes(ArrayList<Plan> paquetes) {
-        this.paquetes = paquetes;
+    public static void setPaquetes(ArrayList<Plan> paquetes1) {
+        paquetes = paquetes1;
     }
 
     public String getTipo() {

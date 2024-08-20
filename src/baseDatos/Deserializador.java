@@ -12,6 +12,7 @@ import gestorAplicacion.manejoReserva.Reserva;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Grupo;
+import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
@@ -112,4 +113,48 @@ public class Deserializador {
                 System.out.println("Clase no encontrada");
             }
         }
+
+    public static void deserializarGuias() {
+        try {
+            FileInputStream f = new FileInputStream(new File(path.getAbsolutePath() + "\\src\\baseDatos\\temp\\guias.txt"));
+            ObjectInputStream o = new ObjectInputStream(f);
+
+            ArrayList<Guia> guias = (ArrayList<Guia>) o.readObject();
+
+            Guia.setGuias(guias);
+
+            f.close();
+            o.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado");
+        } catch (IOException e) {
+            System.out.println("Error inicializando flujo de entrada");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Clase no encontrada");
+        }
     }
+
+    public static void deserializarPlanes() {
+        try {
+            FileInputStream f = new FileInputStream(new File(path.getAbsolutePath() + "\\src\\baseDatos\\temp\\planes.txt"));
+            ObjectInputStream o = new ObjectInputStream(f);
+
+            ArrayList<Plan> planes = (ArrayList<Plan>) o.readObject();
+
+            Plan.setPaquetes(planes);
+
+            f.close();
+            o.close();
+
+            } catch (FileNotFoundException e) {
+                System.out.println("Archivo no encontrado");
+            } catch (IOException e) {
+                System.out.println("Error inicializando flujo de entrada");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Clase no encontrada");
+            }
+        }
+    }
+
+

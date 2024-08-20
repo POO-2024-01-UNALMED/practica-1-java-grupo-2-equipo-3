@@ -12,6 +12,7 @@ import gestorAplicacion.manejoReserva.Reserva;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Grupo;
+import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Guia;
@@ -30,11 +31,9 @@ public class Serializador {
 
             o.close();
             f.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error inicializando flujo de salida");
         }
     }
@@ -47,11 +46,9 @@ public class Serializador {
 
             o.close();
             f.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error inicializando flujo de salida");
         }
     }
@@ -64,11 +61,9 @@ public class Serializador {
 
             o.close();
             f.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error inicializando flujo de salida");
         }
     }
@@ -81,11 +76,9 @@ public class Serializador {
 
             o.close();
             f.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error inicializando flujo de salida");
         }
     }
@@ -104,3 +97,19 @@ public class Serializador {
             System.out.println("Error inicializando flujo de salida");
         }
     }
+
+    public static void serializarPlanes(ArrayList<Plan> planes) {
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath() + "\\src\\baseDatos\\temp\\planes.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+            o.writeObject(planes);
+
+            o.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado");
+        } catch (IOException e) {
+            System.out.println("Error inicializando flujo de salida");
+        }
+    }
+}
