@@ -7,8 +7,6 @@ import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
-import gestorAplicacion.hospedaje.Hotel;            //Grupo funciona como las habitaciones de un hotel
-import gestorAplicacion.hospedaje.Restaurante;      //Grupo funciona como las mesas existentes de un restaurante
 
 public class Grupo implements Serializable {
     private static ArrayList<Grupo> grupos = new ArrayList<>();
@@ -19,7 +17,6 @@ public class Grupo implements Serializable {
     private ArrayList<ArrayList<Cliente>> listaReservas;
     private int capacidad;
     private int clasificacion;
-
     private String tipoMesa;
     private String tipoHabitacion;
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
@@ -118,6 +115,18 @@ public class Grupo implements Serializable {
         return listaFinal;
     }
 
+    public void asignarCapacidad() {
+        this.capacidad = this.actividad.getCapacidad();
+    }
+
+    public void modificarCapacidad() {
+        int personasPresentes = 0;
+        for(ArrayList<Cliente> lista : this.listaReservas) {
+            personasPresentes += lista.size();
+        }
+        this.capacidad = capacidad - personasPresentes;
+    }
+
     /**
      * Busca grupos que coincidan con la fecha, actividad e idioma especificados.
      *
@@ -130,6 +139,16 @@ public class Grupo implements Serializable {
         ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
         for (Grupo grupo : grupos) {
             if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad) && grupo.idioma.equals(idioma)) {
+                gruposEncontrados.add(grupo);
+            }
+        }
+        return gruposEncontrados;
+    }
+
+    public static ArrayList<Grupo> buscarGrupo(ArrayList<Integer> fecha, Actividad actividad, Idiomas idioma, ArrayList<Cliente> personasAAgregar) {
+        ArrayList<Grupo> gruposEncontrados = new ArrayList<>();
+        for (Grupo grupo : grupos) {
+            if (grupo.fecha.equals(fecha) && grupo.actividad.equals(actividad) && grupo.idioma.equals(idioma) && grupo.capacidad >= personasAAgregar.size()) {
                 gruposEncontrados.add(grupo);
             }
         }

@@ -2,12 +2,18 @@ package gestorAplicacion.manejoReserva;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+<<<<<<< HEAD
+import java.util.HashMap;
+=======
 import java.util.Arrays;
+>>>>>>> refs/remotes/origin/master
 
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.enums.TiposActividad;
+import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.gestionHum.Guia;
 import gestorAplicacion.interfaces.Registrable;
+import gestorAplicacion.actividades.Plan;;
 
 public class Actividad implements Registrable, Serializable {
     private String nombre;
@@ -17,6 +23,8 @@ public class Actividad implements Registrable, Serializable {
     private int capacidad;
     private int clasificacion;
     private double precio;
+    private Plan plan;
+    private String tipoPlan;
 
     /**
      * Constructor para crear una actividad con un nombre y un destino.
@@ -231,6 +239,7 @@ public class Actividad implements Registrable, Serializable {
         actividad = null;
         return true;
     }
+
     /**
      * Muestra un string del rango de edad de cada clasificacion
      *
@@ -242,6 +251,23 @@ public class Actividad implements Registrable, Serializable {
 				"[0<edad<7]","[7<edad<15]","[15<edad<18]","[18<edad]"));
 		return opcionesClasificacion.get(indice-1);
     }
+
+    /**
+     * Verifica si la capacidad de la actividad es mayor o igual a la cantidad de clientes
+     *
+     * @param Reserva o numero de la clasificacion
+     * @return Boolenam si la capacidad de la actividad es mayor o igual a la cantidad de clientes
+     */
+    public static boolean verificarCapacidadActividad(Reserva reserva){
+
+
+        if (reserva.getActividades().getCapacidad() >= reserva.getClientes().size()){
+            return true;
+        }
+    
+        return true;
+    }
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,5 +331,21 @@ public class Actividad implements Registrable, Serializable {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public String getTipoPlan() {
+        return tipoPlan;
+    }
+
+    public void setTipoPlan(String tipoPlan) {
+        this.tipoPlan = tipoPlan;
+    }
 
 }
