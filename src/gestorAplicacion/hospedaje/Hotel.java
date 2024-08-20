@@ -78,7 +78,7 @@ public class Hotel implements  Serializable{
 
     public static ArrayList<Hotel> cargarHoteles() {
         ArrayList<Hotel> hoteles = new ArrayList<>();
-        try (FileInputStream fileInputStream = new FileInputStream("src/serializables/listaHoteles.txt");
+        try (FileInputStream fileInputStream = new FileInputStream("src/baseDatos/listaHoteles.txt");
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             hoteles = (ArrayList<Hotel>) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
@@ -377,7 +377,7 @@ public class Hotel implements  Serializable{
 
         ///////////// SobreEscribir el serializable de la lista de hoteles con los cambios realizados ////////////////
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream("src/serializables/listaHoteles.txt");
+        try (FileOutputStream fileOutputStream = new FileOutputStream("src/baseDatos/listaHoteles.txt");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
        objectOutputStream.writeObject(listaHoteles);
    } catch (FileNotFoundException e) {

@@ -1,4 +1,4 @@
-package serializables;
+package baseDatos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,6 @@ import java.io.*;
 import gestorAplicacion.hospedaje.Hotel;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
-import gestorAplicacion.enums.TiposActividad;
 
 public class Hoteles_ser {
 
@@ -149,7 +148,7 @@ public class Hoteles_ser {
         ArrayList<Hotel> listaHoteles = new ArrayList<>(Arrays.asList(hotel1, hotel2, hotel3, hotel4, hotel5, hotel6));
 
         // Serialización de la lista de hoteles
-        try (FileOutputStream fileOutputStream = new FileOutputStream("src/serializables/listaHoteles.txt");
+        try (FileOutputStream fileOutputStream = new FileOutputStream("src/baseDatos/listaHoteles.txt");
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
 
             objectOutputStream.writeObject(listaHoteles);

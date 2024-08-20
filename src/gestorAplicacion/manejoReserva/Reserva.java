@@ -380,11 +380,18 @@ public class Reserva {
     	clientes.add(cliente);
     }
 
-    public void aplicarSuscripcion() {
-        	if(existeSuscripcion) {
-        		Suscripcion suscripcion = clientes.getFirst().getSuscripcion();
-
-        	}
+    public String aplicarSuscripcion(boolean existeSuscripcion) {
+        Suscripcion suscripcion = clientes.getFirst().getSuscripcion();
+        int capacidadSuscripcion = suscripcion.getCapacidad();
+        for(int i=0; i<capacidadSuscripcion; i++) {
+            clientes.get(i).setSuscripcion(suscripcion);
+        }
+        if (clientes.size() > capacidadSuscripcion) {
+            return "La cantidad de personas excede la capacidad de la suscripción, por lo que el descuento se aplicará solo a las primeras " + capacidadSuscripcion + " personas.";
+        }
+        else {
+            return "La suscripción se registró de manera exitosa para todos los integrantes de la reserva.";
+        }
     }
 
     public int menorEdad() {

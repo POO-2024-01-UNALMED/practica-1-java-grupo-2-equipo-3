@@ -432,10 +432,10 @@ public class Main {
 			case"2"://FUNCIONALIDAD: Reservar un hospedaje
 				boolean terminarReservaActividades = true;
 				while(terminarReservaActividades) {
-					ArrayList<String> opcionesCiclo = new ArrayList<>(Arrays.asList(
+					ArrayList<String> opcionesReserva = new ArrayList<>(Arrays.asList(
 							"Realizar una nueva reserva",
 							"Buscar reserva existente para agregar las actividades"));
-					String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?",0,opcionesCiclo);
+					String opcionCicloEscogida = ingresarOpcion("¿Que desea hacer?",0,opcionesReserva);
 
 					switch (opcionCicloEscogida) {
 						case "1":
@@ -495,7 +495,7 @@ public class Main {
 								opcionCicloAgregarCliente = ingresarOpcion("¿Desea agregar más clientes a la reserva?", 0, opcionesClientes);
 							}
 							reservaCreada.asignarClasificacion();
-							reservaCreada.aplicarSuscripcion();
+							reservaCreada.aplicarSuscripcion(reservaCreada.getExisteSuscripcion());
 
 							//INGRESAR DESTINO
 							reservaCreada.setDestino(ingresarDestino());
