@@ -9,6 +9,8 @@ import gestorAplicacion.manejoReserva.Actividad;
 import gestorAplicacion.manejoReserva.Destino;
 import gestorAplicacion.manejoReserva.Grupo;
 import gestorAplicacion.manejoReserva.Reserva;
+import gestorAplicacion.enums.Idiomas;
+import gestorAplicacion.enums.TiposActividad;
 import gestorAplicacion.gestionHum.Cliente;
 import gestorAplicacion.hospedaje.Hotel;
 
@@ -49,7 +51,51 @@ public class Plan implements Serializable {
     public Plan() {
         this.actividades = new ArrayList<>();
     }
+    public ArrayList<Object> mostrarPlaneacionPlan(String opcBusqueda,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
+   	 ArrayList<Object> tabla=new ArrayList<Object>();
+   	 
+   	 ArrayList<String> posicion1=new ArrayList<>();//"1"=actividades familiares;"2"=disponibilidad de actividades
+   	 ArrayList<String> posicion2=new ArrayList<>();;//"1"=actividades ecologicas;"2"=promedio de precios actividades
+   	 ArrayList<String> posicion3=new ArrayList<>();;//"1"=actividades ecologicas;"2"=cantidad de personas
+   	 ArrayList<String> posicion4=new ArrayList<>();;//"1"=actividades extremas;"2"=cantidad de guias
+   	 ArrayList<String> posicion5=new ArrayList<>();;//"1"=actividades acuaticas;"2"= clasificacion mas solicitada
+   	 
+   	 ArrayList<Actividad> actividadesFiltradas=new ArrayList<>();
+   	 for(Actividad actividad:actividades) {
+			if(actividad.verificarFiltrosActividad(clasificacion, tipo, fecha, idioma)) {actividadesFiltradas.add(actividad);}
+		 }
+   	 
+   	if(opcBusqueda.equals("1")) {
+		 posicion1.add(Integer.toString(cantidadDias));
+  		 posicion2.add(Integer.toString(actividades.size()));
+  		 posicion3.addAll(Actividad.mostrarNombres(actividadesFiltradas));
+  		 posicion4.add(Actividad.mostrarClasificacion(this.clasificacion));
+  		 posicion5.add(precio+"$");
+	}else {
+		posicion1.add(Integer.toString(cantidadDias));
+  		 posicion2.add(Actividad.mostrarClasificacion(this.clasificacion));
+  		 posicion3.add(Integer.toString(actividades.size()));
+  		 posicion4.add(mostrarTipoPredominante().getNombre());
+  		 posicion5.add(mostrarTipoPredominante().getDificultad());
+	}
 
+   	 tabla.add(0, destino); //0.tipo de plan
+        tabla.add(1, posicion1); // 1."1"=actividades familiares;"2"=disponibilidad de actividades
+        tabla.add(2, posicion2); // 2."1"=actividades ecologicas;"2"=promedio de precios actividades
+        tabla.add(3, posicion3); // 3."1"=actividades ecologicas;"2"=cantidad de personas
+        tabla.add(4, posicion4); // 4."1"=actividades extremas;"2"=cantidad de guias
+        tabla.add(5, posicion5); // 5."1"=actividades acuaticas;"2"= clasificacion mas solicitada
+       
+      
+   	return tabla; 
+   }
+    public static ArrayList<Plan> mostrarPaquetesDestino(Destino destino){
+    	ArrayList<Plan> paquetesEnDestino=new ArrayList<>();
+    	for(Plan paquete:paquetes) {
+    		if(paquete.destino.equals(destino)) {paquetesEnDestino.add(paquete);}
+    	}
+    	return 	paquetesEnDestino;
+    }
     /**
      * Añade una actividad a la lista de actividades del plan
      */
@@ -69,6 +115,21 @@ public class Plan implements Serializable {
             nombres.add(actividad.getNombre());
         }
         return nombres;
+    }
+    public TiposActividad mostrarTipoPredominante() {
+    	int cantidadMayor=0;
+    	TiposActividad tipoPredominante=null;
+    	for(TiposActividad tipo:TiposActividad.values()) {
+    		int cantidad=0;
+    		for(Actividad actividad:actividades) {
+        		if(actividad.getTipo().contains(tipo)) {cantidad++;}
+        	}
+    		if(cantidad>cantidadMayor) {
+    			cantidadMayor=cantidad;
+    			tipoPredominante=tipo;
+    		}
+    	}
+    	return tipoPredominante;
     }
 
     /**

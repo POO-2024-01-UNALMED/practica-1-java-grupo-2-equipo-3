@@ -31,7 +31,22 @@ public class Restaurante implements Serializable{
 
 
     }
-
+    public static ArrayList<String> mostrarNombres(ArrayList<Restaurante> restaurantesLista){
+    	ArrayList<String> nombres=new ArrayList<>();
+    	for(Restaurante restaurante:restaurantesLista) {
+    		nombres.add(restaurante.nombre);
+    	}
+    	return nombres;
+    }
+    public static double promedioPrecio(ArrayList<Restaurante> restaurantesLista){
+    	double promedio=0;
+    	if(restaurantesLista.size()==0) {return 0;}
+    	int cantidad=restaurantesLista.size();
+    	for(Restaurante restaurante:restaurantesLista) {
+    		promedio+=restaurante.precio;
+    	}
+    	return promedio/cantidad;
+    }
 
     public static Restaurante asignarRestaurante(Reserva reserva){
         Hotel hotel = reserva.getClientes().get(0).getHotel();

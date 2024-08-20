@@ -7,6 +7,7 @@ import java.util.Arrays;
 import gestorAplicacion.enums.Idiomas;
 import gestorAplicacion.actividades.Plan;
 import gestorAplicacion.gestionHum.Cliente;
+import gestorAplicacion.hospedaje.Hotel;
 
 
 public class Reserva implements Serializable {
@@ -208,7 +209,8 @@ public class Reserva implements Serializable {
 	        	if(num<0) {return false;}
 	            return true;
 	        }
-	        return num >= 1 && num <= max;
+	        boolean verificacion= (num >= 1 && num <= max);
+	        return verificacion;
 	    } catch (NumberFormatException e) {
 	        return false;
 	    }
@@ -455,6 +457,33 @@ public class Reserva implements Serializable {
     	}
     	return cantidad;
     }
+    public static int mostrarCantidadPersonasHotel(Destino destino, ArrayList<ArrayList<Integer>> fechas,Hotel hotel) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.clientes.get(0).getHotel().equals(hotel)) {cantidad+=reserva.clientes.size();}
+        	}
+    	}
+    	return cantidad;
+    }
+    public static int mostrarCantidadReservasHotel(Destino destino, ArrayList<ArrayList<Integer>> fechas,Hotel hotel) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.clientes.get(0).getHotel().equals(hotel)) {cantidad++;}
+        	}
+    	}
+    	return cantidad;
+    }
+    public static int mostrarCantidadReservasActividad(Destino destino, ArrayList<ArrayList<Integer>> fechas,Actividad actividad) {
+    	int cantidad=0;
+    	for(ArrayList<Integer> fecha:fechas) {
+    		for(Reserva reserva:reservasExistentes) {
+        		if(reserva.destino.equals(destino)&&reserva.fechas.contains(fecha)&&reserva.plan.getActividades().contains(actividad)) {cantidad++;}
+        	}
+    	}
+    	return cantidad;
+    }
     /**
      * Determina la actividad más popular en un destino específico, basada en la cantidad de personas que han reservado esa actividad.
      * 
@@ -625,6 +654,10 @@ public class Reserva implements Serializable {
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
+	public void añadirResereva() {
+		 reservasExistentes.add(this);
+		
+	}
 
 
 }
