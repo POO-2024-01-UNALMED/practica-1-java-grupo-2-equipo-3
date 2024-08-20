@@ -288,8 +288,6 @@ public class Funcionalidad4 {
 
     public static boolean verificarCapacidadActividad(Reserva reserva){
 
-        
-
 
         for (String tipo: reserva.getActividades.getCapacidad){
 
