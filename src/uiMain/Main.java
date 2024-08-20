@@ -1854,7 +1854,7 @@ public class Main {
     	if(busqueda.equals("Fecha")) {menu.add(3,"Segun un año");}//buscar segun año en fecha
     	
     	String pregunta=busqueda.equals("Paquete")?"¿Como desea buscar su paquete?":busqueda.equals("Plan")?"¿Como desea buscar sus actividades?":"¿Como desea buscar?";
-    	String opcBusqueda=ingresarOpcion(pregunta,0,menu);
+    	String opcBusqueda=busqueda.equals("Paquete")?"1":ingresarOpcion(pregunta,0,menu);
     	
     	//AÑADIR PARAMETROS AL FILTRO
     	int clasificacion=0;
