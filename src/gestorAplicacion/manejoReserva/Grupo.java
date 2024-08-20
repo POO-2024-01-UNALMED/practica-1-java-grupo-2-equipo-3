@@ -374,6 +374,15 @@ public class Grupo implements Serializable {
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Métodos de acceso//////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static ArrayList<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public static void setGrupos(ArrayList<Grupo> grupos) {
+        Grupo.grupos = grupos;
+    }
+
 	public ArrayList<Integer> getFecha() {
 		return fecha;
 	}
@@ -446,10 +455,13 @@ public class Grupo implements Serializable {
         this.fechaOcupadas = fechaOcupadas;
     }
 
-    public static ArrayList<Grupo> getGrupos() {
-        return grupos;
+    public int getClasificacion() {
+        return clasificacion;
     }
 
-    
-
+    public void setClasificacion(int clasificacion) {
+        this.clasificacion = clasificacion;
+    }
 }
+
+
