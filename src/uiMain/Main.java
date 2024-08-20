@@ -1062,17 +1062,17 @@ public class Main {
 //////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////METODOS FUNCIONALIDAD OPCIONES DE ADMINISTRADOR///////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
-	 /**
-     * Imprime una tabla con la disponibilidad de guías según los criterios especificados.
-     * 
-     * @param listaFechas   Lista de fechas para verificar la disponibilidad.
-     * @param opcFiltro     Opción de filtro para la tabla.
-     * @param opcBusqueda   Opción de búsqueda para la tabla.
-     * @param opcFecha      Opción de fecha para la tabla.
-     * @param guia          El guía a buscar.
-     * @param destino       El destino para buscar guías.
-     * @param idioma        El idioma para buscar guías.
-     */
+/**
+* Imprime una tabla con la disponibilidad de guías según los criterios especificados.
+* 
+* @param listaFechas   Lista de fechas para verificar la disponibilidad.
+* @param opcFiltro     Opción de filtro para la tabla.
+* @param opcBusqueda   Opción de búsqueda para la tabla.
+* @param opcFecha      Opción de fecha para la tabla.
+* @param guia          El guía a buscar.
+* @param destino       El destino para buscar guías.
+* @param idioma        El idioma para buscar guías.
+*/
     public static void imprimirTablaDisponibilidadGuias(ArrayList<ArrayList<Integer>> listaFechas, String opcFiltro, String opcBusqueda, String opcFecha, Guia guia, Destino destino, Idiomas idioma) {
 		String D_lineaTabla="|---------------------------------------------------------------------------------------------------------|";
 		String D_lineaTablaI=" --------------------------------------------------------------------------------------------------------- ";
@@ -1256,7 +1256,7 @@ public class Main {
 ////////////////////////////METODOS FUNCIONALIDAD PLANEAR VIAJE///////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
     
-    public static ArrayList<Destino> imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    public static void imprimirTablaPlanearDestino(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
     	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
     	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
 
@@ -1264,7 +1264,8 @@ public class Main {
 		System.out.println(D_lineaTablaI);
 		String PrimeraLinea1 = opcBusqueda.equals("1")? "Tipo de actividad: "+tipo.getNombre():opcBusqueda.equals("2")?"Idioma: " +idioma.getNombre():"Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0));
         String PrimeraLinea2 = opcBusqueda.equals("1") ? "Dificultad: " + tipo.getDificultad():opcBusqueda.equals("3")?"Cantidad de dias: "+fecha.size():"" ;
-         
+        
+        System.out.printf("|%-54s%-73s|%n","","DESTINO","");
 		System.out.printf("|%-47s%-50s%-30s|%n","",PrimeraLinea1,PrimeraLinea2);
 		System.out.println(D_lineaTabla);
 		System.out.println(D_lineaTabla);
@@ -1300,6 +1301,7 @@ public class Main {
         System.out.println(D_lineaTablaI);
     	System.out.printf("|%-45s%-50s%-20s|%n","","Destino:"+destino.getNombre(),"");
 		System.out.printf("|%-45s%-50s%-20s|%n","","","");
+		System.out.printf("|%-56s%-59s|%n","","FECHA","");
 		System.out.printf("|%-47s%-48s%-20s|%n","",PrimeraLinea1,PrimeraLinea2);
 		System.out.println(D_lineaTabla);
 		System.out.println(D_lineaTabla);
@@ -1334,6 +1336,7 @@ public class Main {
     	System.out.printf("|%-43s%-49s%-35s|%n","","Destino:"+destino.getNombre(),"");
     	System.out.printf("|%-43s%-49s%-35s|%n","Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0)),"","Cantidad de dias: "+fecha.size());
 		System.out.printf("|%-127s|%n","");
+		System.out.printf("|%-54s%-73s|%n","","IDIOMA","");
 		System.out.printf("|%-43s%-49s%-35s|%n","",PrimeraLinea1,PrimeraLinea2);
 		System.out.println(D_lineaTabla);
 		System.out.println(D_lineaTabla);
@@ -1351,8 +1354,33 @@ public class Main {
 		
 	}
     
-    public static void imprimirTablaPlanearHotel(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma) {
+    public static void imprimirTablaPlanearHotel(String opcBusqueda,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
+    	String D_lineaTablaI = " ------------------------------------------------------------------------------------------------------------------------------- ";
+    	String D_lineaTabla = "|-------------------------------------------------------------------------------------------------------------------------------|";
+    	//PRIMERA PARTE
+    	String PrimeraLinea1 = opcBusqueda.equals("1")? "Actividades disponibles":opcBusqueda.equals("2")?"Todas las opciones disponibles":"Restaurantes disponibles";
+    	System.out.println(D_lineaTablaI);
+    	System.out.printf("|%-43s%-49s%-35s|%n","","Destino:"+destino.getNombre(),"");
+    	System.out.printf("|%-43s%-49s%-33s|%n","Fecha de inicio: "+Reserva.mostrarFechaString(fecha.get(0)),"","Cantidad de dias: "+fecha.size());
+		System.out.printf("|%-127s|%n","");
+		System.out.printf("|%-54s%-73s|%n","","HOTEL","");
+		System.out.printf("|%-43s%-49s%-35s|%n","",PrimeraLinea1,"");
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
 		
+		//SEGUNDA PARTE
+		if(opcBusqueda.equals("1")) {
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","","Actividades","Actividades","Actividades","Actividades","Actividades","Actividades","Total de");
+			System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%n","Hotel:","culturales:","familiares:","ecologicas:","extremas:","acuaticas:","deportivas:","actividades:");
+		}else if(opcBusqueda.equals("2")){
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","","Disponibilidad:","Promedio de precios","Cantidad de","Cantidad de","Reservas en las","");
+			System.out.printf("|%-15s|%-20s|%-22s|%-15s|%-17s|%-17s|%-15s|%n","Hotel:","de habitaciones:","Habitaciones:","actividades:","restaurantes:","mismas fechas:","Temporada:");
+		}else {
+			System.out.printf("|%-15s|%-14s|%-25s|%-20s|%-17s|%-20s|%-10s|%n","","Cantidad de","Lista de","Promedio de precios","Disponibilidad","Promedio de precios","");
+			System.out.printf("|%-15s|%-14s|%-25s|%-20s|%-17s|%-20s|%-10s|%n","Hotel:","restaurantes:","restaurantes:","de restaurantes:","de habitaciones:","de habitaciones:","Temporada:");
+		}
+		System.out.println(D_lineaTabla);
+		System.out.println(D_lineaTabla);
 	}
     
     public static ArrayList<Object> imprimirTablaPlanearPlan(String opcPlan,ArrayList<Integer> dia,String opcBusqueda,String opcFecha,int clasificacion,TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma,Destino destino) {
@@ -1441,7 +1469,7 @@ public class Main {
 		Destino parametro5=filtro.equals("6")?ingresarDestino():destino;
 		parametrosFiltrados.add(5,parametro5);//Destino
 		
-		Boolean parametro6=filtro.equals("5")&&busqueda.equals("Idioma")||filtro.equals("6")&&busqueda.equals("Destino")||filtro.equals("7")?true:false;
+		Boolean parametro6=filtro.equals("7")||(filtro.equals("5")&&busqueda.equals("Idioma"))||(filtro.equals("6")&&busqueda.equals("Destino"))?true:false;
 		parametrosFiltrados.add(6,parametro6);//Elegir opcion
 		
 		Boolean parametro7=filtro.equals("8")?true:false;
@@ -1560,12 +1588,12 @@ public class Main {
     	
     	//AÑADIR PARAMETROS AL FILTRO
     	int clasificacion=(opcBusqueda.equals("2")&&(busqueda.equals("Paquete")||busqueda.equals("Plan")))?ingresarClasificacion():0;
-    	TiposActividad tipoActividad=opcBusqueda.equals("1")?ingresarTipoActividad():null;
-    	Idiomas idioma=opcBusqueda.equals("2")&&(!busqueda.equals("Idioma"))?(busqueda.equals("Paquete")||busqueda.equals("Plan")||busqueda.equals("Hotel"))?reserva.getIdiomas().get(0):ingresarIdioma():null;
+    	TiposActividad tipoActividad=opcBusqueda.equals("1")&&!busqueda.equals("Hotel")?ingresarTipoActividad():null;
+    	Idiomas idioma=opcBusqueda.equals("2")&&(opcBusqueda.equals("Fecha")||opcBusqueda.equals("Destino"))?ingresarIdioma():opcBusqueda.equals("Idioma")?null:reserva.getIdiomas().get(0);
     	Destino destino=busqueda.equals("Destino")?null:reserva.getDestino();
     	ArrayList<ArrayList<Integer>> fecha = null;
-    	if (!busqueda.equals("Fecha")) {fecha = opcBusqueda.equals("3") ? ingresarPeriodoFechas() :!busqueda.equals("Destino")?reserva.getFechas():null;} 
-    	else {fecha = opcBusqueda.equals("3") ? ingresarFiltroFecha("Fecha") : ingresarFiltroFecha("Año");}
+    	if (!busqueda.equals("Fecha")) {fecha = opcBusqueda.equals("3")&&busqueda.equals("Destino")? ingresarPeriodoFechas() :!busqueda.equals("Destino")?reserva.getFechas():null;} 
+    	else {fecha = opcBusqueda.equals("3") ? ingresarFiltroFecha("Fecha") :opcBusqueda.equals("4") ? ingresarFiltroFecha("Año"):null;}
     	
     	
     	filtros=new ArrayList<>(Arrays.asList(false,clasificacion,tipoActividad,fecha,idioma,destino,false,false,opcBusqueda));
