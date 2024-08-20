@@ -637,37 +637,35 @@ public class Main {
 			
 			case"2"://FUNCIONALIDAD: Reservar un hospedaje
 			boolean terminarCicloHospedaje=true;
-
 			while (terminarCicloHospedaje) {
-
-				
-				
-				Reserva reservaFicticia=new Reserva();
-				String D_opcionMenuHospedaje=ingresarOpcion("¿Que desea hacer?",0,new ArrayList<>(Arrays.asList("Aginar Hospedaje","volver")));
+				String D_opcionMenuHospedaje = ingresarOpcion("¿Que desea hacer?", 0, new ArrayList<>(Arrays.asList("Asignar Hospedaje", "volver")));
 				switch (D_opcionMenuHospedaje) {
 					case "1":
-
-										
 						ArrayList<Hotel> hoteles = Hotel.cargarHoteles();
-						Hotel hotelEscogido = Hotel.asignarHotel(reserva, hoteles);
-
-						Hotel.asignarHabitacion(reserva, hotelEscogido);
-						Restaurante.asignarRestaurante(reserva);
+						Hotel hotelEscogido = Hotel.asignarHotel(nuevaReserva, hoteles);
+		
+						if (hotelEscogido != null) {
+							Hotel.asignarHabitacion(nuevaReserva, hotelEscogido);
+							Restaurante restaurante = Restaurante.asignarRestaurante(nuevaReserva);
+							Restaurante.asignarMesaRestaurante(nuevaReserva, restaurante);
+						} 
+						else {
+							System.out.println("No se pudo asignar un hotel.");
+						}
+		
 						terminarCicloHospedaje = false;
 						break;
-
-						
-
 					case "2":
-						terminarCicloHospedaje=false;
+						terminarCicloHospedaje = false;
 						break;
-
-		
-				
 					default:
+						System.out.println("Opción no válida. Intente de nuevo.");
 						break;
 				}
 				
+
+				
+
 
 			}
 			break;

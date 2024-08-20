@@ -364,6 +364,26 @@ public class Hotel implements  Serializable{
             }
         }
     
+        // Actualizar la capacidad de las habitaciones en el mapa disponibilidadHabitaciones del hotel
+        for (int i = 0; i < listaHabitacionesIndividuales.size(); i++) {
+            String tipoHabitacion = listaHabitacionesIndividuales.get(i);
+            int habitacionesSeleccionadas = 0;
+            if (tipoHabitacion.equals("sencilla")) {
+                habitacionesSeleccionadas = numSencillas;
+            } else if (tipoHabitacion.equals("doble")) {
+                habitacionesSeleccionadas = numDobles;
+            } else if (tipoHabitacion.equals("suite")) {
+                habitacionesSeleccionadas = numSuites;
+            }
+    
+            ArrayList<ArrayList<Object>> habitacionesDisponibles = hotel.getDisponibilidadHabitaciones().get(reserva.getFechas().get(0));
+            for (ArrayList<Object> habitacion : habitacionesDisponibles) {
+                if (habitacion.get(0).equals(tipoHabitacion)) {
+                    habitacion.set(1, (Integer) habitacion.get(1) - habitacionesSeleccionadas);
+                }
+            }
+        }
+    
         for (int i = 0; i < listaHabitacionesIndividuales.size(); i++) {
             ArrayList<Cliente> clientes = listaHabitacionesClientes.get(i);
             String tipoHabitacion = listaHabitacionesIndividuales.get(i); // Obtén el tipo de habitación
@@ -373,6 +393,9 @@ public class Hotel implements  Serializable{
                 hotel.agregarGrupo(grupo);
             }
         }
+
+        listaHoteles.removeIf(h -> h.getNombre().equals(hotel.getNombre()));
+        listaHoteles.add(hotel);
     
         ///////////// SobreEscribir el serializable de la lista de hoteles con los cambios realizados ////////////////
     
