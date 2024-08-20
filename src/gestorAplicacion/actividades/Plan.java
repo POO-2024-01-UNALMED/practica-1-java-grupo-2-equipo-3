@@ -83,7 +83,12 @@ public class Plan implements Serializable {
         return nombres;
     }
 
-
+    /**
+     * Selecciona las actividades iniciales del plan antes de ingresar la fecha
+     *
+     * @param actividadesDisponibles
+     * @return ArrayList<String> con los nombres de las actividades
+     */
     public ArrayList<Actividad> escogerActividadesIniciales(ArrayList<Actividad> actividadesDisponibles, ArrayList<String> seleccionadas) {
         ArrayList<Actividad> seleccionInicial = new ArrayList<>();
         for (String nombre : seleccionadas) {
@@ -96,6 +101,13 @@ public class Plan implements Serializable {
         return seleccionInicial;
     }
 
+    /**
+     * Muestra las actividades disponibles para el día
+     *
+     * @param fecha
+     * @param seleccionInicial obtenida en escogerActividadesIniciales
+     * @return ArrayList<Actividad> con las actividades disponibles
+     */
     public ArrayList<Actividad> actividadesDisponiblesDia(ArrayList<Integer> fecha, ArrayList<Actividad> seleccionInicial) {
         ArrayList<Actividad> actividadesDisponibles = new ArrayList<>();
         for (Actividad actividad : seleccionInicial) {
@@ -113,28 +125,31 @@ public class Plan implements Serializable {
         return actividadesDisponibles;
     }
 
-    public void escogerActividadesDia(ArrayList<Actividad> actividadesPosibles, ArrayList<String> actividadEscogidas, ArrayList<Integer> fecha) {
-        for (String nombre : actividadEscogidas) {
+    /**
+     * Escoge las actividades del día
+     *
+     * @param actividadesPosibles obtenidas en actividadesDisponiblesDia
+     * @param actividadEscogida  obtenidas en mostrarNombreActividad después de que el usuario las selecciona
+     * @param fecha
+     */
+    public void escogerActividadesDia(ArrayList<Actividad> actividadesPosibles, ArrayList<String> actividadEscogida, ArrayList<Integer> fecha) {
+        for (String nombre : actividadEscogida) {
             for (Actividad actividad : actividadesPosibles) {
                 if (actividad.getNombre().equals(nombre)) {
                     this.actividades.add(actividad);
                     ArrayList<Grupo> existenGrupos = Grupo.buscarGrupo(fecha, actividad, this.reserva.getIdiomas().get(0), this.reserva.getClientes());
                     if (existenGrupos.size() > 0) {
-                        existenGrupos.get(0).addCliente(this.reserva.getClientes().get(0));
+                        existenGrupos.get(0).getListaReservas().add(this.reserva.getClientes());
+                        grupos.add(existenGrupos.get(0));
                     } else {
-                        ArrayList<Guia> guiasCapacitados = actividad.buscarGuia(this.reserva.getIdiomas().get(0));
-                        ArrayList<Guia> guiasConDisponibilidad = Guia.buscarDisponibilidad(guiasCapacitados, fecha);
-                        if (guiasConDisponibilidad.size() > 0) {
-                            Grupo grupo = new Grupo(fecha, actividad, guiasConDisponibilidad.get(0), this.reserva.getClientes());
-                            this.grupos.add(grupo);
-                        }
+                        Grupo grupo = new Grupo(actividad, this.reserva.getClientes(), fecha, this.reserva.getIdiomas().get(0));
+                        this.grupos.add(grupo);
                     }
                 }
             }
         }
 
     }
-
 
     /**
      * Muestra los paquetes turísticos disponibles que cumplan con los parámetros
@@ -176,6 +191,11 @@ public class Plan implements Serializable {
         }
     }
 
+    /**
+     * Muestra como imprimir los paquetes turísticos
+     * @param plan
+     * @return
+     */
     public static String stringPaqueteTuristico(Plan plan) {
         String paquete = "Destino: " + plan.getDestino().getNombre() + "\n";
         paquete += "Actividades: ";

@@ -236,7 +236,7 @@ public class Destino implements Serializable{
     /**
      * Metodos para encontrar que detinos tiene cada idioma
      *
-     * @param idioma El idioma para calcular el precio extra.
+     * @param destinos destinos existentes.
      * @return El porcentaje de precio extra por idioma.
      */
 
@@ -318,7 +318,7 @@ public class Destino implements Serializable{
          }
          return null;
      }
-     public static ArrayLIst<Object> mostrarPlaneacionDestino(String opcBusqueda,Destino destino,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
+     public static ArrayList<Object> mostrarPlaneacionDestino(String opcBusqueda,Destino destino,int clasificacion, TiposActividad tipo,ArrayList<ArrayList<Integer>> fecha,Idiomas idioma){
     	 ArrayList<Object> tabla=new ArrayList<Object>();
     	 Actividad actividad=null;
     	 boolean isClasificacionMatch = (clasificacion==0) || actividad.getClasificacion()==clasificacion;

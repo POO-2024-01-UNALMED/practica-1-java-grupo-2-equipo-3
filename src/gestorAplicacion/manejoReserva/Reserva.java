@@ -82,7 +82,12 @@ public class Reserva {
 
     //método escogerPlan de la clase Reserva. En este método buscamos todas las actividades posibles a realizar según la clasificación dada que se encuentren en el destino con el método actividadesDisponiblesDestino de la clase Destino, que se le entregará a escogerActividades de la clase Plan donde se seleccionará la misma cantidad de actividades que los días que se van a quedar sin importar el orden de selección y se asigna la lista de actividades de plan.
 
-
+    /**
+     * Escoge un plan de actividades para la reserva actual.
+     *
+     * @param tipoEscogido El tipo de plan a escoger.
+     * @return Una lista de actividades posibles para el plan, o null si no hay actividades disponibles.
+     */
     public ArrayList<Actividad> escogerPlan(String tipoEscogido) {
         ArrayList<Actividad> actividadesPosibles = destino.actividadesDisponiblesDestino(clasificacion, clientes.size());
         //Qué hacer si no hay actividades disponibles en un destino que cumpla con los criterios de clasificación y cantidad de personas
