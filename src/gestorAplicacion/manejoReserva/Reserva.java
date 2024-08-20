@@ -32,10 +32,13 @@ public class Reserva {
 		this.codigo = ++ultimoCodigo;
 		this.itsPlaneacion=true;
 	}
-    public Reserva(Cliente titular) {
+    public Reserva(Cliente titular, ArrayList<ArrayList<Integer>> fechasViaje) {
         this.codigo = ++ultimoCodigo;
         this.clientes = new ArrayList<Cliente>();
+        this.idiomas = new ArrayList<Idiomas>();
         this.clientes.add(titular);
+        this.fechas = fechasViaje;
+        this.existeSuscripcion = tieneSuscripcion();
         reservasExistentes.add(this);
     }
 
@@ -352,6 +355,18 @@ public class Reserva {
     	String fechaString="["+fecha.get(0)+"/"+mostrarMes(fecha.get(1))+"/"+fecha.get(2)+"]";
     	return fechaString;
     }
+
+    public boolean tieneSuscripcion() {
+    	clientes.get(0).getSuscripcion();
+        if(clientes.get(0).getSuscripcion()==null) {
+        	return false;
+        }
+        return true;
+    }
+
+    public void agregarIdioma(Idiomas idioma) {
+    	idiomas.add(idioma);
+    }
 /////////////////////////MÉTODOS DE INSTANCIA////////////////////////////////////////////
 
     /**
@@ -363,6 +378,36 @@ public class Reserva {
     public void añadirCliente(String nombre, int edad) {
     	Cliente cliente = new Cliente(nombre, edad);
     	clientes.add(cliente);
+    }
+
+    public void aplicarSuscripcion() {
+        	if(existeSuscripcion) {
+        		Suscripcion suscripcion = clientes.getFirst().getSuscripcion();
+
+        	}
+    }
+
+    public int menorEdad() {
+        int menor = clientes.getFirst().getEdad();
+        for (Cliente cliente : clientes) {
+            if (cliente.getEdad() < menor) {
+                menor = cliente.getEdad();
+            }
+        }
+        return menor;
+    }
+
+    public void asignarClasificacion() {
+        int menorEdad = menorEdad();
+        if (menorEdad < 7) {
+            clasificacion = 1;
+        } else if (menorEdad < 15) {
+            clasificacion = 2;
+        } else if (menorEdad < 18) {
+            clasificacion = 3;
+        } else {
+            clasificacion = 4;
+        }
     }
 
 
@@ -443,6 +488,7 @@ public class Reserva {
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
+
 
 }
 
