@@ -20,6 +20,8 @@ public class Grupo implements Serializable {
     private String tipoMesa;
     private String tipoHabitacion;
     private ArrayList<ArrayList<Integer>> fechaOcupadas;
+    private ArrayList<Cliente> clientes; 
+
 
     public Grupo(ArrayList<Integer> fecha, Guia guia, Actividad actividad, Idiomas idioma,
                  ArrayList<ArrayList<Cliente>> listaReservas) {
@@ -449,6 +451,30 @@ public class Grupo implements Serializable {
     public static ArrayList<Grupo> getGrupos() {
         return grupos;
     }
+
+    public static void setGrupos(ArrayList<Grupo> grupos) {
+        Grupo.grupos = grupos;
+    }
+
+    public int getClasificacion() {
+        return clasificacion;
+    }
+
+    public void setClasificacion(int clasificacion) {
+        this.clasificacion = clasificacion;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    
+
+    
 
     
 
