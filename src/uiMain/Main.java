@@ -114,7 +114,7 @@ public class Main {
 	/**
      * Imprime los valores [Fechas, idiomas, Clientes] de la reserva que se ingresa.
      * 
-     * @param Reserva:   Reserva la cual se desea imprimir sus atributos.
+     * @param Reserva   Reserva la cual se desea imprimir sus atributos.
      * @return              String con los valores de la reserva.
      */
 	public static String imprimirReserva(Reserva reserva) {
@@ -517,6 +517,7 @@ public class Main {
 											ArrayList<Actividad> actividadesPosibles = planCreado.actividadesDisponiblesDia(fecha, seleccionInicial);
 											if (actividadesPosibles.isEmpty()) {
 												System.out.println("No hay actividades disponibles para el día " + fecha);
+
 												continue;
 											}
 											ArrayList<String> actividadesDia = Plan.mostrarNombreActividad(actividadesPosibles);

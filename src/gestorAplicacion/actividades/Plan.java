@@ -148,7 +148,6 @@ public class Plan implements Serializable {
                 }
             }
         }
-
     }
 
     /**
